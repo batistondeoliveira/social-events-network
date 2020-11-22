@@ -23,10 +23,19 @@ class ErrorMessage {
 
                         return $item->message;
                     }
-                    
-                    $erro = $message->getErro();                                                                
 
-                    return str_replace('<field_name>', key($erro[0]), $item->message);
+                    if($message  instanceof ValidateEntityException) {
+                        $error = $message->getError()[0];
+
+                        $key = key($error);
+
+                        return $error[$key];
+                    } 
+                    
+                    $erro = $message->getError();                                                                                    
+                    $field = key($erro[0]);
+
+                    return vsprintf($item->message, $field);
                 }
             }
         }
