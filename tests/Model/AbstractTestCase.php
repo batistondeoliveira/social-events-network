@@ -7,7 +7,9 @@ use PHPUnit\Framework\TestCase;
 abstract class AbstractTestCase extends TestCase {
     private $em;
 
-    private function prepareDB() {  
+    private function prepareDB() {          
+        define('_LOCAL_' , true); 
+
         require 'config.php';
         
         $configDoctrine =  \Doctrine\ORM\Tools\Setup::createConfiguration($config['local']);
@@ -15,14 +17,19 @@ abstract class AbstractTestCase extends TestCase {
             new \Doctrine\Common\Annotations\AnnotationReader(), ['../']
         );
 
-
         \Doctrine\Common\Annotations\AnnotationRegistry::registerLoader('class_exists');
         $configDoctrine->setMetadataDriverImpl($driver);
         $configDoctrine->setProxyDir('../Model/Proxy');
         $configDoctrine->setProxyNamespace('Model\Proxy');        
         $configDoctrine->setAutoGenerateProxyClasses(true);                
 
-        $this->em = \Doctrine\ORM\EntityManager::create($config['test'], $configDoctrine);                        
+        $this->em = \Doctrine\ORM\EntityManager::create($config['db'], $configDoctrine);        
+
+        //Creating test's database
+        $this->em->getConnection()->exec('CREATE DATABASE IF NOT EXISTS ' . $config['tests']['dbname']);
+
+        //Conneting test's database
+        $this->em = \Doctrine\ORM\EntityManager::create($config['tests'], $configDoctrine);        
     }
 
     public function setUp() {        
