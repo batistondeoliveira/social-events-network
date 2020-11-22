@@ -59,8 +59,6 @@ abstract class AbstractEntity extends ValidateEntity {
     }
 
     public function initializeErrorMessage() {           
-        $this->addErrorMessage(ValidateEntityException::class, 'Campo %s obrigatório!');                
-
-        return $this;
+        $this->addErrorMessage(ValidateEntityException::class, 'Campo %s obrigatório!');        
     }
 }

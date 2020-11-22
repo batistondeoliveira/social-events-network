@@ -208,5 +208,11 @@ class UserEntity extends AbstractEntity {
         $this->state = $state;
 
         return $this;
-    }    
+    }   
+    
+    public function initializeErrorMessage() {           
+        parent::initializeErrorMessage();
+
+        $this->addErrorMessage(UniqueConstraintViolationException::class, 'E-mail já cadastrado');        
+    } 
 }
