@@ -4,36 +4,38 @@ namespace Entity;
 
 use Entity\AbstractEntity;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\Table;
 
 /**
- * @ORM\Table(name="user_login")
- * @ORM\Entity()
+ * @Table(name="user_login")
+ * @Entity()
  */
 class UserLoginEntity extends AbstractEntity {         
     /**
-     * @ORM\Column(name="id_user", type="integer")
+     * @Column(name="id_user", type="integer")
      * @Assert\NotBlank()   
      * @Serializer\Type("integer")   
      */
     private $idUsuario;
 
     /**
-     * @ORM\Column(name="token", type="string")
+     * @Column(name="token", type="string")
      * @Assert\NotBlank()   
      * @Serializer\Type("string")   
      */
     private $token;
 
     /**
-     * @ORM\Column(name="datahora", type="datetime")
+     * @Column(name="datahora", type="datetime")
      * @Assert\NotBlank()   
      * @Serializer\Type("datetime")   
      */
     private $datahora;
 
     /**
-     * @ORM\Column(name="expirar", type="datetime")
+     * @Column(name="expirar", type="datetime")
      * @Assert\NotBlank()   
      * @Serializer\Type("datetime")   
      */

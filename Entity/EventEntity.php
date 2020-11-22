@@ -4,19 +4,21 @@ namespace Entity;
 
 use Entity\AbstractEntity;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\Table;
 
 use JMS\Serializer\Annotation as Serializer;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity()
- * @ORM\Table(name= "event")
+ * @Entity()
+ * @Table(name= "event")
  */
 class EventEntity extends AbstractEntity {
     /**
-     * @ORM\Column(name="name", type="string", length=100)
+     * @Column(name="name", type="string", length=100)
      * @Assert\Length(max = 100)
      * @Assert\NotBlank()  
      * @Serializer\Type("string")   
@@ -24,26 +26,26 @@ class EventEntity extends AbstractEntity {
     private $name;
     
     /**
-     * @ORM\Column(name="description", type="string")               
+     * @Column(name="description", type="string")               
      * @Serializer\Type("string")   
      */
     private $description;
     
     /**
-     * @ORM\Column(name="date", type="date")
+     * @Column(name="date", type="date")
      * @Assert\NotBlank()          
      * @Serializer\Type("date")   
      */
     private $date;
     
     /**
-     * @ORM\Column(name="time", type="time")   
+     * @Column(name="time", type="time")   
      * @Serializer\Type("time")     
      */
     private $time;
     
     /**
-     * @ORM\Column(name="place", type="string", length=255)   
+     * @Column(name="place", type="string", length=255)   
      * @Serializer\Type("string")     
      */    
     private $place;            

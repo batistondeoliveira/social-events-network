@@ -2,9 +2,14 @@
 
 namespace Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use Classes\Exceptions\ValidateEntityException;
 
 use Entity\ValidateEntity;
+
+use Doctrine\ORM\Mapping\MappedSuperclass;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\GeneratedValue;
 
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\Annotation as Serializer;
@@ -12,13 +17,13 @@ use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /** 
- * @ORM\MappedSuperclass 
+ * @MappedSuperclass 
  */
 abstract class AbstractEntity extends ValidateEntity {
     /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @Id()
+     * @GeneratedValue()
+     * @Column(type="integer")
      * @Serializer\Type("integer")
      */
     private $id;                   
@@ -48,7 +53,7 @@ abstract class AbstractEntity extends ValidateEntity {
 
         $obj = $serializer->deserialize(
             json_encode($jsonArray, 0), 
-            $this->getClass(), 
+            get_class($this->getClass()), 
             'json'
         );                
 

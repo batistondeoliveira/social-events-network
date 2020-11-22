@@ -5,19 +5,21 @@ namespace Entity;
 use Entity\AbstractEntity;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\Table;
 
 use JMS\Serializer\Annotation as Serializer;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity()
- * @ORM\Table(name= "user")
+ * @Entity()
+ * @Table(name= "user")
  */
 class UserEntity extends AbstractEntity {
     /**
-     * @ORM\Column(name="name", type="string", length=100)
+     * @Column(name="name", type="string", length=100)
      * @Assert\Length(min = 2, max = 100)
      * @Assert\NotBlank()  
      * @Serializer\Type("string")   
@@ -25,7 +27,7 @@ class UserEntity extends AbstractEntity {
     private $name;
     
     /**
-     * @ORM\Column(name="email", type="string", length=100, unique=true)     
+     * @Column(name="email", type="string", length=100, unique=true)     
      * @Assert\Length(max = 100)
      * @Assert\NotBlank()     
      * @Assert\Email()
@@ -34,7 +36,7 @@ class UserEntity extends AbstractEntity {
     private $email;
     
     /**
-     * @ORM\Column(name="password", type="string", length=100)
+     * @Column(name="password", type="string", length=100)
      * @Assert\Length(max = 100)
      * @Assert\NotBlank()          
      * @Serializer\Type("string")   
@@ -42,26 +44,26 @@ class UserEntity extends AbstractEntity {
     private $password;
     
     /**
-     * @ORM\Column(name="bio", type="string")   
+     * @Column(name="bio", type="string")   
      * @Serializer\Type("string")     
      */
     private $bio;
     
     /**
-     * @ORM\Column(name="profile_picture", type="string", length=255)   
+     * @Column(name="profile_picture", type="string", length=255)   
      * @Serializer\Type("string")     
      */    
     private $profilePicture;    
     
     /**
-     * @ORM\Column(name="city", type="string", length=100)
+     * @Column(name="city", type="string", length=100)
      * @Assert\Length(max = 100)
      * @Serializer\Type("string")        
      */        
     private $city;
     
     /**
-     * @ORM\Column(name="state", type="string", length=2)
+     * @Column(name="state", type="string", length=2)
      * @Assert\Length(max = 2)
      * @Serializer\Type("string")   
      */        
