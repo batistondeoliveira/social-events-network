@@ -4,6 +4,8 @@ namespace Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use Entity\ValidateEntity;
+
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\Annotation as Serializer;
 
@@ -12,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /** 
  * @ORM\MappedSuperclass 
  */
-abstract class AbstractEntity {
+abstract class AbstractEntity extends ValidateEntity {
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -46,7 +48,7 @@ abstract class AbstractEntity {
 
         $obj = $serializer->deserialize(
             json_encode($jsonArray, 0), 
-            $this->getClassName(), 
+            $this->getClass(), 
             'json'
         );                
 
@@ -54,5 +56,11 @@ abstract class AbstractEntity {
         $obj->setClass($objAux->getClass());
 
         return $obj;
+    }
+
+    public function initializeErrorMessage() {           
+        $this->addErrorMessage(ValidateEntityException::class, 'Campo %s obrigatório!');                
+
+        return $this;
     }
 }
