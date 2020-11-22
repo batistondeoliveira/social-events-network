@@ -11,7 +11,18 @@ $config = [
         'driverOptions' => array(
             1002 => 'SET NAMES utf8'
         )
-	],
+    ],
+    'tests' => [
+		'driver' => 'pdo_mysql',
+		'host' => 'localhost:3306',
+		'dbname' => 'social_event_network_tests',
+		'user' => 'coderock',
+		'password' => 'coderock',
+		'charset'  => 'utf8',
+        'driverOptions' => array(
+            1002 => 'SET NAMES utf8'
+        )
+    ],
 	'settings' => [
         'displayErrorDetails' => true
   ],
