@@ -18,5 +18,18 @@ abstract class AbstractController {
 	public function __construct($container) {			
         $this->dirUpload = $container->dirUpload;
         $this->container = $container;        
-	}	                 
+    }	
+    
+    public function handlingError($classes, $ex) {
+        $listError = [];
+
+        foreach($classes as $value) {
+            $error = $value->getError($ex);
+
+            if(!empty($error))
+                array_push($listError, $error);
+        }   
+        
+        return $listError;
+    }
 }
