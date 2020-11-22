@@ -45,7 +45,7 @@ $app->add(new Slim\Middleware\JwtAuthentication([
     "header" => "X-Token",
     "path" => "/",
     "passthrough" => [          
-        
+        '/user'
     ],
     "realm" => "Protected",
     "secure" => false,
