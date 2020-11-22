@@ -4,6 +4,7 @@ import Input from "../layout/input/Input";
 import Preload from '../layout/preload/Preload';
 import Form from "../layout/form/Form";
 import ModalAlerta from '../layout/modal/ModalAlerta';
+import ModalSuccess from '../layout/modal/ModalSucess';
 import InputPassword from '../layout/input/InputPassword';
 import InputTextArea from '../layout/input/InputTextArea';
 
@@ -14,7 +15,9 @@ class Cadastro extends AbstractComponent {
         super(props);
 
         this.state = {
-            error: '',                                 
+            error: '', 
+            
+            success: '',
 
             preload: false,                            
             
@@ -107,11 +110,10 @@ class Cadastro extends AbstractComponent {
         
         //const form = new FormData(document.getElementById('form'));        
 
-
         UserService.save(this.state.form).then(response => {              
             this.setState({
                 preload: false,
-                sucesso: 'Cadastro realizado com sucesso'                
+                success: 'Cadastro realizado com sucesso'                
             });
         }).catch(error => {                 
             this.setState({
@@ -121,6 +123,11 @@ class Cadastro extends AbstractComponent {
             });            
         });        
     }            
+
+    success() {
+        this.setState({success: ''});
+        window.location.href = '/admin';
+    }
 
     render () {
         return (      
@@ -142,6 +149,13 @@ class Cadastro extends AbstractComponent {
                             show={this.state.error !== ''}
                             text={this.state.error}
                             close={() => this.setState({error: ''})} 
+                        />
+
+                        <ModalSuccess
+                            show={this.state.success !== ''}
+                            text={this.state.success}
+
+                            close={() => this.success()}
                         />
 
                         <input type="hidden" name="id" value={this.state.form.id}/>                
