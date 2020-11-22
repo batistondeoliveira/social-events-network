@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class EventEntity extends AbstractEntity {
     /**
-     * @Column(name="name", type="string", length=100)
+     * @Column(name="name", type="string", length=100, nullable=true)
      * @Assert\Length(max = 100)
      * @Assert\NotBlank()  
      * @Serializer\Type("string")   
@@ -26,26 +26,26 @@ class EventEntity extends AbstractEntity {
     private $name;
     
     /**
-     * @Column(name="description", type="string")               
+     * @Column(name="description", type="string", nullable=true)               
      * @Serializer\Type("string")   
      */
     private $description;
     
     /**
-     * @Column(name="date", type="date")
+     * @Column(name="date", type="date", nullable=true)
      * @Assert\NotBlank()          
      * @Serializer\Type("date")   
      */
     private $date;
     
     /**
-     * @Column(name="time", type="time")   
+     * @Column(name="time", type="time", nullable=true)   
      * @Serializer\Type("time")     
      */
     private $time;
     
     /**
-     * @Column(name="place", type="string", length=255)   
+     * @Column(name="place", type="string", length=255, nullable=true)   
      * @Serializer\Type("string")     
      */    
     private $place;            

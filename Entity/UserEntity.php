@@ -44,26 +44,26 @@ class UserEntity extends AbstractEntity {
     private $password;
     
     /**
-     * @Column(name="bio", type="string")   
+     * @Column(name="bio", type="string", nullable=true)   
      * @Serializer\Type("string")     
      */
     private $bio;
     
     /**
-     * @Column(name="profile_picture", type="string", length=255)   
+     * @Column(name="profile_picture", type="string", length=255, nullable=true)   
      * @Serializer\Type("string")     
      */    
     private $profilePicture;    
     
     /**
-     * @Column(name="city", type="string", length=100)
+     * @Column(name="city", type="string", length=100, nullable=true)
      * @Assert\Length(max = 100)
      * @Serializer\Type("string")        
      */        
     private $city;
     
     /**
-     * @Column(name="state", type="string", length=2)
+     * @Column(name="state", type="string", length=2, nullable=true)
      * @Assert\Length(max = 2)
      * @Serializer\Type("string")   
      */        
