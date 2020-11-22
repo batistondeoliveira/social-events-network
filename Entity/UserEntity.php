@@ -4,6 +4,7 @@ namespace Entity;
 
 use Entity\AbstractEntity;
 
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\Mapping as ORM;
 
 use JMS\Serializer\Annotation as Serializer;
