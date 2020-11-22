@@ -1,0 +1,17 @@
+{
+    "require": {
+        "slim/slim": "^3.0",
+        "doctrine/orm": "^2",
+        "tuupola/slim-jwt-auth": "^2.4",
+        "jms/serializer": "^1.12",
+        "symfony/validator": "^4.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Controller\\": "Controller/",
+            "Classes\\": "Classes/",
+            "Model\\": "Model/",
+            "Entity\\": "Entity/"
+        }
+    }
+}
