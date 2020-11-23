@@ -2,6 +2,8 @@
 
 namespace Entity;
 
+use Classes\MyDateTime;
+
 use Entity\AbstractEntity;
 
 use Doctrine\ORM\Mapping\Column;
@@ -18,8 +20,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class EventEntity extends AbstractEntity {
     /**
-     * @Column(name="id_user", type="integer")     
+     * @Column(name="id_user", type="integer")          
      * @Assert\NotBlank()  
+     * @Serializer\Exclude()
      * @Serializer\Type("integer")   
      */
     private $idUser;
@@ -41,13 +44,13 @@ class EventEntity extends AbstractEntity {
     /**
      * @Column(name="date", type="date", nullable=true)
      * @Assert\NotBlank()          
-     * @Serializer\Type("date")   
+     * @Serializer\Type("datetime")   
      */
     private $date;
     
     /**
-     * @Column(name="time", type="time", nullable=true)   
-     * @Serializer\Type("time")     
+     * @Column(name="time", type="string", nullable=true)   
+     * @Serializer\Type("string")     
      */
     private $time;
     
@@ -55,8 +58,17 @@ class EventEntity extends AbstractEntity {
      * @Column(name="place", type="string", length=255, nullable=true)   
      * @Serializer\Type("string")     
      */    
-    private $place;            
+    private $place;        
+    
+    /**     
+     * @Serializer\Type("string")     
+     */        
+    private $user; //transient field
 
+    public function __construct() {
+        parent::__construct($this);
+    }
+    
     /**
      * Get the value of idUser
      */ 
@@ -122,7 +134,7 @@ class EventEntity extends AbstractEntity {
      */ 
     public function getDate()
     {
-        return $this->date;
+        return $this->date->format('d/m/Y');
     }
 
     /**
@@ -132,7 +144,7 @@ class EventEntity extends AbstractEntity {
      */ 
     public function setDate($date)
     {
-        $this->date = $date;
+        $this->date = MyDateTime::convertStrToDate($date);
 
         return $this;
     }
@@ -175,5 +187,41 @@ class EventEntity extends AbstractEntity {
         $this->place = $place;
 
         return $this;
-    }    
+    }        
+
+    /**
+     * Get the value of user
+     */ 
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set the value of user
+     *
+     * @return  self
+     */ 
+    public function setUser($user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function serialize() {
+        $json = parent::serialize();
+
+        $json['date'] = $this->getDate();
+
+        return $json;
+    }
+
+    public function deserialize($json) { 
+        $obj = parent::deserialize($json);
+
+        $obj->setDate($json->date);         
+
+        return $obj;
+    }
 }
