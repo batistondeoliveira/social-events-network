@@ -8,7 +8,8 @@ abstract class AbstractTestCase extends TestCase {
     private $em;
 
     private function prepareDB() {          
-        define('_LOCAL_' , true); 
+        if(!defined('_LOCAL_'))
+            define('_LOCAL_' , true); 
 
         require 'config.php';
         
