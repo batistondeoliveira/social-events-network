@@ -6,6 +6,7 @@ error_reporting(E_ALL);
 
 define('_LOCAL_' , true); //mudar para false em producao
 define('_BASE_' , (_LOCAL_ == true) ?  '../' : '../app/');
+date_default_timezone_set('America/Sao_Paulo');
 
 require _BASE_ . 'vendor/autoload.php';
 require _BASE_. 'config.php';
@@ -45,7 +46,8 @@ $app->add(new Slim\Middleware\JwtAuthentication([
     "header" => "X-Token",
     "path" => "/",
     "passthrough" => [          
-        '/user'
+        '/user',
+        '/user/login',
     ],
     "realm" => "Protected",
     "secure" => false,

@@ -8,6 +8,10 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Table;
 
+use JMS\Serializer\Annotation as Serializer;
+
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * @Table(name="user_login")
  * @Entity()
@@ -18,7 +22,7 @@ class UserLoginEntity extends AbstractEntity {
      * @Assert\NotBlank()   
      * @Serializer\Type("integer")   
      */
-    private $idUsuario;
+    private $idUser;
 
     /**
      * @Column(name="token", type="string")
@@ -46,26 +50,26 @@ class UserLoginEntity extends AbstractEntity {
     {
         parent::__construct($this);
         
-        $this->datahora = new DateTime();
-        $this->expirar = (new DateTime())->modify('+ 60 minutes');
+        $this->datahora = new \DateTime();
+        $this->expirar = (new \DateTime())->modify('+ 60 minutes');
     }    
 
     /**
-     * Get the value of idUsuario
+     * Get the value of idUser
      */ 
-    public function getIdUsuario()
+    public function getIdUser()
     {
-        return $this->idUsuario;
+        return $this->idUser;
     }
 
     /**
-     * Set the value of idUsuario
+     * Set the value of idUser
      *
      * @return  self
      */ 
-    public function setIdUsuario($idUsuario)
+    public function setIdUser($idUser)
     {
-        $this->idUsuario = $idUsuario;
+        $this->idUser = $idUser;
 
         return $this;
     }
