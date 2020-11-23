@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import AbstractComponent from '../AbstractComponent';
 import Input from "../layout/input/Input";
-import Preload from '../layout/preload/Preload';
 import Form from "../layout/form/Form";
 import ModalAlerta from '../layout/modal/ModalAlerta';
 import ModalSuccess from '../layout/modal/ModalSuccess';
@@ -17,9 +16,7 @@ class Cadastro extends AbstractComponent {
         this.state = {
             error: '', 
             
-            success: '',
-
-            preload: false,                            
+            success: '',            
             
             errorForm: {                  
                 name: '',
@@ -103,21 +100,18 @@ class Cadastro extends AbstractComponent {
         if(!this.validateForm())
             return ;
 
-        this.setState({
-            preload: true,
+        this.setState({            
             btnFinalizar: 'AGUARDE...'
         });
         
         //const form = new FormData(document.getElementById('form'));        
 
         UserService.save(this.state.form).then(response => {              
-            this.setState({
-                preload: false,
+            this.setState({                
                 success: 'Cadastro realizado com sucesso'                
             });
         }).catch(error => {                 
-            this.setState({
-                preload: false,
+            this.setState({                
                 btnFinalizar: 'FINALIZAR',
                 error: this.handlingError(error)
             });            
@@ -142,9 +136,7 @@ class Cadastro extends AbstractComponent {
                                 col-lg-6
                                 col-xs-6
                                 text-center">
-                    <Form onSubmit={() => this.onSubmit()} id="form">   
-                        <Preload show={this.state.preload} />
-
+                    <Form onSubmit={() => this.onSubmit()} id="form">                           
                         <ModalAlerta 
                             show={this.state.error !== ''}
                             text={this.state.error}
