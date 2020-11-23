@@ -31,13 +31,13 @@ class UserModel extends AbstractModel {
             ]);        
     }
 
-    public function login($key, $email, $senha) {
+    public function login($key, $email, $password) {
         $userEntity = $this->getByEmail($email);
 
         if(empty($userEntity))
             return ;
 
-        if(!password_verify($senha, $userEntity->getPassword())) 
+        if(!password_verify($password, $userEntity->getPassword())) 
             return ; 
 
         $userLoginEntity = new UserLoginEntity();

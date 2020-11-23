@@ -97,11 +97,11 @@ class UserController extends AbstractController {
         $key = $this->container['key'];
                 
         $email = $request->getParsedBodyParam('email');
-        $senha = $request->getParsedBodyParam('password');           
+        $password = $request->getParsedBodyParam('password');           
 
         $userModel = new UserModel($this->container->em);
         
-        $token = $userModel->login($key, $email, $senha);
+        $token = $userModel->login($key, $email, $password);
 
         if(empty($token))
             return $response->withJson('Usuário e/ou senha inválido', 401, JSON_UNESCAPED_UNICODE);                
