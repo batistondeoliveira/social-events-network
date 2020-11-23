@@ -48,6 +48,7 @@ $app->add(new Slim\Middleware\JwtAuthentication([
     "passthrough" => [          
         '/user',
         '/user/login',
+        '/event'
     ],
     "realm" => "Protected",
     "secure" => false,
