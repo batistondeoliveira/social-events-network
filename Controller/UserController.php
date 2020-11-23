@@ -14,6 +14,41 @@ class UserController extends AbstractController {
         parent::__construct($container);
     }      
 
+    /**
+     * @api {post} /user/save Save a new user
+     * @apiVersion 1.0.0
+     * @apiName save
+     * @apiGroup user
+     *
+     * @apiParam (parameters) {jsonArray} body User object to be added to the database
+     *     
+     * @apiParamExample {json} Exemple Value
+     *    {
+     *      "name": "Fulano",
+     *      "email": "fulano@gmail.com",
+     *      "password": "123456",
+     *      "bio": "",
+     *      "profile_picture": "",
+     *      "city": "Fulano City",
+     *      "state": "MG"
+     *    }
+     * 
+     * @apiError (401) Exception Validation error message     
+     *
+     * @apiSuccess (200) {jsonArray} json Persisted user json object
+     * 
+     * @apiSuccessExample {json} Exemple Value
+     *    {
+     *      "id": 1,
+     *      "name": "Fulano",
+     *      "email": "fulano@gmail.com",
+     *      "password": "123456",
+     *      "bio": "",
+     *      "profile_picture": "",
+     *      "city": "Fulano City",
+     *      "state": "MG"
+     *    }
+     */
     public function save(Request $request, Response $response) {                         
         try {            
             $jsonArray = json_decode($request->getBody());                        
@@ -32,7 +67,7 @@ class UserController extends AbstractController {
                 $this->handlingError(
                     [$userEntity],
                     $ex
-                ), 400, JSON_UNESCAPED_UNICODE);
+                ), 401, JSON_UNESCAPED_UNICODE);
         }
     }
 }
