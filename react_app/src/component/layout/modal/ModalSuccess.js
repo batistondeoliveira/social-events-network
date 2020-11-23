@@ -1,5 +1,4 @@
 import React from 'react';
-import AbstractComponent from '../../AbstractComponent';
 import MyModal from './MyModal';
 
 class ModalSuccess extends React.Component {                
