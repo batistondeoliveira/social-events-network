@@ -22,5 +22,18 @@ class UserMigration extends AbstractMigration {
                 UNIQUE KEY `UNIQ_8D93D649E7927C74` (`email`)
             ) ENGINE=InnoDB
         ");
+
+        $this->addSql("DROP TABLE IF EXISTS user_login");
+
+        $this->addSql("
+            CREATE TABLE `user_login` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `id_user` int(11) NOT NULL,
+                `token` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+                `datahora` datetime NOT NULL,
+                `expirar` datetime NOT NULL,
+                PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB
+        ");
     }
 }
