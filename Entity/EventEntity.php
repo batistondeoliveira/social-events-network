@@ -18,6 +18,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class EventEntity extends AbstractEntity {
     /**
+     * @Column(name="id_user", type="integer")     
+     * @Assert\NotBlank()  
+     * @Serializer\Type("integer")   
+     */
+    private $idUser;
+
+    /**
      * @Column(name="name", type="string", length=100, nullable=true)
      * @Assert\Length(max = 100)
      * @Assert\NotBlank()  
@@ -50,6 +57,26 @@ class EventEntity extends AbstractEntity {
      */    
     private $place;            
 
+    /**
+     * Get the value of idUser
+     */ 
+    public function getIdUser()
+    {
+        return $this->idUser;
+    }
+
+    /**
+     * Set the value of idUser
+     *
+     * @return  self
+     */ 
+    public function setIdUser($idUser)
+    {
+        $this->idUser = $idUser;
+
+        return $this;
+    }
+    
     /**
      * Get the value of name
      */ 
@@ -148,5 +175,5 @@ class EventEntity extends AbstractEntity {
         $this->place = $place;
 
         return $this;
-    }
+    }    
 }
