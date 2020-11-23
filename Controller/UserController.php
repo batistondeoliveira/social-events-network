@@ -20,7 +20,7 @@ class UserController extends AbstractController {
      * @apiName save
      * @apiGroup user
      *
-     * @apiParam (parameters) {jsonArray} body User object to be added to the database
+     * @apiParam (parameters) {json} body User object to be added to the database
      *     
      * @apiParamExample {json} Exemple Value
      *    {
@@ -35,7 +35,7 @@ class UserController extends AbstractController {
      * 
      * @apiError (401) MessageError Validation error message     
      *
-     * @apiSuccess (200) {String} token Generated validation token
+     * @apiSuccess (200) {String} token json Persisted user json object
      * 
      * @apiSuccessExample {json} Exemple Value
      *    {
@@ -51,11 +51,11 @@ class UserController extends AbstractController {
      */
     public function save(Request $request, Response $response) {                         
         try {            
-            $jsonArray = json_decode($request->getBody());                        
+            $json = json_decode($request->getBody());                        
 
             $userEntity = new UserEntity();
 
-            $userEntity = $userEntity->deserialize($jsonArray);
+            $userEntity = $userEntity->deserialize($json);
             
             $userModel = new UserModel($this->container->em);
             
@@ -88,7 +88,7 @@ class UserController extends AbstractController {
      * 
      * @apiError (401) MessageError Usuário e/ou senha inválido    
      *
-     * @apiSuccess (200) {jsonArray} json Persisted user json object
+     * @apiSuccess (200) {json} json Generated validation token
      * 
      * @apiSuccessExample {json} Exemple Value
      *    eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uIjoiJDJ5JDEwJHlGc0JJN2VvNjdSTmc4SU9DeHhUQk95YVBzWmpCZGZtUGxDVWtkTGdIQXFta01FNm4zT3dlIiwiaWQiOjEsImlhdCI6MTYwNjA5NjU2MywiZXhwIjoxNjA2MTAwMTYzfQ.6huB7zuB6Mo9jUWVvILad9Jd-SvTP9EqKZgmQjP6Hj4

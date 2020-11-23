@@ -219,8 +219,8 @@ class UserEntity extends AbstractEntity {
         $this->addErrorMessage(UniqueConstraintViolationException::class, 'E-mail já cadastrado');        
     } 
 
-    public function deserialize($jsonArray) { 
-        $obj = parent::deserialize($jsonArray);
+    public function deserialize($json) { 
+        $obj = parent::deserialize($json);
 
         $obj->setPassword($obj->getPassword()); //Encrypts the password
 

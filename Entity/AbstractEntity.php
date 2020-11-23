@@ -46,13 +46,13 @@ abstract class AbstractEntity extends ValidateEntity {
         return $serializer->toArray($this); 
     }
 
-    public function deserialize($jsonArray) { 
+    public function deserialize($json) { 
         $objAux = $this;
 
         $serializer = SerializerBuilder::create()->build();                     
 
         $obj = $serializer->deserialize(
-            json_encode($jsonArray, 0), 
+            json_encode($json, 0), 
             get_class($this->getClass()), 
             'json'
         );                
