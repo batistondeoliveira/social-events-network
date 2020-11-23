@@ -4,7 +4,7 @@ import Input from "../layout/input/Input";
 import Preload from '../layout/preload/Preload';
 import Form from "../layout/form/Form";
 import ModalAlerta from '../layout/modal/ModalAlerta';
-import ModalSuccess from '../layout/modal/ModalSucess';
+import ModalSuccess from '../layout/modal/ModalSuccess';
 import InputPassword from '../layout/input/InputPassword';
 import InputTextArea from '../layout/input/InputTextArea';
 
