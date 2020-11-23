@@ -134,6 +134,9 @@ class EventEntity extends AbstractEntity {
      */ 
     public function getDate()
     {
+        if(empty($this->date))
+            return ;
+
         return $this->date->format('d/m/Y');
     }
 
