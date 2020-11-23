@@ -11,10 +11,15 @@ use tests\Migration\UserMigration;
 
 class UserModelTest extends AbstractTestCase {
     public function setUp() { 
-        parent::setUp();        
+        parent::setUp();
+
+        if(defined('_MIGRATION_CONFIGURACAO_OK'))
+            return ;
 
         $migration = new UserMigration($this->getEm());
         $migration->up();        
+
+        define('_MIGRATION_CONFIGURACAO_OK', true);
     }
 
     public function testSave() {                
@@ -36,5 +41,29 @@ class UserModelTest extends AbstractTestCase {
         } catch(\Exception $ex) {
             $this->assertTrue(false);
         }            
+    }
+
+    public function testLogin() {                
+        $userModel = new UserModel($this->getEm());
+                
+        $token = $userModel->login(
+            '87fdjfduity', 
+            'batistondeoliveira@yahoo.com.br', 
+            '123456'
+        );
+
+        $this->assertNotEmpty($token);        
+    }
+
+    public function testWrongCredentialsLogin() {                
+        $userModel = new UserModel($this->getEm());
+                
+        $token = $userModel->login(
+            '87fdjfduity', 
+            'batistondeoliveira1@yahoo.com.br', //wrong email
+            '123457' //wrong password
+        );
+
+        $this->assertEmpty($token);         
     }
 }
