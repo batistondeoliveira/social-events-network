@@ -2,6 +2,8 @@
 
 namespace Controller;
 
+use JMS\Serializer\SerializerBuilder;
+
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -31,5 +33,11 @@ abstract class AbstractController {
         }   
         
         return $listError;
+    }
+    
+    public function serialize($jsonArray) {
+        $serializer = SerializerBuilder::create()->build(); 
+        
+        return $serializer->toArray($jsonArray); 
     }
 }
