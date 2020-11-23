@@ -11,3 +11,7 @@
 .modal-body {
     text-align: left;
 }
+
+a:not([href]):hover {
+    cursor: pointer;
+}
