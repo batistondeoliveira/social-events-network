@@ -128,7 +128,7 @@ class UserEntity extends AbstractEntity {
      */ 
     public function setPassword($password)
     {
-        $this->password = $password;
+        $this->password = password_hash($password, PASSWORD_DEFAULT);        
 
         return $this;
     }
@@ -218,4 +218,12 @@ class UserEntity extends AbstractEntity {
 
         $this->addErrorMessage(UniqueConstraintViolationException::class, 'E-mail já cadastrado');        
     } 
+
+    public function deserialize($jsonArray) { 
+        $obj = parent::deserialize($jsonArray);
+
+        $obj->setPassword($obj->getPassword()); //Encrypts the password
+
+        return $obj;
+    }
 }
