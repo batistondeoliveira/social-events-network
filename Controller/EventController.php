@@ -81,4 +81,19 @@ class EventController extends AbstractController {
                 ), 401, JSON_UNESCAPED_UNICODE);
         }
     }
+
+    /**
+     * @api {get} /event/list List all available events
+     * @apiVersion 1.0.0
+     * @apiName list
+     * @apiGroup event
+     *           
+     * @apiSuccess (200) {jsonArray} data List all available events
+     *      
+     */
+    public function getAllActiveEvent(Request $request, Response $response) {                         
+        $eventModel = new EventModel($this->container->em);        
+        
+        return $response->withJson($this->serialize($eventModel->getAllActiveEvent()), 200);
+    }
 }
