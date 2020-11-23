@@ -16,7 +16,7 @@ class EventModel extends AbstractModel {
 
         return $this->getRepository()            
             ->createQueryBuilder("e")
-            ->andWhere('e.date < :date')
+            ->andWhere('e.date >= :date')
             ->setParameter('date', $date)            
             ->getQuery()
             ->getResult(); 
