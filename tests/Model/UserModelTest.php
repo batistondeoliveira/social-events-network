@@ -9,20 +9,11 @@ use Model\UserModel;
 use tests\Model\AbstractTestCase;
 use tests\Migration\UserMigration;
 
-class UserModelTest extends AbstractTestCase {
-    public function setUp() { 
-        parent::setUp();
-
-        if(defined('_MIGRATION_CONFIGURACAO_OK'))
-            return ;
-
+class UserModelTest extends AbstractTestCase {    
+    public function prepareUser() {
         $migration = new UserMigration($this->getEm());
-        $migration->up();        
+        $migration->up(); 
 
-        define('_MIGRATION_CONFIGURACAO_OK', true);
-    }
-
-    public function testSave() {                
         $userEntity = new UserEntity();
 
         $userEntity->setName('Eliel');
@@ -32,18 +23,24 @@ class UserModelTest extends AbstractTestCase {
         $userEntity->setCity('Pocos de Caldas');
         $userEntity->setState('MG');
 
-        $userModel = new UserModel($this->getEm());
+        $userModel = new UserModel($this->getEm());  
         
+        $userModel->save($userEntity);
+    }
+
+    public function testSave() {               
         try {
-            $userModel->save($userEntity);
+            $this->prepareUser();
 
             $this->assertTrue(true);
         } catch(\Exception $ex) {
             $this->assertTrue(false);
-        }            
+        }             
     }
 
-    public function testLogin() {                
+    public function testLogin() {                   
+        $this->prepareUser();
+
         $userModel = new UserModel($this->getEm());
                 
         $token = $userModel->login(
@@ -55,7 +52,9 @@ class UserModelTest extends AbstractTestCase {
         $this->assertNotEmpty($token);        
     }
 
-    public function testWrongCredentialsLogin() {                
+    public function testWrongCredentialsLogin() { 
+        $this->prepareUser();
+                       
         $userModel = new UserModel($this->getEm());
                 
         $token = $userModel->login(
