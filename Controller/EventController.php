@@ -104,6 +104,7 @@ class EventController extends AbstractController {
      * @apiGroup event
      *           
      * @apiError (402) String Informe o id do evento
+     * @apiError (403) String Evento não encontrado
      * 
      * @apiSuccess (200) {String} json event object json
      * 
@@ -126,6 +127,9 @@ class EventController extends AbstractController {
             return $response->withJson('Informe o id do evento', 402, JSON_UNESCAPED_UNICODE); 
 
         $eventEntity = $eventModel->getById($id);        
+
+        if(empty($eventEntity))
+            return $response->withJson('Evento não encontrado', 403, JSON_UNESCAPED_UNICODE); 
 
         return $response->withJson($eventEntity->serialize(), 200);
     }

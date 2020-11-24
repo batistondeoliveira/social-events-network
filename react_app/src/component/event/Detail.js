@@ -2,6 +2,7 @@ import React from 'react';
 import AbstractComponent from '../AbstractComponent';
 import Title from "../layout/title/Title";
 import Preload from "../layout/preload/Preload";
+import ModalAlerta from '../layout/modal/ModalAlerta';
 
 import EventService from '../../service/EventService';
 
@@ -12,12 +13,15 @@ class Detail extends AbstractComponent {
         this.state = {            
             preload: true,
 
-            form: {}
+            form: {},
+
+            error: ''
         }
 
     }    
 
     onClick() {
+        this.setState({error: ''});
         window.location.href = '/';
     }
 
@@ -28,8 +32,8 @@ class Detail extends AbstractComponent {
             id
         ).then(response => {
             this.setState({form: response.data, preload: false})
-        }).catch(() => {
-            this.setState({preload: false})
+        }).catch(error => {
+            this.setState({preload: false, error: this.handlingError(error)})
         });
     }    
 
@@ -38,7 +42,14 @@ class Detail extends AbstractComponent {
             <div>
                 <Title title="Detalhes do Evento"/>
 
-                <Preload show={this.state.form.preload} />
+                <Preload show={this.state.preload} />
+
+                <ModalAlerta
+                    show={this.state.error !== ''}
+                    text={this.state.error}
+
+                    close={() => this.onClick()}
+                />
                 
                 <div className="row">    
                     <div className="col-md-12
@@ -101,7 +112,7 @@ class Detail extends AbstractComponent {
                 <div className="form-group mt-5 mb-0">
                     <button 
                         type="submit"
-                        className="btn btn-success btn-lg btn-block"
+                        className="btn btn-light btn-lg btn-block"
                         onClick={() => this.onClick()}                         
                     >
                         Voltar                        
