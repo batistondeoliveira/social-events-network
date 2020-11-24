@@ -155,11 +155,13 @@ class EventController extends AbstractController {
      *      "place": "Shopping Campinas"     
      *    }
      */
-    public function getEventsByEmailUser(Request $request, Response $response, $args) {                         
-        $eventModel = new EventModel($this->container->em);        
-        
-        $email = $args['email'];
+    public function getEventsByEmailUser(Request $request, Response $response) {
+        $this->auth($request);
 
+        $eventModel = new EventModel($this->container->em);                
+
+        $email = $this->auth->getEmail();
+        
         if(empty($email))
             return $response->withJson('Informe o email do usuário', 402, JSON_UNESCAPED_UNICODE); 
 
