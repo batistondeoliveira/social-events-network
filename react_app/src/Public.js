@@ -1,24 +1,17 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import AbstractComponent from './component/AbstractComponent';
 import NotFound from './component/layout/notfound/NotFound';
 import Register from './component/user/Register';
 import Login from './component/login/Login';
 import EventList from './component/event/List';
-import EventDetail from './componet/event/Detail';
+import EventDetail from './component/event/Detail';
 import Admin from './Admin';
 
-import AuthenticateService from './service/AuthenticateService';
-
 import './css/Style.css'
-class Public extends React.Component {
+class Public extends AbstractComponent {
     admin() {
-        if(AuthenticateService.getToken() === undefined)
-            return
-        
-        if(AuthenticateService.getToken() === '')
-            return ;
-        
-        if(AuthenticateService.getToken() === null)
+        if(!this.isAdmin())
             return ;
 
         return (
@@ -45,6 +38,18 @@ class Public extends React.Component {
                         path='/'
                         render={props => 
                             <EventList
+                                {...props}
+                                    
+                                route={(item) => this.browserRoute.history.push(item.link)}
+                            />
+                        }
+                    />
+
+                    <Route 
+                        exact 
+                        path='/detail/:id'
+                        render={props => 
+                            <EventDetail
                                 {...props}
                                     
                                 route={(item) => this.browserRoute.history.push(item.link)}
