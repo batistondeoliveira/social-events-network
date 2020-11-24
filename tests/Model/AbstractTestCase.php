@@ -22,7 +22,8 @@ abstract class AbstractTestCase extends TestCase {
         $configDoctrine->setMetadataDriverImpl($driver);
         $configDoctrine->setProxyDir('../Model/Proxy');
         $configDoctrine->setProxyNamespace('Model\Proxy');        
-        $configDoctrine->setAutoGenerateProxyClasses(true);                
+        $configDoctrine->setAutoGenerateProxyClasses(true);   
+        $configDoctrine->addCustomStringFunction('DATE', 'Classes\DoctrineExtensions\Date');             
 
         $this->em = \Doctrine\ORM\EntityManager::create($config['db'], $configDoctrine);        
 
