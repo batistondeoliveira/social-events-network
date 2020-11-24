@@ -25,9 +25,9 @@ class EventModel extends AbstractModel {
     }
 
     public function getEventsByEmailUser($email) {        
-        return $this->getRepository()                        
-            ->createQueryBuilder("e")
-            ->select('e')
+        return $this->getRepository()    
+            ->createQueryBuilder("e")                    
+            ->select('e.id, e.name, DATE(e.date) as date, e.time, e.place')            
             ->Join(UserEntity::class, 'u', 'WITH', 'u.id = e.idUser and u.email = :email')            
             ->setParameter('email', $email)            
             ->getQuery()
