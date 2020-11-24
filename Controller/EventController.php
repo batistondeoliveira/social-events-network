@@ -133,4 +133,38 @@ class EventController extends AbstractController {
 
         return $response->withJson($eventEntity->serialize(), 200);
     }
+
+    /**
+     * @api {get} /event/list/{id} Show event by id
+     * @apiVersion 1.0.0
+     * @apiName list/
+     * @apiGroup event
+     *           
+     * @apiError (402) String Informe o id do evento
+     * @apiError (403) String Evento não encontrado
+     * 
+     * @apiSuccess (200) {String} json event object json
+     * 
+     * 
+     * @apiSuccessExample {json} Exemple Value
+     *    {
+     *      "id": 1,     
+     *      "name": "Congresso Campinas",     
+     *      "date": "19/08/2021",
+     *      "time": "09:00",
+     *      "place": "Shopping Campinas"     
+     *    }
+     */
+    public function getEventsByEmailUser(Request $request, Response $response, $args) {                         
+        $eventModel = new EventModel($this->container->em);        
+        
+        $email = $args['email'];
+
+        if(empty($email))
+            return $response->withJson('Informe o email do usuário', 402, JSON_UNESCAPED_UNICODE); 
+
+        $list = $eventModel->getEventsByEmailUser($email);                
+
+        return $response->withJson($this->serialize($list), 200);
+    }
 }
