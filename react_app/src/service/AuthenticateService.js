@@ -1,16 +1,22 @@
 class AuthenticateService {    
-    static login(token) {
-        localStorage.setItem('x-token', token);                
+    static login(token, email) {
+        localStorage.setItem('x-token', token);
+        localStorage.setItem('email', email);
         
         window.location.href = '/admin';
     }
 
     static getToken() {            
         return localStorage.getItem('x-token');
-    }    
+    } 
+    
+    static getEmail() {            
+        return localStorage.getItem('email');
+    } 
 
     static logout() {                    
-        localStorage.removeItem('x-token');           
+        localStorage.removeItem('x-token');
+        localStorage.removeItem('x-email');
 
         window.location.href = '/';
     }    
