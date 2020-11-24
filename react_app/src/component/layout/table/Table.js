@@ -1,7 +1,8 @@
-import React, {Component} from 'react';
+import React from 'react';
+import AbstractComponent from '../../AbstractComponent';
 import {Modal} from 'react-bootstrap';
 
-class Table extends Component {
+class Table extends AbstractComponent {
 
     constructor(props) {
         super(props);
@@ -14,7 +15,7 @@ class Table extends Component {
     }
 
     validarEditar() {
-        return (this.props.remover !== undefined || this.props.editar !== undefined);
+        return (this.props.remover !== undefined || this.props.editar !== undefined || this.props.onOpenClick !== undefined);
     }
 
     editarTd(item, i ) {
@@ -25,8 +26,16 @@ class Table extends Component {
         return (
             <th className="text-right">
                 { 
+                    this.props.onOpenClick !== undefined &&
+                    <button className="btn btn-info"
+                        onClick={() => this.props.onOpenClick(item[this.props.referenceId])}>
+                        <i className="far fa-eye"/>
+                    </button>
+                }
+
+                { 
                     this.props.editar !== undefined &&
-                    <button className="btnDefault"
+                    <button className="btn btn-primary"
                         onClick={() => this.setState({modalCadastro: true, tituloCadastro: 'Editar', editarItem: item, editarIndice: i})}>
                         <i className="fa fa-wrench" />
                     </button>
@@ -34,7 +43,7 @@ class Table extends Component {
 
                 { 
                     this.props.remover !== undefined &&
-                    <button className="btnDanger"
+                    <button className="btn btn-danfer"
                         onClick={() => this.setState({modal: true, removerItem: item, removerIndice: i})}>
                         <i className="fa fa-times" />
                     </button>
@@ -49,10 +58,17 @@ class Table extends Component {
     }
 
     cadastro() {
-        if(this.props.cadastro == true) {
+        if(this.props.cadastro === true) {
             return this.props.component({item: this.state.editarItem, indice: this.state.editarIndice});
         }
     }    
+
+    showField(item, itemHead) {
+        if(itemHead.type === 'date')
+            return this.dateFormat(item[itemHead.campo]);
+
+        return item[itemHead.campo];
+    }
 
     render() {
         return (
@@ -116,7 +132,9 @@ class Table extends Component {
                             <tr key={i}>
                                 {this.props.head.map((itemHead, i) => {
                                     return (
-                                        <td key={i}>{item[itemHead.campo]}</td>
+                                        <td key={i}>
+                                            {this.showField(item, itemHead)}
+                                        </td>
                                     )
                                 })}
 
