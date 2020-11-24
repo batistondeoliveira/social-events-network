@@ -37,7 +37,7 @@ class EventController extends AbstractController {
      * @apiError (401) MessageError Validation error message     
      * @apiError (402) String Usuário não encontrado
      *
-     * @apiSuccess (200) {String} token Generated validation token
+     * @apiSuccess (200) {String} json Persisted user json object
      * 
      * 
      * @apiSuccessExample {json} Exemple Value
@@ -95,5 +95,38 @@ class EventController extends AbstractController {
         $eventModel = new EventModel($this->container->em);        
         
         return $response->withJson($this->serialize($eventModel->getAllActiveEvent()), 200);
+    }
+
+    /**
+     * @api {get} /event/list/{id} Show event by id
+     * @apiVersion 1.0.0
+     * @apiName list/
+     * @apiGroup event
+     *           
+     * @apiError (402) String Informe o id do evento
+     * 
+     * @apiSuccess (200) {String} json event object json
+     * 
+     * 
+     * @apiSuccessExample {json} Exemple Value
+     *    {
+     *      "id": 1,     
+     *      "name": "Congresso Campinas",     
+     *      "date": "19/08/2021",
+     *      "time": "09:00",
+     *      "place": "Shopping Campinas"     
+     *    }
+     */
+    public function getById(Request $request, Response $response, $args) {                         
+        $eventModel = new EventModel($this->container->em);        
+        
+        $id = $args['id'];
+
+        if(empty($id))
+            return $response->withJson('Informe o id do evento', 402, JSON_UNESCAPED_UNICODE); 
+
+        $eventEntity = $eventModel->getById($id);        
+
+        return $response->withJson($eventEntity->serialize(), 200);
     }
 }
