@@ -22,4 +22,15 @@ class EventModel extends AbstractModel {
             ->getQuery()
             ->getResult(); 
     }
+
+    public function getEventsByUser($idUser) {        
+        return $this->getRepository()                        
+            ->createQueryBuilder("e")
+            ->select('e')
+            ->Join(UserEntity::class, 'u', 'WITH', 'u.id = u.idUser')
+            ->andWhere('e.idUser = :idUser')
+            ->setParameter('idUser', $idUser)            
+            ->getQuery()
+            ->getResult(); 
+    }
 }
