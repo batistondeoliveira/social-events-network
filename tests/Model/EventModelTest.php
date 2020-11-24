@@ -95,7 +95,7 @@ class EventModelTest extends AbstractTestCase {
         $this->assertNotEmpty($modelEvent->getById(1));
     }
 
-    public function testEventsByEmailUser() {  
+    public function testGetEventsByEmailUser() {  
         $migration = new EventMigration($this->getEm());
         $migration->up();        
         
