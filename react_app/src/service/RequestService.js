@@ -7,18 +7,18 @@ class RequestService {
     }
 
     static headers(config) {
-        if(config === undefined) {
-            config = {headers: {}};
-        }
+        if(config === undefined) 
+            config = {headers: {}};        
 
         if(config.headers === undefined) {
             config.headers = {};
         }
 
         config.headers['X-Token'] = AuthenticateService.getToken();
+        config.headers['email'] = AuthenticateService.getEmail();
 
         return config;
-    }
+    }    
 
     static async get(url, config) {
         return axios.get(url, RequestService.headers(config));
