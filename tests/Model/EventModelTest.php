@@ -83,4 +83,15 @@ class EventModelTest extends AbstractTestCase {
 
         $this->assertEquals(1, count($modelEvent->getAllActiveEvent()));
     }
+
+    public function testGetById() {  
+        $migration = new EventMigration($this->getEm());
+        $migration->up();        
+        
+        $this->createEvent((new \DateTime())->format('d/m/Y'));
+
+        $modelEvent = new EventModel($this->getEm());
+
+        $this->assertNotEmpty($modelEvent->getById(1));
+    }
 }
