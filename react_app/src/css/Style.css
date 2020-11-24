@@ -15,3 +15,7 @@
 a:not([href]):hover {
     cursor: pointer;
 }
+
+label {
+    font-weight: bold;
+}
