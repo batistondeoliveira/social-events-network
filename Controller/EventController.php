@@ -140,6 +140,7 @@ class EventController extends AbstractController {
      * @apiName list/
      * @apiGroup event
      *           
+     * @apiError (401) String Unauthorized action
      * @apiError (402) String Informe o id do evento
      * @apiError (403) String Evento não encontrado
      * 
@@ -168,5 +169,32 @@ class EventController extends AbstractController {
         $list = $eventModel->getEventsByEmailUser($email);                
 
         return $response->withJson($this->serialize($list), 200);
+    }
+
+    /**
+     * @api {delete} /event/{id} Delete an event by id
+     * @apiVersion 1.0.0
+     * @apiName event/
+     * @apiGroup event          
+     * 
+     * @apiError (401) String Unauthorized action
+     * 
+     * 
+     * @apiSuccess (200) {String} mensagem Evento excluído com sucesso
+     *          
+     */
+    public function delete(Request $request, Response $response, $args) {
+        $this->auth($request);
+
+        $eventModel = new EventModel($this->container->em);                
+        
+        $eventEntity = $eventModel->getById($args['id']);
+        
+        if(empty($eventEntity))
+            return $response->withJson('Evento excluído com sucesso', 200, JSON_UNESCAPED_UNICODE);
+
+        $eventModel->remove($eventEntity);
+
+        return $response->withJson('Evento excluído com sucesso', 200, JSON_UNESCAPED_UNICODE);
     }
 }
