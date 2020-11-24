@@ -1,7 +1,7 @@
 import Config from '../Config';
 import RequestService from './RequestService';
 
-class EventService {               
+class EventService {                   
     static async save(data) {                
         return RequestService.post(Config.urlApi + 'event', data);
     }              
@@ -13,6 +13,10 @@ class EventService {
     static async getById(id) {                
         return RequestService.get(Config.urlApi + 'event/detail/' + id);
     } 
+
+    static async getMyEvents() {            
+        return RequestService.get(Config.urlApi + 'event');
+    }
 }
 
 export default EventService;
