@@ -13,9 +13,9 @@ class RequestService {
         if(config.headers === undefined) {
             config.headers = {};
         }
-
-        config.headers['X-Token'] = AuthenticateService.getToken();
-        config.headers['email'] = AuthenticateService.getEmail();
+        
+        config.headers['X-Token'] = AuthenticateService.getToken();                
+        config.headers['E-Mail'] = AuthenticateService.getEmail();                
 
         return config;
     }    
