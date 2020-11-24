@@ -3,6 +3,7 @@
 namespace Model;
 
 use Entity\EventEntity;
+use Entity\UserEntity;
 
 use Model\AbstractModel;
 
@@ -23,13 +24,12 @@ class EventModel extends AbstractModel {
             ->getResult(); 
     }
 
-    public function getEventsByUser($idUser) {        
+    public function getEventsByEmailUser($email) {        
         return $this->getRepository()                        
             ->createQueryBuilder("e")
             ->select('e')
-            ->Join(UserEntity::class, 'u', 'WITH', 'u.id = u.idUser')
-            ->andWhere('e.idUser = :idUser')
-            ->setParameter('idUser', $idUser)            
+            ->Join(UserEntity::class, 'u', 'WITH', 'u.id = e.idUser and u.email = :email')            
+            ->setParameter('email', $email)            
             ->getQuery()
             ->getResult(); 
     }
