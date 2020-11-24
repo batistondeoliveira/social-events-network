@@ -35,7 +35,7 @@ class UserController extends AbstractController {
      * 
      * @apiError (401) MessageError Validation error message     
      *
-     * @apiSuccess (200) {String} token json Persisted user json object
+     * @apiSuccess (200) {String} json Persisted user json object
      * 
      * @apiSuccessExample {json} Exemple Value
      *    {
