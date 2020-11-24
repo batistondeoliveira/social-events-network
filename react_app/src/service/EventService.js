@@ -8,7 +8,11 @@ class EventService {
 
     static async list() {                
         return RequestService.get(Config.urlApi + 'event/list');
-    }              
+    } 
+    
+    static async getById(id) {                
+        return RequestService.get(Config.urlApi + 'event/detail/' + id);
+    } 
 }
 
 export default EventService;
