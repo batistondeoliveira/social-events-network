@@ -51,7 +51,7 @@ abstract class AbstractController {
     public function auth(Request $request) {
         $userModel = new UserModel($this->container->em);
 
-        $userEntity = $userModel->getByEmail($request->getHeaderLine('email'));
+        $userEntity = $userModel->getByEmail($request->getHeaderLine('E-Mail'));
 
         if(empty($userEntity)) {
             header("HTTP/1.0 401");
