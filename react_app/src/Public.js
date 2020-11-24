@@ -3,6 +3,8 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import NotFound from './component/layout/notfound/NotFound';
 import Register from './component/user/Register';
 import Login from './component/login/Login';
+import EventList from './component/event/List';
+import EventDetail from './componet/event/Detail';
 import Admin from './Admin';
 
 import AuthenticateService from './service/AuthenticateService';
@@ -37,7 +39,19 @@ class Public extends React.Component {
     render() {
         return (
             <BrowserRouter ref={(ref) => this.browserRoute =  ref}>
-                <Switch>                                                             
+                <Switch>   
+                    <Route 
+                        exact 
+                        path='/'
+                        render={props => 
+                            <EventList
+                                {...props}
+                                    
+                                route={(item) => this.browserRoute.history.push(item.link)}
+                            />
+                        }
+                    />                    
+
                     <Route 
                         exact 
                         path='/register'
