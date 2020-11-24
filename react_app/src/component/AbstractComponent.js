@@ -47,6 +47,21 @@ class AbstractComponent extends React.Component {
         
         return this.addZero(dateFormat.getDate()) + '/' + this.addZero(dateFormat.getMonth() + 1) + '/' + dateFormat.getFullYear();        
     }
+
+    getUrl(controller, index) {
+        var url = window.location.href;
+
+        var indexAux = (url.indexOf(controller) + controller.length + 1);
+
+        var strResult = url.substring(indexAux, url.length);        
+
+        var array = strResult.split('/');
+        
+        if(!Array.isArray(array))
+            return array;
+
+        return array[index];            
+    }
 }
 
 export default AbstractComponent;
