@@ -13,13 +13,10 @@ use tests\Migration\EventMigration;
 use tests\Migration\UserMigration;
 
 class EventModelTest extends AbstractTestCase {
-    private function createUser() {
-        $migration = new UserMigration($this->getEm());
-        $migration->up();        
-        
+    private function createUser($user) {                       
         $userModel = new UserModel($this->getEm());
 
-        $userEntity = $userModel->getByEmail('fulano@yahoo.com.br');
+        $userEntity = $userModel->getByEmail($user);
         
         if(!empty($userEntity))
             return $userEntity;
@@ -27,7 +24,7 @@ class EventModelTest extends AbstractTestCase {
         $userEntity = new UserEntity();
 
         $userEntity->setName('Eliel');
-        $userEntity->setEmail('fulano@yahoo.com.br');
+        $userEntity->setEmail($user);
         $userEntity->setPassword('123456');
         $userEntity->setBio('Programador PHP');
         $userEntity->setCity('Pocos de Caldas');
@@ -42,8 +39,8 @@ class EventModelTest extends AbstractTestCase {
         } 
     }    
 
-    public function createEvent($date) {
-        $userEntity = $this->createUser();
+    public function createEvent($date, $user = 'fulano@yahoo.com.br') {
+        $userEntity = $this->createUser($user);
 
         $eventEntity = new eventEntity();
 
@@ -59,7 +56,10 @@ class EventModelTest extends AbstractTestCase {
         $eventModel->save($eventEntity);
     }
 
-    public function testSave() {  
+    public function testSave() { 
+        $migrationUser = new UserMigration($this->getEm());
+        $migrationUser->up(); 
+
         $migration = new EventMigration($this->getEm());
         $migration->up();        
             
@@ -72,7 +72,10 @@ class EventModelTest extends AbstractTestCase {
         }            
     }    
 
-    public function testGetAllActiveEvent() {  
+    public function testGetAllActiveEvent() {
+        $migrationUser = new UserMigration($this->getEm());
+        $migrationUser->up(); 
+
         $migration = new EventMigration($this->getEm());
         $migration->up();        
 
@@ -84,7 +87,10 @@ class EventModelTest extends AbstractTestCase {
         $this->assertEquals(1, count($modelEvent->getAllActiveEvent()));
     }
 
-    public function testGetById() {  
+    public function testGetById() { 
+        $migrationUser = new UserMigration($this->getEm());
+        $migrationUser->up(); 
+
         $migration = new EventMigration($this->getEm());
         $migration->up();        
         
@@ -95,11 +101,15 @@ class EventModelTest extends AbstractTestCase {
         $this->assertNotEmpty($modelEvent->getById(1));
     }
 
-    public function testGetEventsByEmailUser() {  
+    public function testGetEventsByEmailUser() {
+        $migrationUser = new UserMigration($this->getEm());
+        $migrationUser->up(); 
+         
         $migration = new EventMigration($this->getEm());
         $migration->up();        
         
         $this->createEvent((new \DateTime())->format('d/m/Y'));
+        $this->createEvent((new \DateTime())->format('d/m/Y'), 'beltrano@yahoo.com.br');
 
         $modelEvent = new EventModel($this->getEm());                
 
