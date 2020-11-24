@@ -1,5 +1,7 @@
 import React from 'react';
 
+import AuthenticateService from '../service/AuthenticateService';
+
 class AbstractComponent extends React.Component {         
     standardError() {
         return 'Ocorreu um erro inesperado, tente novamente mais tarde!';
@@ -61,6 +63,28 @@ class AbstractComponent extends React.Component {
             return array;
 
         return array[index];            
+    }
+
+    isAdmin() {
+        if(AuthenticateService.getToken() === undefined)
+            return false;
+        
+        if(AuthenticateService.getToken() === '')
+            return false;
+        
+        if(AuthenticateService.getToken() === null)
+            return false;
+
+        if(AuthenticateService.getEmail() === undefined)
+            return false;
+        
+        if(AuthenticateService.getEmail() === '')
+            return false;
+        
+        if(AuthenticateService.getEmail() === null)
+            return false;
+
+        return true;
     }
 }
 
