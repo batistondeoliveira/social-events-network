@@ -41,9 +41,11 @@ class Table extends AbstractComponent {
                     </button>
                 }
 
+                &nbsp;
+
                 { 
                     this.props.remover !== undefined &&
-                    <button className="btn btn-danfer"
+                    <button className="btn btn-danger" 
                         onClick={() => this.setState({modal: true, removerItem: item, removerIndice: i})}>
                         <i className="fa fa-times" />
                     </button>
@@ -62,6 +64,10 @@ class Table extends AbstractComponent {
             return this.props.component({item: this.state.editarItem, indice: this.state.editarIndice});
         }
     }    
+
+    fecharCadastro() {
+        this.setState({modalCadastro: false})
+    }
 
     showField(item, itemHead) {
         if(itemHead.type === 'date')
@@ -97,10 +103,10 @@ class Table extends AbstractComponent {
                     </Modal.Body>
 
                     <Modal.Footer>
-                        <button className="btnDefault"
+                        <button className="btn btn-primary"
                                 onClick={() => this.setState({ modal: false })}
                                 style={{marginRight: '10px'}}>Não</button>
-                        <button className="btnDanger"
+                        <button className="btn btn-danger"
                                 onClick={() => this.remover()}>Sim</button>
 
                     </Modal.Footer>
