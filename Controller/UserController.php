@@ -88,7 +88,7 @@ class UserController extends AbstractController {
      * 
      * @apiError (401) MessageError Usuário e/ou senha inválido    
      *
-     * @apiSuccess (200) {json} json Generated validation token
+     * @apiSuccess (200) {String} String Generated validation token
      * 
      * @apiSuccessExample {json} Exemple Value
      *    eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uIjoiJDJ5JDEwJHlGc0JJN2VvNjdSTmc4SU9DeHhUQk95YVBzWmpCZGZtUGxDVWtkTGdIQXFta01FNm4zT3dlIiwiaWQiOjEsImlhdCI6MTYwNjA5NjU2MywiZXhwIjoxNjA2MTAwMTYzfQ.6huB7zuB6Mo9jUWVvILad9Jd-SvTP9EqKZgmQjP6Hj4
