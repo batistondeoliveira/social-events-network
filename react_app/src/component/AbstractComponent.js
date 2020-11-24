@@ -34,6 +34,19 @@ class AbstractComponent extends React.Component {
             
         return errorTxt;
     }      
+
+    addZero(number) {
+        if(number <= 9)
+            return '0' + number;
+
+        return number;
+    }
+
+    dateFormat(date) {
+        let dateFormat = new Date(date);
+        
+        return this.addZero(dateFormat.getDate()) + '/' + this.addZero(dateFormat.getMonth() + 1) + '/' + dateFormat.getFullYear();        
+    }
 }
 
 export default AbstractComponent;
