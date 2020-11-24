@@ -6,6 +6,10 @@ class EventService {
         return RequestService.post(Config.urlApi + 'event', data);
     }              
 
+    static async delete(id) {                
+        return RequestService.delete(Config.urlApi + 'event/' + id);
+    } 
+
     static async list() {                
         return RequestService.get(Config.urlApi + 'event/list');
     } 
