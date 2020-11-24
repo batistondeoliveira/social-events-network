@@ -14,8 +14,9 @@ class EventModel extends AbstractModel {
     public function getAllActiveEvent() {
         $date = (new \DateTime())->format('Y-m-d');
 
-        return $this->getRepository()            
+        return $this->getRepository()                        
             ->createQueryBuilder("e")
+            ->select('e.id, e.name, DATE(e.date) as date, e.time, e.place')
             ->andWhere('e.date >= :date')
             ->setParameter('date', $date)            
             ->getQuery()
