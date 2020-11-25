@@ -9,11 +9,15 @@ class AbstractComponent extends React.Component {
         return 'Ocorreu um erro inesperado, tente novamente mais tarde!';
     }
 
+    is401Error(error) {
+        if(error.response.status = 401)                      
+            return true;
+
+        return false;
+    }   
+
     handlingError(error) {        
-        let errorTxt = '';        
-                
-        if(error.response.status = 401)          
-            this.login();     
+        let errorTxt = '';                                
 
         if((error === undefined || error.response === undefined || error.response.data === undefined || error.response.data === '')) {                    
             errorTxt = this.standardError();
@@ -86,12 +90,12 @@ class AbstractComponent extends React.Component {
         return true;
     }
 
-    login() {
-        this.props.route(route('', '', '/login'));   
+    goLoginArea() {
+        return route('', '', '/login');   
     }
 
-    admin() {
-        this.props.route(route('', '', '/admin'));   
+    goAdminArea() {
+        return route('', '', '/admin');   
     }    
 }
 

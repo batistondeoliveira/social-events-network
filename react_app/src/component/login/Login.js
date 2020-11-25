@@ -24,7 +24,9 @@ class Login extends React.Component {
                                         </div>
 
                                         <div className="card-body">
-                                            <LoginContent />
+                                            <LoginContent 
+                                                route={(item) => this.props.route(item)}
+                                            />
                                         </div>
 
                                         <div className="card-footer text-center">

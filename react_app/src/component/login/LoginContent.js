@@ -85,7 +85,7 @@ class LoginContent extends AbstractComponent {
                 this.state.form.email                
             );
 
-            this.admin();
+            this.props.route(this.goAdminArea());
         }).catch(error => {
             this.setState({
                 btnLogin: 'LOGIN', 
