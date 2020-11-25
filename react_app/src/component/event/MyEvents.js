@@ -61,12 +61,15 @@ class MyEvents extends AbstractComponent {
             AuthenticateService.getEmail()
         ).then(response => {
             this.setState({body: response.data, preload: false})
-        }).catch(() => {
-            this.setState({preload: false})
+        }).catch(error => {
+            this.setState({
+                preload: false,
+                error: this.handlingError(error)                
+            });
         });
     }    
 
-    add(item, i ) {
+    add(item, i ) {        
         this.table.fecharCadastro();
         const body = this.state.body;        
 
@@ -101,7 +104,10 @@ class MyEvents extends AbstractComponent {
                     remover={this.remover}
                     cadastro={true}
                     editar={ true }     
-                    component={ (props) => { return <Register ok={(item, i) => this.add(item, i)} {...props} />}}           
+                    component={ (props) => { return <Register 
+                            ok={(item, i) => this.add(item, i)} {...props}                              
+                        />
+                    }}
                 />
             </div>
         )
