@@ -2,6 +2,9 @@
 
 namespace Controller;
 
+use Classes\Exceptions\InvalidDateException;
+use Classes\MyDateTime;
+
 use Entity\EventEntity;
 use Entity\UserEntity;
 
@@ -35,7 +38,8 @@ class EventController extends AbstractController {
      *    }
      * 
      * @apiError (401) MessageError Validation error message     
-     * @apiError (402) String Usuário não encontrado
+     * @apiError (402) InvalidDateException A data do evento não pode ser menor que a data atual
+     * @apiError (403) String Usuário não encontrado
      *
      * @apiSuccess (200) {String} json Persisted user json object
      * 
@@ -51,33 +55,37 @@ class EventController extends AbstractController {
      *      "place": "Shopping Campinas"     
      *    }
      */
-    public function save(Request $request, Response $response) {                         
+    public function save(Request $request, Response $response) {  
+        $this->auth($request);
+
         try {            
             $json = json_decode($request->getBody());                        
 
             $eventEntity = new EventEntity();
 
             $eventEntity = $eventEntity->deserialize($json);
-            
+                        
             $userModel = new UserModel($this->container->em);
 
-            $userEntity = $userModel->getByEmail($eventEntity->getUser());
+            $userEntity = $userModel->getByEmail($this->auth->getEmail());
 
             if(empty($userEntity))
-                return $response->withJson('Usuário não encontrado', 402, JSON_UNESCAPED_UNICODE);
+                return $response->withJson('Usuário não encontrado', 403, JSON_UNESCAPED_UNICODE);
 
             $eventEntity->setIdUser($userEntity->getId());
 
             $eventModel = new EventModel($this->container->em);                    
             
-            $eventModel->save($eventEntity);                                   
+            $eventModel->save($eventEntity);            
 
             return $response->withJson($eventEntity->serialize(), 200);
-        } catch(\Exception $ex) {            
+        } catch(InvalidDateException $ex1) {
+            return $response->withJson($ex1->getMessage(), 402);
+        } catch(\Exception $ex2) {            
             return $response->withJson(
                 $this->handlingError(
                     [$eventEntity],
-                    $ex
+                    $ex2
                 ), 401, JSON_UNESCAPED_UNICODE);
         }
     }
