@@ -3,6 +3,7 @@
 namespace Controller;
 
 use Classes\Exceptions\InvalidDateException;
+use Classes\Exceptions\InvalidTypeException;
 use Classes\MyDateTime;
 
 use Entity\EventEntity;
@@ -61,9 +62,9 @@ class EventController extends AbstractController {
         try {            
             $json = json_decode($request->getBody());                        
 
-            $eventEntity = new EventEntity();
+            $eventEntity = new EventEntity();            
 
-            $eventEntity = $eventEntity->deserialize($json);
+            $eventEntity = $eventEntity->deserialize($json);            
                         
             $userModel = new UserModel($this->container->em);
 
@@ -81,11 +82,13 @@ class EventController extends AbstractController {
             return $response->withJson($eventEntity->serialize(), 200);
         } catch(InvalidDateException $ex1) {
             return $response->withJson($ex1->getMessage(), 402);
-        } catch(\Exception $ex2) {            
+        } catch(InvalidTypeException $ex2) { 
+            return $response->withJson($ex2->getMessage(), 402);
+        } catch(\Exception $ex3) {            
             return $response->withJson(
                 $this->handlingError(
                     [$eventEntity],
-                    $ex2
+                    $ex3
                 ), 401, JSON_UNESCAPED_UNICODE);
         }
     }

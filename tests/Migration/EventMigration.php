@@ -12,6 +12,7 @@ class EventMigration extends AbstractMigration {
             CREATE TABLE `event` (
                 `id` int(11) NOT NULL AUTO_INCREMENT,
                 `id_user` int(11) NOT NULL,
+                `active` enum('No', 'Yes') default 'Yes', 
                 `name` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
                 `description` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
                 `date` date DEFAULT NULL,

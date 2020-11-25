@@ -3,6 +3,7 @@
 namespace Entity;
 
 use Classes\MyDateTime;
+use Classes\Enums\ActiveEnum;
 
 use Entity\AbstractEntity;
 
@@ -26,6 +27,14 @@ class EventEntity extends AbstractEntity {
      * @Serializer\Type("integer")   
      */
     private $idUser;
+
+    /**
+     * @Column(name="active", type="string")          
+     * @Assert\NotBlank()  
+     * @Serializer\Exclude()
+     * @Serializer\Type("string")   
+     */
+    private $active;
 
     /**
      * @Column(name="name", type="string", length=100, nullable=true)
@@ -62,6 +71,8 @@ class EventEntity extends AbstractEntity {
 
     public function __construct() {
         parent::__construct($this);
+
+        $this->active = ActiveEnum::YES;
     }
     
     /**
@@ -84,6 +95,26 @@ class EventEntity extends AbstractEntity {
         return $this;
     }
     
+    /**
+     * Get the value of active
+     */ 
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * Set the value of active
+     *
+     * @return  self
+     */ 
+    public function setActive($active)
+    {
+        $this->active = ActiveEnum::isValid($active);
+
+        return $this;
+    }
+
     /**
      * Get the value of name
      */ 
@@ -213,8 +244,11 @@ class EventEntity extends AbstractEntity {
     public function deserialize($json) { 
         $obj = parent::deserialize($json);
 
-        $obj->setDate($json->date);         
+        $obj->setDate($json->date);   
+
+        if(empty($obj->getId()))
+            $obj->setActive(ActiveEnum::YES);      
 
         return $obj;
-    }
+    }    
 }
