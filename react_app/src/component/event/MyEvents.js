@@ -36,7 +36,7 @@ class MyEvents extends AbstractComponent {
     remover(item , i) {
         this.setState({preload: true});
 
-        EventService.delete(
+        EventService.cancelar(
             item.id
         ).then(() => {
             const event = this.state.body;
@@ -107,6 +107,7 @@ class MyEvents extends AbstractComponent {
                     head={this.state.head}
                     body={this.state.body}                    
                     remover={this.remover}
+                    titleMsgRemove={'Tem certeza de que deseja cancelar o evento?'}
                     cadastro={true}
                     editar={ true }     
                     component={ (props) => { return <Register 
