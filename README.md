@@ -18,29 +18,29 @@ List of third-party libraries
 
 ### Backend
 
-**tuupola/slim-jwt-auth:** Library responsible for authentication between two parties using a token preventing you from making any request without proper authentication.
+- **tuupola/slim-jwt-auth:** Library responsible for authentication between two parties using a token preventing you from making any request without proper authentication.
 
-**jms/serializer:** Library responsible for serializing an object to json and for deserializing a json string into an object.
+- **jms/serializer:** Library responsible for serializing an object to json and for deserializing a json string into an object.
 
-**symfony/validator:** When you use your anotations, they are responsible for validating the information provided by user, preventing any business rule from being broken. For example, the field cannot be null
+- **symfony/validator:** When you use your anotations, they are responsible for validating the information provided by user, preventing any business rule from being broken. For example, the field cannot be null
 
-**phpunit/phpunit:** Library responsible for unit tests
+- **phpunit/phpunit:** Library responsible for unit tests
 
 ### Frontend
 
-**axios:** Library responsible for sending requests and receiving responses from the backend
+- **axios:** Library responsible for sending requests and receiving responses from the backend
 
-**form-serialize:** Serialize form fields to submit a form over ajax
+- **form-serialize:** Serialize form fields to submit a form over ajax
 
-**react:** Library responsible for the development of front-end applications with interactive elements
+- **react:** Library responsible for the development of front-end applications with interactive elements
 
-**react-bootstrap:** Library offering react built Bootstrap components
+- **react-bootstrap:** Library offering react built Bootstrap components
 
-**react-dom:** Provides DOM-specific methods that can be used at the top level of your application
+- **react-dom:** Provides DOM-specific methods that can be used at the top level of your application
 
-**react-router-dom:** React standard routing library responsible for managing urls
+- **react-router-dom:** React standard routing library responsible for managing urls
 
-**react-scripts:** Contains everything you need as a sub-dependency of your project like webpack, babel, etc.
+- **react-scripts:** Contains everything you need as a sub-dependency of your project like webpack, babel, etc.
 
 Tools used
 ----------
