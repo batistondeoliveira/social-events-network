@@ -50,16 +50,39 @@ class UserController extends AbstractController {
      *    }
      */
     public function save(Request $request, Response $response) {                         
-        try {            
-            $json = json_decode($request->getBody());                        
+        try {                        
+            //$json = json_decode($request->getBody());                        
 
             $userEntity = new UserEntity();
 
-            $userEntity = $userEntity->deserialize($json);
+            $userEntity->setName($request->getParsedBodyParam('name'));
+            $userEntity->setBio($request->getParsedBodyParam('bio'));
+            $userEntity->setCity($request->getParsedBodyParam('city'));
+            $userEntity->setState($request->getParsedBodyParam('state'));
+            $userEntity->setEmail($request->getParsedBodyParam('email'));
+            $userEntity->setPassword($request->getParsedBodyParam('password'));
+
+            //$userEntity = $userEntity->deserialize($json);
             
             $userModel = new UserModel($this->container->em);
             
-            $userModel->save($userEntity);                                                     
+            $userModel->save($userEntity); 
+            
+            /**
+             * @var UploadedFile[] $upload
+             */
+            $upload = $request->getUploadedFiles();
+            if(!empty($upload) && !empty($upload['profile_picture']->getClientFilename())) {
+                $ext = pathinfo($upload['profile_picture']->getClientFilename(), PATHINFO_EXTENSION);
+
+                $fileName = $userEntity->getId() . '.' . $ext;
+
+                $upload['profile_picture']->moveTo($this->dirUpload . 'user/' . $fileName);
+
+                $userEntity->setProfilePicture($fileName);
+            }
+
+            $userModel->save($userEntity); 
 
             return $response->withJson($userEntity->serialize(), 200);
         } catch(\Exception $ex) {            
