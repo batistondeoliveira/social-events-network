@@ -84,6 +84,8 @@ class LoginContent extends AbstractComponent {
                 resposta.data,
                 this.state.form.email                
             );
+
+            this.admin();
         }).catch(error => {
             this.setState({
                 btnLogin: 'LOGIN', 

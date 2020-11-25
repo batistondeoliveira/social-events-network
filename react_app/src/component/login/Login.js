@@ -1,9 +1,11 @@
 import React from 'react';
 import LoginContent from './LoginContent';
 
+import { route } from '../../functions/Route';
+
 class Login extends React.Component {                          
     onClick() {
-        window.location.href = '/register';
+        this.props.route(route('', '', '/register'));   
     }
 
     render() {

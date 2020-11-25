@@ -120,7 +120,7 @@ class Cadastro extends AbstractComponent {
 
     success() {
         this.setState({success: ''});
-        window.location.href = '/admin';
+        this.admin();
     }
 
     render () {
