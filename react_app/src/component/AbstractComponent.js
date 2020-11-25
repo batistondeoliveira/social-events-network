@@ -2,6 +2,8 @@ import React from 'react';
 
 import AuthenticateService from '../service/AuthenticateService';
 
+import { route } from '../functions/Route';
+
 class AbstractComponent extends React.Component {         
     standardError() {
         return 'Ocorreu um erro inesperado, tente novamente mais tarde!';
@@ -10,6 +12,9 @@ class AbstractComponent extends React.Component {
     handlingError(error) {        
         let errorTxt = '';        
                 
+        if(error.response.status = 401)          
+            this.login();     
+
         if((error === undefined || error.response === undefined || error.response.data === undefined || error.response.data === '')) {                    
             errorTxt = this.standardError();
 
@@ -42,13 +47,7 @@ class AbstractComponent extends React.Component {
             return '0' + number;
 
         return number;
-    }
-
-    dateFormat(date) {
-        let dateFormat = new Date(date);
-        
-        return this.addZero(dateFormat.getDate()) + '/' + this.addZero(dateFormat.getMonth() + 1) + '/' + dateFormat.getFullYear();        
-    }
+    }    
 
     getUrl(controller, index) {
         var url = window.location.href;
@@ -86,6 +85,14 @@ class AbstractComponent extends React.Component {
 
         return true;
     }
+
+    login() {
+        this.props.route(route('', '', '/login'));   
+    }
+
+    admin() {
+        this.props.route(route('', '', '/admin'));   
+    }    
 }
 
 export default AbstractComponent;
