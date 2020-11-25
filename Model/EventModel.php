@@ -2,6 +2,9 @@
 
 namespace Model;
 
+use Classes\Exceptions\InvalidDateException;
+use Classes\MyDateTime;
+
 use Entity\EventEntity;
 use Entity\UserEntity;
 
@@ -17,7 +20,7 @@ class EventModel extends AbstractModel {
 
         return $this->getRepository()                        
             ->createQueryBuilder("e")
-            ->select('e.id, e.name, DATE(e.date) as date, e.time, e.place')
+            ->select("e.id, e.name, DATE_FORMAT(e.date, '%Y-%m-%d') as date, e.time, e.place")
             ->andWhere('e.date >= :date')
             ->setParameter('date', $date)            
             ->getQuery()
@@ -27,10 +30,20 @@ class EventModel extends AbstractModel {
     public function getEventsByEmailUser($email) {        
         return $this->getRepository()    
             ->createQueryBuilder("e")                    
-            ->select('e.id, e.name, DATE(e.date) as date, e.time, e.place')            
+            ->select("e.id, e.name, e.description, DATE_FORMAT(e.date, '%Y-%m-%d') as date, e.time, e.place")
             ->Join(UserEntity::class, 'u', 'WITH', 'u.id = e.idUser and u.email = :email')            
             ->setParameter('email', $email)            
             ->getQuery()
             ->getResult(); 
+    }
+
+    public function save($eventEntity) {
+        $date1 = MyDateTime::dateToTimeStamp($eventEntity->getDate());           
+        $date2 = MyDateTime::dateToTimeStamp(new \DateTime());
+            
+        if($date1 < $date2)
+            throw new InvalidDateException('A data do evento não pode ser menor que a data atual');
+
+        parent::save($eventEntity);
     }
 }
