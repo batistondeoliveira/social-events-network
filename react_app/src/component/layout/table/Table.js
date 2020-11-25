@@ -100,7 +100,7 @@ class Table extends AbstractComponent {
                     onHide={() => this.setState({ modal: false })}>
 
                     <Modal.Body>
-                        <Modal.Title>Tem certeza que deseja remover este registro?</Modal.Title>
+                        <Modal.Title>{this.props.titleMsgRemove}</Modal.Title>
                     </Modal.Body>
 
                     <Modal.Footer>
@@ -157,7 +157,8 @@ class Table extends AbstractComponent {
 }
 
 Table.defaultProps = {
-    codigo: 'id'
+    codigo: 'id',
+    titleMsgRemove: 'Tem certeza que deseja remover este registro?'
 };
 
 export default  Table;

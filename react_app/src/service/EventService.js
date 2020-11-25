@@ -6,14 +6,20 @@ class EventService {
         return RequestService.post(Config.urlApi + 'event', data);
     }              
 
-    static async delete(id) {                
-        return RequestService.delete(Config.urlApi + 'event/' + id);
+    static async cancelar(id) {                
+        return RequestService.get(Config.urlApi + 'event/' + id);
     } 
 
-    static async list() {                
-        return RequestService.get(Config.urlApi + 'event/list');
+    static async list(filter) {                
+        return RequestService.post(Config.urlApi + 'event/list', {
+            filter: filter
+        });
     } 
     
+    static async placeList() {                
+        return RequestService.get(Config.urlApi + 'event/place/list');
+    }
+
     static async getById(id) {                
         return RequestService.get(Config.urlApi + 'event/detail/' + id);
     } 

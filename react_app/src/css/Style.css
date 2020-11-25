@@ -10,6 +10,7 @@
 
 .modal-body {
     text-align: left;
+    height: 51px;
 }
 
 a:not([href]):hover {

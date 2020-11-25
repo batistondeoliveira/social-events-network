@@ -2,6 +2,7 @@
 
 namespace Model;
 
+use Classes\Enums\ActiveEnum;
 use Classes\Exceptions\InvalidDateException;
 use Classes\MyDateTime;
 
@@ -15,16 +16,37 @@ class EventModel extends AbstractModel {
         parent::__construct($em, EventEntity::class);
     }
 
-    public function getAllActiveEvent() {
+    public function getAllActiveEvent($filter) {
         $date = (new \DateTime())->format('Y-m-d');
 
-        return $this->getRepository()                        
+        $query = $this->getRepository()                        
             ->createQueryBuilder("e")
             ->select("e.id, e.name, DATE_FORMAT(e.date, '%Y-%m-%d') as date, e.time, e.place")
             ->andWhere('e.date >= :date')
-            ->setParameter('date', $date)            
-            ->getQuery()
-            ->getResult(); 
+            ->setParameter('date', $date)   
+            ->andWhere("e.active = :active")
+            ->setParameter('active', ActiveEnum::YES);
+
+        if(count($filter) > 0) {
+            foreach($filter as $value) {
+                if($value['field'] === 'date') {
+                    $query = $query
+                        ->andWhere("e." . $value['field'] . ' = :' . $value['field'])
+                        ->setParameter($value['field'], MyDateTime::data_db($value['value']));
+
+                    continue;
+                }
+
+                $query = $query
+                    ->andWhere("e." . $value['field'] . ' = :' . $value['field'])
+                    ->setParameter($value['field'], $value['value']);
+            }
+        }
+
+        $query = $query
+            ->getQuery();            
+
+        return $query->getResult(); 
     }
 
     public function getEventsByEmailUser($email) {        
@@ -32,7 +54,9 @@ class EventModel extends AbstractModel {
             ->createQueryBuilder("e")                    
             ->select("e.id, e.name, e.description, DATE_FORMAT(e.date, '%Y-%m-%d') as date, e.time, e.place")
             ->Join(UserEntity::class, 'u', 'WITH', 'u.id = e.idUser and u.email = :email')            
-            ->setParameter('email', $email)            
+            ->setParameter('email', $email)  
+            ->andWhere("e.active = :active")
+            ->setParameter('active', ActiveEnum::YES)          
             ->getQuery()
             ->getResult(); 
     }
@@ -45,5 +69,16 @@ class EventModel extends AbstractModel {
             throw new InvalidDateException('A data do evento não pode ser menor que a data atual');
 
         parent::save($eventEntity);
+    }
+
+    public function placeList() {
+        return $this->getRepository()    
+            ->createQueryBuilder("e")                    
+            ->select("e.place")                        
+            ->andWhere("e.active = :active")
+            ->setParameter('active', ActiveEnum::YES)          
+            ->groupBy('e.place')
+            ->getQuery()
+            ->getResult();
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Controller;
 
+use Classes\Enums\ActiveEnum;
 use Classes\Exceptions\InvalidDateException;
 use Classes\Exceptions\InvalidTypeException;
 use Classes\MyDateTime;
@@ -38,9 +39,11 @@ class EventController extends AbstractController {
      *      "place": "Shopping Campinas"
      *    }
      * 
-     * @apiError (401) MessageError Validation error message     
-     * @apiError (402) InvalidDateException A data do evento não pode ser menor que a data atual
-     * @apiError (403) String Usuário não encontrado
+     * @apiError (401) String Unauthorized action
+     * @apiError (402) String Usuário não encontrado 
+     * @apiError (403) InvalidDateException A data do evento não pode ser menor que a data atual     
+     * @apiError (404) InvalidTypeException Tipo do campo %s inválido
+     * @apiError (405) MessageError Validation error message     
      *
      * @apiSuccess (200) {String} json Persisted user json object
      * 
@@ -71,7 +74,7 @@ class EventController extends AbstractController {
             $userEntity = $userModel->getByEmail($this->auth->getEmail());
 
             if(empty($userEntity))
-                return $response->withJson('Usuário não encontrado', 403, JSON_UNESCAPED_UNICODE);
+                return $response->withJson('Usuário não encontrado', 402, JSON_UNESCAPED_UNICODE);
 
             $eventEntity->setIdUser($userEntity->getId());
 
@@ -81,15 +84,15 @@ class EventController extends AbstractController {
 
             return $response->withJson($eventEntity->serialize(), 200);
         } catch(InvalidDateException $ex1) {
-            return $response->withJson($ex1->getMessage(), 402);
+            return $response->withJson($ex1->getMessage(), 403);
         } catch(InvalidTypeException $ex2) { 
-            return $response->withJson($ex2->getMessage(), 402);
+            return $response->withJson($ex2->getMessage(), 404);
         } catch(\Exception $ex3) {            
             return $response->withJson(
                 $this->handlingError(
                     [$eventEntity],
                     $ex3
-                ), 401, JSON_UNESCAPED_UNICODE);
+                ), 405, JSON_UNESCAPED_UNICODE);
         }
     }
 
@@ -99,13 +102,25 @@ class EventController extends AbstractController {
      * @apiName list
      * @apiGroup event
      *           
+     * @apiParam (parameters) {array} filter Array with event filters by date and / or place
+     * 
+     * @apiParamExample {json} Exemple Value
+     *    [     
+     *      "data": "24/05/2021"
+     *      "place": "Shopping",    
+     *    ]
+     * 
      * @apiSuccess (200) {jsonArray} data List all available events
      *      
      */
-    public function getAllActiveEvent(Request $request, Response $response) {                         
-        $eventModel = new EventModel($this->container->em);        
+    public function getAllActiveEvent(Request $request, Response $response) {
+        $eventModel = new EventModel($this->container->em);  
         
-        return $response->withJson($this->serialize($eventModel->getAllActiveEvent()), 200);
+        $filter = $request->getParsedBodyParam('filter');
+        
+        $list = $eventModel->getAllActiveEvent($filter);
+        
+        return $response->withJson($this->serialize($list), 200);
     }
 
     /**
@@ -183,29 +198,51 @@ class EventController extends AbstractController {
     }
 
     /**
-     * @api {delete} /event/{id} Delete an event by id
+     * @api {get} /event/{id} Cancel an event by id
      * @apiVersion 1.0.0
      * @apiName event/
      * @apiGroup event          
      * 
      * @apiError (401) String Unauthorized action
+     * @apiError (402) String Evento não encontrado
+     * @apiError (403) String Você só pode cancelar seus próprios eventos
      * 
      * 
-     * @apiSuccess (200) {String} mensagem Evento excluído com sucesso
+     * @apiSuccess (200) {String} mensagem Evento cancelado com sucesso
      *          
      */
-    public function delete(Request $request, Response $response, $args) {
+    public function cancelar(Request $request, Response $response, $args) {
         $this->auth($request);
-
+        
         $eventModel = new EventModel($this->container->em);                
         
         $eventEntity = $eventModel->getById($args['id']);
         
         if(empty($eventEntity))
-            return $response->withJson('Evento excluído com sucesso', 200, JSON_UNESCAPED_UNICODE);
+            return $response->withJson('Evento não encontrado', 402, JSON_UNESCAPED_UNICODE);
 
-        $eventModel->remove($eventEntity);
+        if($this->auth->getId() !== $eventEntity->getIdUser())
+            return $response->withJson('Você só pode cancelar seus próprios eventos', 403, JSON_UNESCAPED_UNICODE);
 
-        return $response->withJson('Evento excluído com sucesso', 200, JSON_UNESCAPED_UNICODE);
+        $eventEntity->setActive(ActiveEnum::NO);
+
+        $eventModel->save($eventEntity);
+
+        return $response->withJson('Evento cancelado com sucesso', 200, JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * @api {get} /event/place/list List all available place
+     * @apiVersion 1.0.0
+     * @apiName place/list
+     * @apiGroup event
+     *           
+     * @apiSuccess (200) {jsonArray} data List all available place
+     *      
+     */
+    public function placeList(Request $request, Response $response) {                         
+        $eventModel = new EventModel($this->container->em);        
+        
+        return $response->withJson($this->serialize($eventModel->placeList()), 200);
     }
 }

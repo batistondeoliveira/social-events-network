@@ -139,15 +139,7 @@ class Cadastro extends AbstractComponent {
 
     render () {
         return (                                     
-            <Form id="form" onSubmit={(e) => this.onSubmit(e)}> 
-                <input type="hidden" name="id" defaultValue={this.state.form.id} />                
-                <input type="hidden" name="profile_picture" defaultValue={this.state.form.profile_picture} />
-                <input type="hidden" name="bio" defaultValue={this.state.form.bio} />
-                <input type="hidden" name="city" defaultValue={this.state.form.city} />
-                <input type="hidden" name="state" defaultValue={this.state.form.state} />
-                <input type="hidden" name="email" defaultValue={this.state.form.email} />                    
-                <input type="hidden" name="password" defaultValue={this.state.form.password}/> 
-
+            <Form id="form" onSubmit={(e) => this.onSubmit(e)}>                 
                 <ModalAlerta 
                     show={this.state.error !== ''}
                     text={this.state.error}

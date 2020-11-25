@@ -10,4 +10,11 @@ class MyDateTime {
         
         return strtotime($date1);        
     }
+
+    public static function data_db($data){
+        $data = str_replace('_', '0', $data);
+        $regex = (strstr(':',$data)) ? '/^([0-9]{2})\/{1}([0-9]{2})\/{1}([0-9]{4})$/' : '/^([0-9]{2})\/{1}([0-9]{2})\/{1}([0-9]{4})(.*?)$/';
+        $replace = (strstr(':',$data)) ? '$3-$2-$1' : '$3-$2-$1$4';
+        return preg_replace($regex,$replace,$data);
+	}
 }
