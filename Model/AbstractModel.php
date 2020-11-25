@@ -53,4 +53,22 @@ abstract class AbstractModel {
                 'id' => $id
             ]);
     }
+
+    public function getConnection() {
+        return $this->getEm()
+            ->getConnection();
+    }
+    
+    public function openSql($sql, $params = []) {
+        $conn = $this->getConnection();  
+
+        $stmt = $conn->prepare($sql);
+
+        if(count($params) === 0)
+            $stmt->execute();
+        else
+            $stmt->execute($params);        
+
+        return $stmt->fetchAll();
+    }
 }

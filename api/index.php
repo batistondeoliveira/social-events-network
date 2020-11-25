@@ -54,7 +54,10 @@ $app->add(new Slim\Middleware\JwtAuthentication([
         '/event',
         '/event/list',
         '/event/detail',
-        '/event/place/list'
+        '/event/place/list',
+
+        //friendship
+        '/friendship'
     ],
     "realm" => "Protected",
     "secure" => false,

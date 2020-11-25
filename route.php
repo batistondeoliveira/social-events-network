@@ -11,3 +11,6 @@ $app->get('/event/detail/{id}', 'Controller\EventController:getById');
 $app->post('/event/list', 'Controller\EventController:getAllActiveEvent');
 $app->get('/event/{id}', 'Controller\EventController:cancelar');
 $app->get('/event/place/list', 'Controller\EventController:placeList');
+
+//Friendship
+$app->get('/friendship', 'Controller\FriendshipController:list');
