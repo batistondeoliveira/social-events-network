@@ -3,10 +3,11 @@
 namespace Classes;
 
 class MyDateTime {    
-    public static function convertStrToDate($date) {                    
-        if(strstr($date, '/')) 
-            $date = \DateTime::createFromFormat('d/m/Y', $date)->format('Y-m-d');         
+    const DateFormat = 'd/m/Y';    
 
-        return new \DateTime($date);         
+    public static function dateToTimeStamp($dateTime) {
+        $date1 = $dateTime->format('Y-m-d');
+        
+        return strtotime($date1);        
     }
 }

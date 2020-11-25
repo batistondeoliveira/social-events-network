@@ -7,7 +7,7 @@ $driver = new \Doctrine\ORM\Mapping\Driver\AnnotationDriver(new \Doctrine\Common
 $configDoctrine->setMetadataDriverImpl($driver);
 $configDoctrine->setProxyDir('../Model/Proxy');
 $configDoctrine->setProxyNamespace('Model\Proxy');
-$configDoctrine->addCustomStringFunction('DATE', 'Classes\DoctrineExtensions\Date');
+$configDoctrine->addCustomStringFunction('DATE_FORMAT', 'Classes\DoctrineExtensions\DateFormat');
 
 $configDoctrine->setAutoGenerateProxyClasses(true);
 

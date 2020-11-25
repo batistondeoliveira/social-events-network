@@ -44,7 +44,7 @@ class EventEntity extends AbstractEntity {
     /**
      * @Column(name="date", type="date", nullable=true)
      * @Assert\NotBlank()          
-     * @Serializer\Type("datetime")   
+     * @Serializer\Type("string")   
      */
     private $date;
     
@@ -58,12 +58,7 @@ class EventEntity extends AbstractEntity {
      * @Column(name="place", type="string", length=255, nullable=true)   
      * @Serializer\Type("string")     
      */    
-    private $place;        
-    
-    /**     
-     * @Serializer\Type("string")     
-     */        
-    private $user; //transient field
+    private $place;            
 
     public function __construct() {
         parent::__construct($this);
@@ -127,18 +122,15 @@ class EventEntity extends AbstractEntity {
         $this->description = $description;
 
         return $this;
-    }
+    }    
 
     /**
      * Get the value of date
      */ 
     public function getDate()
-    {
-        if(empty($this->date))
-            return ;
-
-        return $this->date->format('d/m/Y');
-    }
+    {        
+        return $this->date;
+    }    
 
     /**
      * Set the value of date
@@ -147,7 +139,7 @@ class EventEntity extends AbstractEntity {
      */ 
     public function setDate($date)
     {
-        $this->date = MyDateTime::convertStrToDate($date);
+        $this->date = \DateTime::createFromFormat(MyDateTime::DateFormat, $date);
 
         return $this;
     }
@@ -210,14 +202,12 @@ class EventEntity extends AbstractEntity {
         $this->user = $user;
 
         return $this;
-    }
+    }    
 
     public function serialize() {
-        $json = parent::serialize();
+        $this->date = $this->getDate()->format('Y-m-d');
 
-        $json['date'] = $this->getDate();
-
-        return $json;
+        return parent::serialize();                    
     }
 
     public function deserialize($json) { 
