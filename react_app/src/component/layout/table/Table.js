@@ -2,6 +2,8 @@ import React from 'react';
 import AbstractComponent from '../../AbstractComponent';
 import {Modal} from 'react-bootstrap';
 
+import { dateFormat } from '../../../functions/Format';
+
 class Table extends AbstractComponent {
 
     constructor(props) {
@@ -59,10 +61,9 @@ class Table extends AbstractComponent {
         this.setState({modal: false})
     }
 
-    cadastro() {
-        if(this.props.cadastro === true) {
-            return this.props.component({item: this.state.editarItem, indice: this.state.editarIndice});
-        }
+    cadastro() {        
+        if(this.props.cadastro === true) 
+            return this.props.component({item: this.state.editarItem, indice: this.state.editarIndice});        
     }    
 
     fecharCadastro() {
@@ -70,8 +71,8 @@ class Table extends AbstractComponent {
     }
 
     showField(item, itemHead) {
-        if(itemHead.type === 'date')
-            return this.dateFormat(item[itemHead.campo]);
+        if(itemHead.type === 'date') 
+            return dateFormat(item[itemHead.campo]);        
 
         return item[itemHead.campo];
     }
