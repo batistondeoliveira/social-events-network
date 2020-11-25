@@ -8,24 +8,27 @@ import EventList from './component/event/List';
 import EventDetail from './component/event/Detail';
 import Admin from './Admin';
 
+
 import './css/Style.css'
 class Public extends AbstractComponent {
     admin() {
         if(!this.isAdmin())
-            return ;
+            return (
+                <Login />
+            );
 
         return (
             <Route 
-                    exact 
-                    path='/admin'
-                    render={props => 
-                        <Admin
-                            {...props}
-                                
-                            route={(item) => this.browserRoute.history.push(item.link)}
-                        />
-                    }
-                />
+                exact 
+                path='/admin'
+                render={props => 
+                    <Admin
+                        {...props}
+                            
+                        route={(item) => this.browserRoute.history.push(item.link)}
+                    />
+                }
+            />
         );
     }
 

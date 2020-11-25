@@ -19,3 +19,8 @@ a:not([href]):hover {
 label {
     font-weight: bold;
 }
+
+.modal-title {
+    color: #000000;
+    position: absolute;
+}

@@ -23,7 +23,7 @@ abstract class AbstractTestCase extends TestCase {
         $configDoctrine->setProxyDir('../Model/Proxy');
         $configDoctrine->setProxyNamespace('Model\Proxy');        
         $configDoctrine->setAutoGenerateProxyClasses(true);   
-        $configDoctrine->addCustomStringFunction('DATE', 'Classes\DoctrineExtensions\Date');             
+        $configDoctrine->addCustomStringFunction('DATE_FORMAT', 'Classes\DoctrineExtensions\DateFormat');             
 
         $this->em = \Doctrine\ORM\EntityManager::create($config['db'], $configDoctrine);        
 
