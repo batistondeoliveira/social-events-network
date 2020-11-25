@@ -46,6 +46,6 @@ Tools used
 ----------
 
 1. __Code:__ The code was the tool used to code the project. The reason is that it is light, easy to use and has several extensions that provide good productivity
-2. __Insumia:__ Tool used to test backend functionality
+2. __Insomnia:__ Tool used to test backend functionality
 3. __PHPUnit:__ Tool used to create unit tests
 4. __APIDoc:__ Tool used to create api documentation
