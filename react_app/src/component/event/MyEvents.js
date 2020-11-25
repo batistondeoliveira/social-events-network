@@ -62,6 +62,11 @@ class MyEvents extends AbstractComponent {
         ).then(response => {
             this.setState({body: response.data, preload: false})
         }).catch(error => {
+            if(this.is401Error(error)) {
+                this.props.route(this.goLoginArea());
+                return;
+            }
+                
             this.setState({
                 preload: false,
                 error: this.handlingError(error)                
@@ -105,7 +110,9 @@ class MyEvents extends AbstractComponent {
                     cadastro={true}
                     editar={ true }     
                     component={ (props) => { return <Register 
-                            ok={(item, i) => this.add(item, i)} {...props}                              
+                            ok={(item, i) => this.add(item, i)} {...props}    
+                            
+                            route={item => this.props.route(item)}
                         />
                     }}
                 />
