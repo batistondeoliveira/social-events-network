@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import AbstractComponent from '../AbstractComponent';
 import Input from "../layout/input/Input";
 import Form from "../layout/form/Form";
@@ -94,7 +94,7 @@ class Register extends AbstractComponent {
         return true;
     }    
 
-    onSubmit() {                   
+    onSubmit(data) {                   
         if(!this.validateForm())
             return ;
 
@@ -102,7 +102,7 @@ class Register extends AbstractComponent {
             btnFinalizar: 'AGUARDE...'
         });                
 
-        EventService.save(this.state.form).then(response => {            
+        EventService.save(data).then(response => {            
             this.props.ok({
                 id: response.data.id,
                 name: response.data.name,
@@ -110,7 +110,12 @@ class Register extends AbstractComponent {
                 time: response.data.time,
                 place: response.data.place,
             }, this.props.indice);
-        }).catch(error => {                 
+        }).catch(error => { 
+            if(this.is401Error(error)) {
+                this.props.route(this.goLoginArea());
+                return ;
+            }
+                                
             this.setState({                
                 btnFinalizar: 'FINALIZAR',
                 error: this.handlingError(error)
@@ -131,7 +136,7 @@ class Register extends AbstractComponent {
 
     render () {
         return (                  
-            <Form onSubmit={() => this.onSubmit()} id="form">                           
+            <Form onSubmit={(data) => this.onSubmit(data)} id="form">                           
                 <ModalAlerta 
                     show={this.state.error !== ''}
                     text={this.state.error}
