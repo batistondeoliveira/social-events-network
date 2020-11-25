@@ -78,9 +78,8 @@ class EventModelTest extends AbstractTestCase {
 
         $migration = new EventMigration($this->getEm());
         $migration->up();        
-
-        for($cont = 0; $cont < 2; $cont++)
-            $this->createEvent(date('d/m/Y', strtotime(date('Y-m-d')."-". $cont . " month")));        
+        
+        $this->createEvent((new \DateTime())->format('d/m/Y'));
 
         $modelEvent = new EventModel($this->getEm());
 
