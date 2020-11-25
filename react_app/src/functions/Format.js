@@ -1,5 +1,5 @@
 export function dateFormat(data) {
-    if (data === '' || data === null)
+    if (data === undefined || data === '' || data === null)
         return '';
 
     data = "" + data + "";

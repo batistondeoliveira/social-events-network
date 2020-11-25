@@ -6,6 +6,8 @@ import ModalAlerta from '../layout/modal/ModalAlerta';
 
 import EventService from '../../service/EventService';
 
+import {dateFormat} from '../../functions/Format';
+
 class Detail extends AbstractComponent {
     constructor(props) {
         super(props);        
@@ -92,7 +94,7 @@ class Detail extends AbstractComponent {
 
                         &nbsp;
 
-                        {this.state.form.date}
+                        {dateFormat(this.state.form.date)}
                     </div>
 
                     <div className="col-md-6
