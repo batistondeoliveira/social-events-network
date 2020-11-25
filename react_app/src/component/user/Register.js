@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import AbstractComponent from '../AbstractComponent';
 import Input from "../layout/input/Input";
 import Form from "../layout/form/Form";

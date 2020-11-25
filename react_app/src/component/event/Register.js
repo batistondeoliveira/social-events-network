@@ -80,7 +80,7 @@ class Register extends AbstractComponent {
             showError = true;
         }        
         
-        if(form.time !== form.time) {
+        if(!form.time) {
             error.password = "Informe o campo hora";
             showError = true;
         }
@@ -124,10 +124,8 @@ class Register extends AbstractComponent {
     }                    
 
     componentDidMount() {
-        if(this.props.item !== undefined) { 
-            let form = form;
-            
-            form = this.props.item;
+        if(this.props.item !== undefined) {                         
+            let form = this.props.item;
             form.date = dateFormat(form.date);
 
             this.setState({form: form});

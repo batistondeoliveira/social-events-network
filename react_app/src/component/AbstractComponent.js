@@ -10,7 +10,7 @@ class AbstractComponent extends React.Component {
     }
 
     is401Error(error) {
-        if(error.response.status = 401)                      
+        if(error.response.status === 401)                      
             return true;
 
         return false;
