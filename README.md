@@ -1,4 +1,4 @@
-# social-events-network
+# Social Events Network
 =======================
 
 Social event network project for the coderock selection process
@@ -6,12 +6,12 @@ Social event network project for the coderock selection process
 Introduction
 ------------
 
-**1st Part:** After downloading the project from the git you shold run the instruction npm install inside the react_app folder.
+**1st Part:** After downloading the project from the git you shold run the instruction `npm install` inside the react_app folder.
 This will install all necessary libraries. However, you must have installed the node package manager `(npm)`
 
 NOTE: Please, if necessary ask me to send my vendor folder with all the necessary libraries.
 
-**2nd Part:** After the 1st part, run the instruction npm build inside the react_app folder.
+**2nd Part:** After the 1st part, run the instruction `npm build` inside the react_app folder.
 
 List of third-party libraries
 -----------------------------
