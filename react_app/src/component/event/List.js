@@ -10,6 +10,8 @@ import InputSelectPlace from './InputSelectPlace';
 
 import EventService from '../../service/EventService';
 
+import {route} from '../../functions/Route';
+
 class List extends AbstractComponent {
     constructor(props) {
         super(props);        
@@ -34,7 +36,7 @@ class List extends AbstractComponent {
     }
 
     onOpenClick(referenceId) {
-        window.location.href = '/detail/' + referenceId;
+        this.props.route(route('', '', '/detail/' + referenceId));
     }
 
     onChange(e) {
