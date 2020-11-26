@@ -15,9 +15,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @Entity()
- * @Table(name= "friend")
+ * @Table(name= "friendship")
  */
-class FriendEntity extends AbstractEntity {         
+class FriendshipEntity extends AbstractEntity {         
     /**
      * @Column(name="id_user", type="integer")     
      * @Assert\NotBlank()   
@@ -26,11 +26,11 @@ class FriendEntity extends AbstractEntity {
     private $idUser;
     
     /**
-     * @Column(name="id_user_friend", type="integer")     
+     * @Column(name="id_user_friendship", type="integer")     
      * @Assert\NotBlank()   
      * @Serializer\Type("integer")        
      */    
-    private $idUserFriend;
+    private $idUserFriendship;
 
     public function __construct() {
         parent::__construct($this);
@@ -63,21 +63,21 @@ class FriendEntity extends AbstractEntity {
     }
 
     /**
-     * Get the value of idUserFriend
+     * Get the value of idUserFriendship
      */ 
-    public function getIdUserFriend()
+    public function getIdUserFriendship()
     {
-        return $this->idUserFriend;
+        return $this->idUserFriendship;
     }
 
     /**
-     * Set the value of idUserFriend
+     * Set the value of idUserFriendship
      *
      * @return  self
      */ 
-    public function setIdUserFriend($idUserFriend)
+    public function setIdUserFriendship($idUserFriendship)
     {
-        $this->idUserFriend = $idUserFriend;
+        $this->idUserFriendship = $idUserFriendship;
 
         return $this;
     }    

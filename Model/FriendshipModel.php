@@ -13,8 +13,10 @@ class FriendshipModel extends AbstractModel {
 
     public function list($idUser) {
         return $this->openSql("
-            SELECT u.name, 
-                   u.email
+            SELECT u.id,
+                   u.name, 
+                   u.email,
+                   'Owner' as type
             FROM `user` u, 
                  friendship fr
             WHERE fr.id_user_friendship = u.id 
@@ -22,8 +24,10 @@ class FriendshipModel extends AbstractModel {
 
             UNION 
 
-            SELECT u.name, 
-                   u.email
+            SELECT u.id,
+                   u.name, 
+                   u.email,
+                   'Friendship' as type
             FROM `user` u, 
                  friendship fr
             WHERE u.id = fr.id_user
@@ -31,5 +35,13 @@ class FriendshipModel extends AbstractModel {
         ", array(
             'idUser' => $idUser
         ));
+    }
+
+    public function getByIdFriendship($idUser, $idUserFriendship) {
+        return $this->getRepository()            
+            ->findOneBy([   
+                'idUser' => $idUser, 
+                'idUserFriendship' => $idUserFriendship
+            ]);
     }
 }
