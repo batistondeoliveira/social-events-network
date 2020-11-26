@@ -32,7 +32,8 @@ class TopNav extends AbstractComponent {
         if(this.props.menu === undefined)
             return ;
             
-        this.props.menu.map((item, i ) => {
+        return (
+            this.props.menu.map((item, i ) => {
             return(
                 <a 
                     className="dropdown-item" 
@@ -43,12 +44,14 @@ class TopNav extends AbstractComponent {
                         <i className={item.icone} aria-hidden="true" />                                            
                     </span>
                     
+                    &nbsp;
+                    
                     <span className="btn-navigation__label">
                         {item.nome}
                     </span>                                                                            
                 </a>                                    
-            )
-        })        
+            )})
+        )      
     }
 
     showMenu() {
@@ -100,14 +103,17 @@ class TopNav extends AbstractComponent {
     render() {
         return (
             <nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-                <a className="navbar-brand" onClick={() => this.props.route(this.homePage2())}>
-                    Rede de Eventos Sociais
+                <a className="navbar-brand" onClick={() => this.props.onClick()}>
+                    {this.props.title}
                 </a>                            
 
-                <button className="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" onClick={() => this.onClick()}>
-                    <i className="fas fa-bars">
-                    </i>
-                </button>
+                {
+                    this.props.showIconMenu &&                
+                    <button className="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" onClick={() => this.onClick()}>
+                        <i className="fas fa-bars">
+                        </i>
+                    </button>
+                }
                 
                 <div className="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">                    
                 </div>
@@ -120,6 +126,10 @@ class TopNav extends AbstractComponent {
             </nav>
         )
     }
+}
+
+TopNav.defaultProps = {
+    showIconMenu: true
 }
 
 export default TopNav;

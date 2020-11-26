@@ -47,6 +47,16 @@ class AbstractComponent extends React.Component {
         return errorTxt;
     }      
 
+    addMenu(icone, nome, link) {
+        let menu = {};
+
+        menu.icone = icone;
+        menu.nome = nome;
+        menu.link = link;
+
+        return menu;
+    }
+
     addZero(number) {
         if(number <= 9)
             return '0' + number;
@@ -101,6 +111,10 @@ class AbstractComponent extends React.Component {
 
     homePage() {        
         window.location.href = '/';
+    } 
+
+    homePage2() {        
+        return route('', '', '/');   
     } 
 
     logout() {        

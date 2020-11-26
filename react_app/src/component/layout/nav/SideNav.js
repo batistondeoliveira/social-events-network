@@ -1,22 +1,47 @@
 import React from 'react';
    
-class SideNav extends React.Component {      
+class SideNav extends React.Component {    
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            active: -1
+        }
+    }  
+
+    link(item, i) {
+        this.props.route(item);
+        this.setState({active: i})
+    }
+
     showComponent() {        
         if(this.props.menu === undefined)
             return ;
 
-        this.props.menu.map((item, i ) => {
-            return(
-                <a className="nav-link" href="index.html">
-                    <div className="sb-nav-link-icon">
-                        <i className={item.icone} />                                            
-                    </div>
+        this.props.menu.map((item, i) => {
+            const link = (typeof item.link === 'string') ? item.link : -1;
 
-                    {item.nome}
-                </a>
-            );
-        });
-    }
+            if(window.location.pathname === link) 
+                this.state.active = i;            
+        })
+
+        return (
+            this.props.menu.map((item, i ) => {
+                return(
+                    <a 
+                        className={"nav-link " + (this.state.active === i ? 'active' : '')}
+                        onClick={() => this.link(item, i)}
+                    >
+                        <div className="sb-nav-link-icon">
+                            <i className={item.icone} />                                            
+                        </div>
+
+                        {item.nome}
+                    </a>
+                );
+            })
+        );
+    }    
 
     render() {
         return (

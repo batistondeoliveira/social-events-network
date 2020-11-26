@@ -38,3 +38,9 @@ label {
     background-color: green !important;
     color: #ffffff;
 }
+
+@media (min-width: 992px) {
+    .sb-sidenav-toggled #layoutSidenav #layoutSidenav_content {
+        margin-left: -118px;
+    }
+}
