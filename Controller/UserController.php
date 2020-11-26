@@ -33,7 +33,7 @@ class UserController extends AbstractController {
      *      "state": "MG"
      *    }
      * 
-     * @apiError (401) MessageError Validation error message     
+     * @apiError (405) MessageError Validation error message     
      *
      * @apiSuccess (200) {String} json Persisted user json object
      * 
@@ -51,8 +51,6 @@ class UserController extends AbstractController {
      */
     public function save(Request $request, Response $response) {                         
         try {                        
-            //$json = json_decode($request->getBody());                        
-
             $userEntity = new UserEntity();
 
             $userEntity->setName($request->getParsedBodyParam('name'));
@@ -60,9 +58,7 @@ class UserController extends AbstractController {
             $userEntity->setCity($request->getParsedBodyParam('city'));
             $userEntity->setState($request->getParsedBodyParam('state'));
             $userEntity->setEmail($request->getParsedBodyParam('email'));
-            $userEntity->setPassword($request->getParsedBodyParam('password'));
-
-            //$userEntity = $userEntity->deserialize($json);
+            $userEntity->setPassword($request->getParsedBodyParam('password'));            
             
             $userModel = new UserModel($this->container->em);
             
@@ -90,7 +86,7 @@ class UserController extends AbstractController {
                 $this->handlingError(
                     [$userEntity],
                     $ex
-                ), 401, JSON_UNESCAPED_UNICODE);
+                ), 405, JSON_UNESCAPED_UNICODE);
         }
     }
 
