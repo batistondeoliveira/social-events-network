@@ -2,10 +2,10 @@ import React from 'react';
 
 class Title extends React.Component {
     render() {
-        return(
-            <div className="principal">
-                <h1>{this.props.title}</h1>
-            </div>
+        return(            
+            <h1 className="mt-4 mb-4">
+                {this.props.title}
+            </h1>
         )
     }
 }
