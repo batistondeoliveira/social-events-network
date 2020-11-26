@@ -3,6 +3,7 @@
 //User
 $app->post('/user', 'Controller\UserController:save');
 $app->post('/user/login', 'Controller\UserController:login');
+$app->post('/logout', 'Controller\UserController:logout');
 
 //Event
 $app->post('/event', 'Controller\EventController:save');

@@ -5,6 +5,7 @@ namespace Controller;
 use Entity\UserEntity;
 
 use Model\UserModel;
+use Model\UserLoginModel;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -120,11 +121,44 @@ class UserController extends AbstractController {
 
         $userModel = new UserModel($this->container->em);
         
-        $token = $userModel->login($key, $email, $password);
+        $userEntity = $userModel->login($key, $email, $password, $token);
 
         if(empty($token))
-            return $response->withJson('Usuário e/ou senha inválido', 401, JSON_UNESCAPED_UNICODE);                
+            return $response->withJson('Usuário e/ou senha inválido', 401, JSON_UNESCAPED_UNICODE);
+            
+        if(empty($userEntity))
+            return $response->withJson('Usuário e/ou senha inválido', 401, JSON_UNESCAPED_UNICODE);
 
-        return $response->withJson($token, 200);        
+        return $response->withJson([            
+            'token' => $token,
+            'name' => $userEntity->getName()
+        ], 200);        
+    }
+
+    /**
+     * @api {post} /logout User logout
+     * @apiVersion 1.0.0
+     * @apiName logout
+     * @apiGroup user
+     *
+     * @apiHeader {String} x-token header User's token     
+     * 
+     * @apiHeaderExample {json} Header-Example:
+     *    {
+     *       "X-Token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uIjoiJDJ5JDEwJDRVcWQyWWtlYlQ0b0R0VDVmc3JKc2V1SGdKOEhrOTZVZzN5VHZrbUc0MlhGOWRyeVBuOVF1IiwiaWQiOjEsImlhdCI6MTYwNjE4MTcxOCwiZXhwIjoxNjA2MTg1MzE4fQ.MgVgpZF_pCUBlXVyvT8SOU708y2-1nqEdxGJkXImucQ"     
+     *    }     
+     *                    
+     *
+     * @apiSuccess (200) {String} String Logout efetuado com sucesso
+     *      
+     */
+    public function logout(Request $request, Response $response) {        
+        $userLoginModel = new UserLoginModel($this->container->em);        
+                
+        $token = $request->getHeaderLine('X-Token');        
+
+        $userLoginModel->logout($token);            
+
+        return $response->withJson('Logout efetuado com sucesso', 200);      
     }
 }

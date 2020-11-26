@@ -29,3 +29,12 @@ label {
 .modal-content, .modal-body {
     height: auto;
 }
+
+.display-none {
+    display: none;
+}
+
+.table-checked {
+    background-color: green !important;
+    color: #ffffff;
+}

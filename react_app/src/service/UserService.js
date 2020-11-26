@@ -12,6 +12,10 @@ class UserService {
             password: password
         });
     }
+
+    static async logout() {        
+        return RequestService.get(Config.urlApi + 'logout');
+    }
 }
 
 export default UserService;

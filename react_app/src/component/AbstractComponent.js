@@ -1,6 +1,7 @@
 import React from 'react';
 
 import AuthenticateService from '../service/AuthenticateService';
+import UserService from '../service/UserService';
 
 import { route } from '../functions/Route';
 
@@ -97,6 +98,22 @@ class AbstractComponent extends React.Component {
     goAdminArea() {
         return route('', '', '/admin');   
     }    
+
+    homePage() {        
+        window.location.href = '/';
+    } 
+
+    logout() {        
+        UserService.logout().then(() => {            
+            AuthenticateService.logout();
+            
+            this.setState({preload: false});
+
+            this.homePage();                    
+        }).catch(() => {                
+            AuthenticateService.logout();                               
+        });
+    }
 }
 
 export default AbstractComponent;

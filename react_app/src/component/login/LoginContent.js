@@ -81,8 +81,9 @@ class LoginContent extends AbstractComponent {
             this.state.form.password
         ).then(resposta => {                               
             AuthenticateService.login(
-                resposta.data,
-                this.state.form.email                
+                resposta.data.token,                
+                this.state.form.email,
+                resposta.data.name,
             );            
         }).catch(error => {
             this.setState({

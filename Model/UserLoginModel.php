@@ -25,4 +25,22 @@ class UserLoginModel extends AbstractModel {
             ->getQuery()
             ->getResult();       
     }
+
+    private function getByToken($token) {
+        return $this->getRepository()
+            ->findOneBy([                
+                'token' => $token
+            ]);
+    }
+
+    public function logout($token) {          
+        $userLoginEntity = $this.getByToken($token);
+  
+        if(empty($userLoginEntity)) 
+            return false;        
+  
+        $this->remove($userLoginEntity);        
+
+        return true;
+    }
 }
