@@ -6,6 +6,7 @@ import ModalAlerta from '../layout/modal/ModalAlerta';
 import ModalSuccess from '../layout/modal/ModalSuccess';
 import InputPassword from '../layout/input/InputPassword';
 import InputTextArea from '../layout/input/InputTextArea';
+import Title from '../layout/title/Title';
 import ProfilePicture from './ProfilePicture';
 
 import UserService from '../../service/UserService';
@@ -138,160 +139,164 @@ class Cadastro extends AbstractComponent {
     }
 
     render () {
-        return (                                     
-            <Form id="form" onSubmit={(e) => this.onSubmit(e)}>                 
-                <ModalAlerta 
-                    show={this.state.error !== ''}
-                    text={this.state.error}
-                    close={() => this.setState({error: ''})} 
-                />
+        return (              
+            <div> 
+                <Title title="Cadastro de usuário"/>
 
-                <ModalSuccess
-                    show={this.state.success !== ''}
-                    text={this.state.success}
+                <Form id="form" onSubmit={(e) => this.onSubmit(e)}>                 
+                    <ModalAlerta 
+                        show={this.state.error !== ''}
+                        text={this.state.error}
+                        close={() => this.setState({error: ''})} 
+                    />
 
-                    close={() => this.success()}
-                />                               
+                    <ModalSuccess
+                        show={this.state.success !== ''}
+                        text={this.state.success}
 
-                <div className="col-md-9
-                                col-sm-9
-                                col-lg-9
-                                col-xs-9
-                                text-center">
-                    <div className="row">                            
-                        <Input
-                            md={12}
-                            xs={12}
-                            sm={12}
-                            lg={12}                                    
-                            classNameInput="background-transparent"  
-                            id="name"
-                            name="name"                        
-                            value={this.state.form.name}                        
-                            defaultValue={this.state.form.name}                        
-                            error={this.state.errorForm.name}                                
-                            onChange={e => this.onChange(e)}>
-                            Nome
-                        </Input>  
+                        close={() => this.success()}
+                    />                               
+
+                    <div className="col-md-9
+                                    col-sm-9
+                                    col-lg-9
+                                    col-xs-9
+                                    text-center">
+                        <div className="row">                            
+                            <Input
+                                md={12}
+                                xs={12}
+                                sm={12}
+                                lg={12}                                    
+                                classNameInput="background-transparent"  
+                                id="name"
+                                name="name"                        
+                                value={this.state.form.name}                        
+                                defaultValue={this.state.form.name}                        
+                                error={this.state.errorForm.name}                                
+                                onChange={e => this.onChange(e)}>
+                                Nome
+                            </Input>  
+                        </div>
+
+                        <div className="row">
+                            <InputTextArea
+                                md={12}
+                                xs={12}
+                                sm={12}
+                                lg={12}
+                                classNameInput="background-transparent"  
+                                id="bio"
+                                name="bio" 
+                                row="3"                                   
+                                value={this.state.form.bio}                        
+                                defaultValue={this.state.form.bio}                        
+                                error={this.state.errorForm.bio}                                
+                                onChange={e => this.onChange(e)}>
+                                Biografia
+                            </InputTextArea>                         
+                        </div>                        
+
+                        <div className="row"> 
+                            <Input
+                                md={6}
+                                xs={6}
+                                sm={6}
+                                lg={6}
+                                name="city"                                    
+                                classNameInput="background-transparent"  
+                                value={this.state.city}                        
+                                defaultValue={this.state.city}                        
+                                error={this.state.errorForm.city}                             
+                            >
+                                Cidade
+                            </Input>
+
+                            <Input
+                                md={6}
+                                xs={6}
+                                sm={6}
+                                lg={6}   
+                                classNameInput="background-transparent"                                                                                            
+                                name="state"                                    
+                                value={this.state.form.state}                        
+                                defaultValue={this.state.form.state}                        
+                                error={this.state.errorForm.state}
+                                onChange={e => this.onChange(e)}>
+                                Estado
+                            </Input>                        
+                        </div>        
+
+                        <div className="row"> 
+                            <Input
+                                md={12}
+                                xs={12}
+                                sm={12}
+                                lg={12}
+                                name="email"                                    
+                                classNameInput="background-transparent"  
+                                value={this.state.form.email}                        
+                                defaultValue={this.state.form.email}                        
+                                error={this.state.errorForm.email}  
+                                onChange={e => this.onChange(e)}                           
+                            >
+                                Email
+                            </Input>
+                        </div>
+
+                        <div className="row"> 
+                            <InputPassword
+                                md={6}
+                                xs={6}
+                                sm={6}
+                                lg={6}
+                                name="password"                                    
+                                classNameInput="background-transparent"  
+                                value={this.state.form.password}                        
+                                defaultValue={this.state.form.password}                        
+                                error={this.state.errorForm.password}  
+                                onChange={e => this.onChange(e)}                           
+                            >
+                                Senha
+                            </InputPassword>
+
+                            <InputPassword
+                                md={6}
+                                xs={6}
+                                sm={6}
+                                lg={6}   
+                                classNameInput="background-transparent"                                                                                            
+                                name="confirm_password"                                    
+                                value={this.state.form.confirm_password}                        
+                                defaultValue={this.state.form.confirm_password}                        
+                                error={this.state.errorForm.confirm_password}
+                                onChange={e => this.onChange(e)}>
+                                Confirmar Senha
+                            </InputPassword>                        
+                        </div>                                           
                     </div>
 
-                    <div className="row">
-                        <InputTextArea
-                            md={12}
-                            xs={12}
-                            sm={12}
-                            lg={12}
-                            classNameInput="background-transparent"  
-                            id="bio"
-                            name="bio" 
-                            row="3"                                   
-                            value={this.state.form.bio}                        
-                            defaultValue={this.state.form.bio}                        
-                            error={this.state.errorForm.bio}                                
-                            onChange={e => this.onChange(e)}>
-                            Biografia
-                        </InputTextArea>                         
-                    </div>                        
+                    <ProfilePicture   
+                        md={3}
+                        xs={3}
+                        sm={3}
+                        lg={3}                                            
+                        imagem={config.urlImg + this.state.form.profile_picture}
 
-                    <div className="row"> 
-                        <Input
-                            md={6}
-                            xs={6}
-                            sm={6}
-                            lg={6}
-                            name="city"                                    
-                            classNameInput="background-transparent"  
-                            value={this.state.city}                        
-                            defaultValue={this.state.city}                        
-                            error={this.state.errorForm.city}                             
+                        upImg={() => this.upImg()}
+                        changeOnLoad={() => this.changeOnLoad()}
+                    />
+
+                    <div className="form-group mt-4 mb-0">
+                        <button 
+                            type="submit"
+                            className="btn btn-success btn-lg btn-block"                         
                         >
-                            Cidade
-                        </Input>
-
-                        <Input
-                            md={6}
-                            xs={6}
-                            sm={6}
-                            lg={6}   
-                            classNameInput="background-transparent"                                                                                            
-                            name="state"                                    
-                            value={this.state.form.state}                        
-                            defaultValue={this.state.form.state}                        
-                            error={this.state.errorForm.state}
-                            onChange={e => this.onChange(e)}>
-                            Estado
-                        </Input>                        
-                    </div>        
-
-                    <div className="row"> 
-                        <Input
-                            md={12}
-                            xs={12}
-                            sm={12}
-                            lg={12}
-                            name="email"                                    
-                            classNameInput="background-transparent"  
-                            value={this.state.form.email}                        
-                            defaultValue={this.state.form.email}                        
-                            error={this.state.errorForm.email}  
-                            onChange={e => this.onChange(e)}                           
-                        >
-                            Email
-                        </Input>
-                    </div>
-
-                    <div className="row"> 
-                        <InputPassword
-                            md={6}
-                            xs={6}
-                            sm={6}
-                            lg={6}
-                            name="password"                                    
-                            classNameInput="background-transparent"  
-                            value={this.state.form.password}                        
-                            defaultValue={this.state.form.password}                        
-                            error={this.state.errorForm.password}  
-                            onChange={e => this.onChange(e)}                           
-                        >
-                            Senha
-                        </InputPassword>
-
-                        <InputPassword
-                            md={6}
-                            xs={6}
-                            sm={6}
-                            lg={6}   
-                            classNameInput="background-transparent"                                                                                            
-                            name="confirm_password"                                    
-                            value={this.state.form.confirm_password}                        
-                            defaultValue={this.state.form.confirm_password}                        
-                            error={this.state.errorForm.confirm_password}
-                            onChange={e => this.onChange(e)}>
-                            Confirmar Senha
-                        </InputPassword>                        
-                    </div>                                           
-                </div>
-
-                <ProfilePicture   
-                    md={3}
-                    xs={3}
-                    sm={3}
-                    lg={3}                                            
-                    imagem={config.urlImg + this.state.form.profile_picture}
-
-                    upImg={() => this.upImg()}
-                    changeOnLoad={() => this.changeOnLoad()}
-                />
-
-                <div className="form-group mt-4 mb-0">
-                    <button 
-                        type="submit"
-                        className="btn btn-success btn-lg btn-block"                         
-                    >
-                        Salvar                        
-                    </button>
-                </div>                                                                                                        
-            </Form>                 
+                            Salvar                        
+                        </button>
+                    </div>                                                                                                        
+                </Form>  
+            </div>               
         )   
     }
 }
