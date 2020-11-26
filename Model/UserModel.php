@@ -31,7 +31,7 @@ class UserModel extends AbstractModel {
             ]);        
     }
 
-    public function login($key, $email, $password) {
+    public function login($key, $email, $password, &$token) {
         $userEntity = $this->getByEmail($email);
 
         if(empty($userEntity))
@@ -49,6 +49,8 @@ class UserModel extends AbstractModel {
 
         $userLoginModel->save($userLoginEntity);        
 
-        return $userLoginEntity->getToken();                
+        $token = $userLoginEntity->getToken();                
+
+        return $userEntity;
     }        
 }
