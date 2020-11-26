@@ -27,7 +27,17 @@ class EventController extends AbstractController {
      * @apiName save
      * @apiGroup event
      *
-     * @apiParam (parameters) {json} body User object to be added to the database
+     * @apiHeader {String} x-token header User's token
+     * @apiHeader {String} E-Mail header User's email
+     * 
+     * @apiHeaderExample {json} Header-Example:
+     *    {
+     *       "X-Token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uIjoiJDJ5JDEwJDRVcWQyWWtlYlQ0b0R0VDVmc3JKc2V1SGdKOEhrOTZVZzN5VHZrbUc0MlhGOWRyeVBuOVF1IiwiaWQiOjEsImlhdCI6MTYwNjE4MTcxOCwiZXhwIjoxNjA2MTg1MzE4fQ.MgVgpZF_pCUBlXVyvT8SOU708y2-1nqEdxGJkXImucQ"
+     *       "E-Mail": "fulano@gmail.com"
+     *    }
+     * 
+     *      
+     * @apiParam (parameters) {json} body User object to be added to the database     
      *     
      * @apiParamExample {json} Exemple Value
      *    {     
@@ -101,7 +111,7 @@ class EventController extends AbstractController {
      * @apiVersion 1.0.0
      * @apiName list
      * @apiGroup event
-     *           
+     *                
      * @apiParam (parameters) {array} filter Array with event filters by date and / or place
      * 
      * @apiParamExample {json} Exemple Value
@@ -129,6 +139,7 @@ class EventController extends AbstractController {
      * @apiName list/
      * @apiGroup event
      *           
+     *      
      * @apiError (402) String Informe o id do evento
      * @apiError (403) String Evento não encontrado
      * 
@@ -165,7 +176,17 @@ class EventController extends AbstractController {
      * @apiVersion 1.0.0
      * @apiName list/
      * @apiGroup event
+     * 
+     * @apiHeader {String} x-token header User's token
+     * @apiHeader {String} E-Mail header User's email
+     * 
+     * @apiHeaderExample {json} Header-Example:
+     *    {
+     *       "X-Token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uIjoiJDJ5JDEwJDRVcWQyWWtlYlQ0b0R0VDVmc3JKc2V1SGdKOEhrOTZVZzN5VHZrbUc0MlhGOWRyeVBuOVF1IiwiaWQiOjEsImlhdCI6MTYwNjE4MTcxOCwiZXhwIjoxNjA2MTg1MzE4fQ.MgVgpZF_pCUBlXVyvT8SOU708y2-1nqEdxGJkXImucQ"
+     *       "E-Mail": "fulano@gmail.com"
+     *    }
      *           
+     * 
      * @apiError (401) String Unauthorized action
      * @apiError (402) String Informe o id do evento
      * @apiError (403) String Evento não encontrado
@@ -202,6 +223,16 @@ class EventController extends AbstractController {
      * @apiVersion 1.0.0
      * @apiName event/
      * @apiGroup event          
+     * 
+     * @apiHeader {String} x-token header User's token
+     * @apiHeader {String} E-Mail header User's email
+     * 
+     * @apiHeaderExample {json} Header-Example:
+     *    {
+     *       "X-Token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uIjoiJDJ5JDEwJDRVcWQyWWtlYlQ0b0R0VDVmc3JKc2V1SGdKOEhrOTZVZzN5VHZrbUc0MlhGOWRyeVBuOVF1IiwiaWQiOjEsImlhdCI6MTYwNjE4MTcxOCwiZXhwIjoxNjA2MTg1MzE4fQ.MgVgpZF_pCUBlXVyvT8SOU708y2-1nqEdxGJkXImucQ"
+     *       "E-Mail": "fulano@gmail.com"
+     *    }
+     * 
      * 
      * @apiError (401) String Unauthorized action
      * @apiError (402) String Evento não encontrado
