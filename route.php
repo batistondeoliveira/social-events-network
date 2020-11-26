@@ -14,3 +14,7 @@ $app->get('/event/place/list', 'Controller\EventController:placeList');
 
 //Friendship
 $app->get('/friendship', 'Controller\FriendshipController:list');
+$app->post('/friendship/undo', 'Controller\FriendshipController:undoFriendship');
+
+//Invite
+$app->get('/invite/{email}', 'Controller\InviteController:invite');

@@ -33,7 +33,7 @@ class Button extends React.Component {
                         className={"form-control " + this.props.classNameButton}
                         onClick={(e) => this.onClick()}
                     >
-                        Filtrar    
+                        {this.props.children}    
                     </button>                    
                 </div>
             </Col>

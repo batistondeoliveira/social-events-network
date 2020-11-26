@@ -12,7 +12,7 @@ class Table extends AbstractComponent {
         this.state = {
             modal: false,
             modalCadastro: false,            
-            tituloCadastro: 'Novo'
+            tituloCadastro: this.props.titleModal
         }
     }
 
@@ -116,8 +116,8 @@ class Table extends AbstractComponent {
                 {
                     this.props.cadastro &&
                     <button className="btnPrimary" style={{marginBottom: '15px'}}
-                            onClick={() => this.setState({modalCadastro: true, tituloCadastro: 'Novo', editarItem: undefined, editarIndice: undefined})} >
-                        <i className="fa fa-plus"/> Novo
+                            onClick={() => this.setState({modalCadastro: true, tituloCadastro: this.props.titleModal, editarItem: undefined, editarIndice: undefined})} >
+                        <i className="fa fa-plus"/> {this.props.tituloBtnNovo}
                     </button>
                 }
 
@@ -158,7 +158,9 @@ class Table extends AbstractComponent {
 
 Table.defaultProps = {
     codigo: 'id',
-    titleMsgRemove: 'Tem certeza que deseja remover este registro?'
+    titleModal: 'Novo',
+    titleMsgRemove: 'Tem certeza que deseja remover este registro?',
+    tituloBtnNovo: 'Novo'
 };
 
 export default  Table;

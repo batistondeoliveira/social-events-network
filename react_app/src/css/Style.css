@@ -25,3 +25,7 @@ label {
     color: #000000;
     position: absolute;
 }
+
+.modal-content, .modal-body {
+    height: auto;
+}

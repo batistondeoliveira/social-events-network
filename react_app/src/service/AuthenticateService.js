@@ -2,6 +2,8 @@ class AuthenticateService {
     static login(token, email) {
         localStorage.setItem('x-token', token);
         localStorage.setItem('email', email);            
+
+        window.location.href = '/admin';
     }
 
     static getToken() {            
