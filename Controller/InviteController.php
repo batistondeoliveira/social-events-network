@@ -1,0 +1,97 @@
+<?php
+
+namespace Controller;
+
+use Classes\Enums\InviteTypeEnum;
+use Classes\Email;
+
+use Controller\AbstractController;
+
+use Entity\InviteEntity;
+
+use Model\FriendshipModel;
+use Model\InviteModel;
+use Model\UserModel;
+
+use Slim\Http\Request;
+use Slim\Http\Response;
+
+class InviteController extends AbstractController {
+    public function __construct($container) {
+        parent::__construct($container);
+    }      
+
+    /**
+     * @api {get} /invite invites someone to be your friend
+     * @apiVersion 1.0.0
+     * @apiName invite
+     * @apiGroup invite
+     *                          
+     * @apiHeaderExample {json} Header-Example:
+     *    {
+     *       "X-Token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uIjoiJDJ5JDEwJDRVcWQyWWtlYlQ0b0R0VDVmc3JKc2V1SGdKOEhrOTZVZzN5VHZrbUc0MlhGOWRyeVBuOVF1IiwiaWQiOjEsImlhdCI6MTYwNjE4MTcxOCwiZXhwIjoxNjA2MTg1MzE4fQ.MgVgpZF_pCUBlXVyvT8SOU708y2-1nqEdxGJkXImucQ"
+     *       "E-Mail": "fulano@gmail.com"
+     *    }
+     *       
+     * @apiError (401) String Unauthorized action
+     * @apiError (402) String Informe um e-mail válido
+     * @apiError (403) String Você não pode ser amigo de você mesmo
+     * @apiError (405) String Vocês já são amigos     
+     * @apiError (406) MessageError Validation error message     
+     * 
+     * @apiSuccess (200) {string} message Email de solicitação de convite enviada
+     * @apiSuccess (201) {string} message Solicitação de convite enviada
+     *      
+     */
+    public function invite(Request $request, Response $response, $args) {
+        $this->auth($request);
+
+        $email = $args['email'];
+        
+        if(empty($email))
+            return $response->withJson('Informe um e-mail válido', 402, JSON_UNESCAPED_UNICODE);           
+
+        if($email === $this->auth->getEmail())
+            return $response->withJson('Você não pode ser amigo de você mesmo', 403, JSON_UNESCAPED_UNICODE);           
+
+        $userModel = new UserModel($this->container->em);
+
+        $userEntity = $userModel->getByEmail($email);                
+
+        try {            
+            if(empty($userEntity)) {
+                Email::sendEmail($email);
+
+                return $response->withJson('Email de solicitação de convite enviada', 200, JSON_UNESCAPED_UNICODE);           
+            }        
+
+            $friendshipModel = new FriendshipModel($this->container->em);
+
+            $friendshipEntity = $friendshipModel->getByIdFriendship(
+                $this->auth->getId(),
+                $userEntity->getId()                
+            );
+
+            if(!empty($friendshipEntity))
+                return $response->withJson('Vocês já são amigos', 405, JSON_UNESCAPED_UNICODE);           
+        
+            $inviteEntity = new InviteEntity();
+            
+            $inviteEntity->setIdUser($this->auth->getId());
+            $inviteEntity->setIdUserFriendship($userEntity->getId());
+            $inviteEntity->setType(InviteTypeEnum::FRIENDSHIP);
+
+            $inviteModel = new InviteModel($this->container->em);
+
+            $inviteModel->save($inviteEntity);
+
+            return $response->withJson('Solicitação de convite enviada', 201, JSON_UNESCAPED_UNICODE);        
+        } catch(\Exception $ex) {
+            return $response->withJson(
+                $this->handlingError(
+                    [$inviteEntity],
+                    $ex
+                ), 406, JSON_UNESCAPED_UNICODE);        
+        }
+    }
+}
