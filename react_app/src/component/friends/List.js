@@ -3,11 +3,11 @@ import AbstractComponent from '../AbstractComponent';
 import Title from "../layout/title/Title";
 import Table from "../layout/table/Table";
 import Preload from "../layout/preload/Preload";
-import InputDate from '../layout/input/InputDate';
-import Panel from '../layout/panel/Panel';
-import Button from '../layout/button/Button';
+import Invite from './Invite';
+import ModalAlerta from '../layout/modal/ModalAlerta';
+import ModalSuccess from '../layout/modal/ModalSuccess';
 
-import FriendService from '../../service/FriendshipService';
+import FriendshipService from '../../service/FriendshipService';
 
 class List extends AbstractComponent {
     constructor(props) {
@@ -26,23 +26,75 @@ class List extends AbstractComponent {
 
             body: [],
 
-            preload: true
+            preload: true,
+
+            error: '',
+
+            success: ''
         }        
     }            
 
-    componentDidMount() {
-        FriendService.list(
+    undoFriendship(item, i) {
+        this.setState({preload: true});
+
+        FriendshipService.undoFriendship(
+            item.id,
+            item.type
+        ).then(() => {
+            const event = this.state.body;
+
+            event.splice(i, 1);
+
+            this.setState({
+                body: event, 
+                preload: false
+            });
+        }).catch(() => {
+            this.setState({                
+                preload: false
+            });
+        });
+    }
+
+    add(message) {        
+        this.table.fecharCadastro();
+        
+        this.setState({success: message});
+    }
+
+    componentDidMount() {        
+        FriendshipService.list(
             
         ).then(response => {
             this.setState({body: response.data, preload: false})
-        }).catch(() => {
-            this.setState({preload: false})
+        }).catch(error => {
+            if(this.is401Error(error)) {
+                this.props.route(this.goLoginArea());
+                return;
+            }
+                
+            this.setState({
+                preload: false,
+                error: this.handlingError(error)                
+            });            
         });
     }    
 
     render() {
         return (
             <div>
+                <ModalAlerta 
+                    show={this.state.error !== ''}
+                    text={this.state.error}
+                    close={() => this.setState({error: ''})} 
+                />
+
+                <ModalSuccess
+                    show={this.state.success !== ''}
+                    text={this.state.success}
+                    close={() => this.setState({success: ''})} 
+                />
+
                 <Title title="Lista de Amigos"/>
 
                 <Preload show={this.state.preload} />                                              
@@ -51,8 +103,18 @@ class List extends AbstractComponent {
                     ref={ref => this.table = ref}
                     head={this.state.head}
                     body={this.state.body}                    
-                    cadastro={false} 
-                    referenceId="id"                    
+                    cadastro={true} 
+                    tituloBtnNovo="Convidar amigo"
+                    remover={(item, i) => this.undoFriendship(item, i)}
+                    titleMsgRemove="Tem certeza de que deseja desfazer a amizade?"
+                    titleModal="Convidar amigo"
+                    referenceId="id" 
+                    component={ (props) => { return <Invite 
+                        ok={(message) => this.add(message)} {...props}    
+                        
+                        route={item => this.props.route(item)}
+                    />
+                }}                  
                 />
             </div>
         )
