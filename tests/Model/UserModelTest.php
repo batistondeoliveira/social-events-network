@@ -43,10 +43,11 @@ class UserModelTest extends AbstractTestCase {
 
         $userModel = new UserModel($this->getEm());
                 
-        $token = $userModel->login(
+        $userModel->login(
             '87fdjfduity', 
             'batistondeoliveira@yahoo.com.br', 
-            '123456'
+            '123456',
+            $token
         );
 
         $this->assertNotEmpty($token);        
@@ -57,10 +58,11 @@ class UserModelTest extends AbstractTestCase {
                        
         $userModel = new UserModel($this->getEm());
                 
-        $token = $userModel->login(
+        $userModel->login(
             '87fdjfduity', 
             'batistondeoliveira1@yahoo.com.br', //wrong email
-            '123457' //wrong password
+            '123457', //wrong password
+            $token
         );
 
         $this->assertEmpty($token);         
