@@ -5,7 +5,8 @@ import Table from "../layout/table/Table";
 import Preload from "../layout/preload/Preload";
 import InputDate from '../layout/input/InputDate';
 import Panel from '../layout/panel/Panel';
-import Button from '../layout/button/Button';
+import SearchButton from '../layout/button/SearchButton';
+import ClearButton from '../layout/button/ClearButton';
 import InputSelectPlace from './InputSelectPlace';
 
 import EventService from '../../service/EventService';
@@ -39,6 +40,17 @@ class List extends AbstractComponent {
         this.props.route(route('', '', '/detail/' + referenceId));
     }
 
+    clearFilter() {
+        const filter = this.state.filter;
+
+        filter.date = '';
+        filter.place = '';
+
+        this.setState({filter: filter});
+
+        this.search();
+    }
+
     onChange(e) {
         const filter = this.state.filter;
         filter[e.target.name] = e.target.value;
@@ -68,11 +80,7 @@ class List extends AbstractComponent {
         }).catch(() => {
             this.setState({preload: false})
         });
-    }
-
-    onClick() {
-        this.search();
-    }
+    }    
 
     componentDidMount() {
         this.search();
@@ -118,17 +126,24 @@ class List extends AbstractComponent {
                         route={item => this.props.route(item)}
                     />                    
 
-                    <Button
-                        md={2}
-                        xs={2}
-                        sm={2}
-                        lg={2}                                                        
-                        name="filtrar"
+                    <SearchButton
+                        md={1}
+                        xs={1}
+                        sm={1}
+                        lg={1}                                                        
+                        name="filter"
                         classNameButton="btn btn-primary"
-                        onClick={ e => this.onClick(e) }
-                    >
-                        Filtrar
-                    </Button>
+                        onClick={ e => this.search() }
+                    />
+
+                    <ClearButton
+                        md={1}
+                        xs={1}
+                        sm={1}
+                        lg={1}                                                        
+                        name="clear"                        
+                        onClick={ e => this.clearFilter() }
+                    />
                 </Panel>                                
 
                 <Table
