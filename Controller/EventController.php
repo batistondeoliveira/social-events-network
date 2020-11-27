@@ -107,12 +107,12 @@ class EventController extends AbstractController {
     }
 
     /**
-     * @api {get} /event/list List all available events
+     * @api {post} /event/list List all available events
      * @apiVersion 1.0.0
-     * @apiName list
+     * @apiName getAllActiveEvent
      * @apiGroup event
      *                
-     * @apiParam (parameters) {array} filter Array with event filters by date and / or place
+     * @apiParam (parameters) {array} filters Array with event filters by date and / or place
      * 
      * @apiParamExample {json} Exemple Value
      *    [     
@@ -121,22 +121,33 @@ class EventController extends AbstractController {
      *    ]
      * 
      * @apiSuccess (200) {jsonArray} data List all available events
+     * 
+     * @apiSuccessExample {json} Exemple Value
+     *    [
+     *       {
+     *          "id": 1,
+     *          "name":"Congresso Campinas",
+     *          "date":"2021-08-01",
+     *          "time":"09:00:00",
+     *          "place":"Shopping Campinas"}
+     *       }
+     *    ]
      *      
      */
     public function getAllActiveEvent(Request $request, Response $response) {
         $eventModel = new EventModel($this->container->em);  
         
-        $filter = $request->getParsedBodyParam('filter');
+        $filters = $request->getParsedBodyParam('filters');
         
-        $list = $eventModel->getAllActiveEvent($filter);
+        $list = $eventModel->getAllActiveEvent($filters);
         
         return $response->withJson($this->serialize($list), 200);
     }
 
     /**
-     * @api {get} /event/list/{id} Show event by id
+     * @api {get} /event/detail/{id} Show event by id
      * @apiVersion 1.0.0
-     * @apiName list/
+     * @apiName getById
      * @apiGroup event
      *           
      *      
@@ -172,9 +183,9 @@ class EventController extends AbstractController {
     }
 
     /**
-     * @api {get} /event/list/{id} Show event by id
+     * @api {post} /event/mylist Show event by id
      * @apiVersion 1.0.0
-     * @apiName list/
+     * @apiName getEventsByEmailUser
      * @apiGroup event
      * 
      * @apiHeader {String} x-token header User's token
@@ -186,6 +197,14 @@ class EventController extends AbstractController {
      *       "E-Mail": "fulano@gmail.com"
      *    }
      *           
+     * @apiParam (parameters) {array} filters Array with event filters by date and / or place
+     * 
+     * @apiParamExample {json} Exemple Value
+     *    [     
+     *      "data": "24/05/2021"
+     *      "place": "Shopping",    
+     *    ]
+     * 
      * 
      * @apiError (401) String Unauthorized action
      * @apiError (402) String Informe o id do evento
@@ -193,27 +212,38 @@ class EventController extends AbstractController {
      * 
      * @apiSuccess (200) {String} json event object json
      * 
-     * 
      * @apiSuccessExample {json} Exemple Value
-     *    {
-     *      "id": 1,     
-     *      "name": "Congresso Campinas",     
-     *      "date": "19/08/2021",
-     *      "time": "09:00",
-     *      "place": "Shopping Campinas"     
-     *    }
+     *    [
+     *      {
+     *          "id":"1",
+     *          "name":"Congresso Campinas",
+     *          "date":"2021-08-01",
+     *          "time":"09:00:00",
+     *          "place":"Shopping Campinas",
+     *          "type":"OWNER"
+     *      },
+     *      {
+     *          "id":"2",
+     *          "name":"Congresso Sao Paulo",
+     *          "date":"2021-08-01",
+     *          "time":"09:00:00",
+     *          "place":"Shopping Sao Paulo",
+     *          "type":"GUEST"
+     *      }
+     *   ]
+     * 
      */
     public function getEventsByEmailUser(Request $request, Response $response) {
         $this->auth($request);
 
-        $eventModel = new EventModel($this->container->em);                
-
-        $email = $this->auth->getEmail();
+        $eventModel = new EventModel($this->container->em);                        
         
-        if(empty($email))
-            return $response->withJson('Informe o email do usuário', 402, JSON_UNESCAPED_UNICODE); 
-
-        $list = $eventModel->getEventsByIdUser($this->auth->getId());                
+        $filters = $request->getParsedBodyParam('filters');
+        
+        $list = $eventModel->getEventsByIdUser(
+            $this->auth->getId(),
+            $filters
+        );
 
         return $response->withJson($this->serialize($list), 200);
     }
@@ -221,7 +251,7 @@ class EventController extends AbstractController {
     /**
      * @api {get} /event/{id} Cancel an event by id
      * @apiVersion 1.0.0
-     * @apiName event/
+     * @apiName cancelar
      * @apiGroup event          
      * 
      * @apiHeader {String} x-token header User's token
@@ -265,10 +295,16 @@ class EventController extends AbstractController {
     /**
      * @api {get} /event/place/list List all available place
      * @apiVersion 1.0.0
-     * @apiName place/list
+     * @apiName placeList
      * @apiGroup event
      *           
      * @apiSuccess (200) {jsonArray} data List all available place
+     *
+     * @apiSuccessExample {json} Exemple Value
+     *    [
+     *      {"place":"Place 1"},
+     *      {"place":"Place2"}
+     *    ]
      *      
      */
     public function placeList(Request $request, Response $response) {                         

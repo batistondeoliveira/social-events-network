@@ -98,7 +98,7 @@ class FriendshipController extends AbstractController {
     }
 
     /**
-     * @api {get} /friendship/event/list List all your friends who have not been invited to an event 
+     * @api {get} /friendship/event/invite/{idEvento} List all your friends who have not been invited to an event 
      * @apiVersion 1.0.0
      * @apiName inviteEventList
      * @apiGroup friendship

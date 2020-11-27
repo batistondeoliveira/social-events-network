@@ -21,10 +21,10 @@ class InviteFriendshipController extends AbstractController {
     }      
 
     /**
-     * @api {get} /invite/friendship invites someone to be your friend
+     * @api {get} /invite/friendship/{email} invites someone to be your friend
      * @apiVersion 1.0.0
      * @apiName invite
-     * @apiGroup invite
+     * @apiGroup invite friendship
      *                          
      * @apiHeaderExample {json} Header-Example:
      *    {
