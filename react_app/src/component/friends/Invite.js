@@ -77,7 +77,7 @@ class Invite extends AbstractComponent {
             this.props.ok(response.data, this.props.indice);
         }).catch(error => { 
             if(this.is401Error(error)) {
-                this.props.route(this.goLoginArea());
+                this.goLoginArea();
                 return ;
             }
                                 

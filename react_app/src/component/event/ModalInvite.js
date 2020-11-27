@@ -82,7 +82,7 @@ class ModalInvite extends AbstractComponent {
             this.props.success();
         }).catch(error => { 
             if(this.is401Error(error)) {
-                this.props.route(this.goLoginArea());
+                this.goLoginArea();
                 return ;
             }
                                 

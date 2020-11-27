@@ -39,7 +39,7 @@ class FriendshipModel extends AbstractModel {
         ));
     }
 
-    public function inviteEventList($idUser, $idEvento) {
+    public function inviteEventList($idUser, $idEvent) {
         return $this->openSql("
             SELECT u.id,
                    u.name, 

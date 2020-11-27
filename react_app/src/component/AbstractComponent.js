@@ -11,10 +11,16 @@ class AbstractComponent extends React.Component {
     }
 
     is401Error(error) {
-        if(error.response.status === 401)                      
-            return true;
+        if(error.response === undefined)
+            return false;
+            
+        if(error.response.status === undefined) 
+            return false;
 
-        return false;
+        if(error.response.status !== 401)                      
+            return false;
+
+        return true;
     }   
 
     handlingError(error) {        
@@ -102,7 +108,7 @@ class AbstractComponent extends React.Component {
     }
 
     goLoginArea() {
-        return route('', '', '/login');   
+        window.location.href = '/login';
     }
 
     goAdminArea() {

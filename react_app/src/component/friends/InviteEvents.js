@@ -39,7 +39,7 @@ class InviteEvents extends AbstractComponent {
             this.setState({body: response.data, preload: false})
         }).catch(error => {
             if(this.is401Error(error)) {
-                this.props.route(this.goLoginArea());
+                this.goLoginArea();
                 return;
             }
                 
