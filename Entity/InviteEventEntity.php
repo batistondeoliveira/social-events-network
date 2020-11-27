@@ -51,7 +51,7 @@ class InviteEventEntity extends AbstractEntity {
     public function __construct() {
         parent::__construct($this);
 
-        $this->status = StatusEventEnum::AGUARDANDO_CONFIRMACAO;
+        $this->status = StatusEventEnum::WAIT;
     }
         
     public function initializeErrorMessage() {           

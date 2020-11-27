@@ -16,7 +16,7 @@ class EventModel extends AbstractModel {
         parent::__construct($em, EventEntity::class);
     }
 
-    public function getAllActiveEvent($filter) {
+    public function getAllActiveEvent($filters) {
         $date = (new \DateTime())->format('Y-m-d');
 
         $query = $this->getRepository()                        
@@ -27,8 +27,8 @@ class EventModel extends AbstractModel {
             ->andWhere("e.active = :active")
             ->setParameter('active', ActiveEnum::YES);
 
-        if(count($filter) > 0) {
-            foreach($filter as $value) {
+        if(count($filters) > 0) {
+            foreach($filters as $value) {
                 if($value['field'] === 'date') {
                     $query = $query
                         ->andWhere("e." . $value['field'] . ' = :' . $value['field'])
@@ -49,16 +49,33 @@ class EventModel extends AbstractModel {
         return $query->getResult(); 
     }
 
-    public function getEventsByIdUser($idUser) {        
+    public function getEventsByIdUser($idUser, $filters) {              
+        $having = '';
+        $param = array('idUser' => $idUser);
+
+        if(count($filters) > 0) {
+            foreach($filters as $value) {  
+                if(!empty($having))
+                    $having .= ' AND ';
+
+                $having .= $value['field'] . ' = :' . $value['field'];
+                $param += array($value['field'] => $value['value']);                    
+            }
+        }
+
+        if(!empty($having))
+            $having = ' HAVING ' . $having;
+
         return $this->openSql("
             SELECT e.id, 
                    e.name,
                    e.date, 
                    e.time, 
                    e.place, 
-                   'OWNER' AS type
+                   'OWNER' AS type,
+                   NULL AS status
             FROM `event` e
-            WHERE e.id_user = :idUser
+            WHERE e.id_user = :idUser " . $having . " 
             
             UNION
             
@@ -67,14 +84,13 @@ class EventModel extends AbstractModel {
                    e.date, 
                    e.time, 
                    e.place, 
-                   'GUEST' AS type
+                   'GUEST' AS type,
+                   ie.status
             FROM `event` e,
                  invite_event ie
             WHERE e.id = ie.id_event
-               AND ie.id_user_friendship = :idUser
-        ", array(
-            'idUser' => $idUser
-        ));
+               AND ie.id_user_friendship = :idUser " . $having
+        , $param);
 
         // return $this->getRepository()    
         //     ->createQueryBuilder("e")                    

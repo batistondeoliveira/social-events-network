@@ -10,9 +10,9 @@ class EventService {
         return RequestService.get(Config.urlApi + 'event/' + id);
     } 
 
-    static async list(filter) {                
+    static async list(filters) {                
         return RequestService.post(Config.urlApi + 'event/list', {
-            filter: filter
+            filters: filters
         });
     } 
     
@@ -24,8 +24,10 @@ class EventService {
         return RequestService.get(Config.urlApi + 'event/detail/' + id);
     } 
 
-    static async getMyEvents() {            
-        return RequestService.get(Config.urlApi + 'event');
+    static async getMyEvents(filters) {                 
+        return RequestService.post(Config.urlApi + 'event/mylist', {
+            filters: filters
+        });
     }
 }
 

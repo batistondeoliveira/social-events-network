@@ -11,13 +11,13 @@ use Doctrine\ORM\Mapping as ORM;
 class StatusEventEnum extends Type {
     const __default = self::NO;
 
-    const ENUM_STATUS_EVENTO = "enumStatusEvent";
-    const AGUARDANDO_CONFIRMACAO = 'Aguardando Confirmacao';
-    const CONFIRMADO = 'Confirmado';
-    const REJEITADO = 'Rejeitado';
+    const ENUM_STATUS_EVENT = "enumStatusEvent";
+    const WAIT = 'Wait';
+    const CONFIRMED = 'Confirmed';
+    const REJECTED = 'Rejected';
 
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform) {
-        return "ENUM('Aguardando Confirmacao', 'Confirmado', 'Rejeitado')";
+        return "ENUM('Wait', 'Confirmed', 'Rejected')";
     }
 
     public function convertToPHPValue($value, AbstractPlatform $platform) {
@@ -25,7 +25,7 @@ class StatusEventEnum extends Type {
     }
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform) {
-        if (!in_array($value, array(self::AGUARDANDO_CONFIRMACAO, self::CONFIRMADO, self::REJEITADO))) {
+        if (!in_array($value, array(self::WAIT, self::CONFIRMED, self::REJECTED))) {
             throw new \InvalidArgumentException("Valor do campo [Status do Evento] está inválido");
         }
 
@@ -33,7 +33,7 @@ class StatusEventEnum extends Type {
     }
 
     public function getName() {
-        return self::ENUM_STATUS_EVENTO;
+        return self::ENUM_STATUS_EVENT;
     }
 
     public function requiresSQLCommentHint(AbstractPlatform $platform) {
@@ -44,9 +44,7 @@ class StatusEventEnum extends Type {
         $class = new \ReflectionClass('Classes\Enums\StatusEventEnum');
 
         $constants = $class->getConstants();
-        $constantName = '';
-
-        $value = strtoupper(str_replace(' ', '_', $value));
+        $constantName = '';        
         
         foreach ($constants as $constant) {
             if($constant === $value) {

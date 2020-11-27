@@ -5,12 +5,17 @@ import Table from "../layout/table/Table";
 import Preload from "../layout/preload/Preload";
 import ModalAlerta from '../layout/modal/ModalAlerta';
 import ModalSuccess from '../layout/modal/ModalSuccess';
+import Panel from '../layout/panel/Panel';
+import InputSelect from '../layout/input/InputSelect';
+import ClearButton from '../layout/button/ClearButton';
+import SearchButton from '../layout/button/SearchButton';
 import ModalInvite from './ModalInvite';
 import Register from './Register';
 
 import EventPropertyType from '../../enumerador/EventPropertyType';
+import StatusEventType from '../../enumerador/StatusEventType';
+
 import EventService from '../../service/EventService';
-import AuthenticateService from '../../service/AuthenticateService';
 
 class MyEvents extends AbstractComponent {
     constructor(props) {
@@ -19,6 +24,11 @@ class MyEvents extends AbstractComponent {
         this.remover = this.remover.bind(this);
 
         this.state = {
+            filter: {
+                status: '',
+                type: ''
+            },
+
             head : [
                 {nome: 'Nome', campo: 'name'},                
                 {nome: 'Data', campo: 'date', type: 'date'},
@@ -59,20 +69,52 @@ class MyEvents extends AbstractComponent {
         });
     }    
 
-    componentDidMount() {
-        if(!this.isAdmin()) {
-            this.setState({error: 'Area restrita, faça seu login ou cadastre-se gratuitamente'});
+    clearFilter() {
+        const filter = this.state.filter;
 
-            return ;
-        }
-            
-        EventService.getMyEvents(
-            AuthenticateService.getEmail()
+        filter.type = '';
+        filter.status = '';
+
+        this.setState({filter: filter});
+
+        this.search();
+    }
+    
+    onChange(e) {
+        const filter = this.state.filter;
+        
+        filter[e.target.name] = e.target.value;
+
+        if((e.target.name === 'type')&&(e.target.value !== EventPropertyType.GUEST.enumName)) 
+            filter['status'] = 'Selecione';        
+
+
+        this.setState({filter: filter});
+    }
+
+    sendFilter() {
+        const filter = this.state.filter;
+        const list = [];
+
+        if((filter.status)&&(filter.status !== 'Selecione'))
+            list.push({field: 'status', value: filter.status});
+        
+        if((filter.type)&&(filter.type !== 'Selecione'))
+            list.push({field: 'type', value: filter.type});
+
+        return list;
+    }
+
+    search() {
+        this.setState({preload: true});
+
+        EventService.getMyEvents(            
+            this.sendFilter()
         ).then(response => {
             this.setState({body: response.data, preload: false})
         }).catch(error => {
             if(this.is401Error(error)) {
-                this.props.route(this.goLoginArea());
+                this.goLoginArea();
                 return;
             }
                 
@@ -81,6 +123,16 @@ class MyEvents extends AbstractComponent {
                 error: this.handlingError(error)                
             });
         });
+    }
+
+    componentDidMount() {
+        if(!this.isAdmin()) {
+            this.setState({error: 'Area restrita, faça seu login ou cadastre-se gratuitamente'});
+
+            return ;
+        }
+            
+        this.search();
     }    
 
     add(item, i ) {        
@@ -100,7 +152,7 @@ class MyEvents extends AbstractComponent {
     render() {
         return (
             <div>
-                <Title title="Lista de Eventos"/>
+                <Title title="Meus Eventos"/>
 
                 <ModalSuccess
                     show={this.state.success !== ''}
@@ -116,7 +168,7 @@ class MyEvents extends AbstractComponent {
                     close={() => this.setState({error: ''})}
                 />
 
-                <Preload show={this.state.preload} />
+                <Preload show={this.state.preload} />                
 
                 {
                     this.state.invite &&                
@@ -129,6 +181,65 @@ class MyEvents extends AbstractComponent {
                         close={() => this.setState({invite: false, event: {}})}
                     />
                 }
+
+                <Panel
+                    md={12} 
+                    xs={12} 
+                    sm={12} 
+                    lg={12}
+                    title="Filtros"
+                >         
+                    <InputSelect
+                        md={5}
+                        xs={5}
+                        sm={5}
+                        lg={5}                                                        
+                        name="type"                         
+                        value={this.state.filter.type}    
+                        defaultValue={this.state.filter.type}   
+                        options={EventPropertyType.getAll()}                                         
+                        onChange={ e => this.onChange(e) } 
+
+                        route={item => this.props.route(item)}
+                    >             
+                        Tipo       
+                    </InputSelect>
+
+                    <InputSelect
+                        md={5}
+                        xs={5}
+                        sm={5}
+                        lg={5}
+                        name="status"                                    
+                        classNameInput="background-transparent"  
+                        value={this.state.filter.status}     
+                        disabled={this.state.filter.type !== EventPropertyType.GUEST.enumName}
+                        options={StatusEventType.getAll()}                                                                       
+                        onChange={(e) => this.onChange(e)}
+                    >
+                        Situação
+                    </InputSelect>                                                        
+
+                    <SearchButton
+                        md={1}
+                        xs={1}
+                        sm={1}
+                        lg={1}                                                        
+                        name="filter"
+                        classNameButton="btn btn-primary"
+                        onClick={ e => this.search() }
+                    />
+
+                    <ClearButton
+                        md={1}
+                        xs={1}
+                        sm={1}
+                        lg={1}                                                        
+                        name="clear"
+                        classNameButton="btn btn-danger"
+                        onClick={ e => this.clearFilter() }
+                    />                                        
+                </Panel>
 
                 <Table
                     ref={ref => this.table = ref}

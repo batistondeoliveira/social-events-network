@@ -1,30 +1,34 @@
-var EventPropertyType = {
-    OWNER: {
-        enumName: 'OWNER',        
-        description: 'Proprietário'        
+var StatusEventType = {
+    WAIT: {
+        enumName: 'WAIT',        
+        description: 'Aguardando Confirmação'        
     },
-    GUEST: {
-        enumName: 'GUEST',        
-        description: 'Convidado'        
+    CONFIRMED: {
+        enumName: 'CONFIRMED',        
+        description: 'Confirmado'        
+    },
+    REJECTED: {
+        enumName: 'REJECTED',        
+        description: 'Rejeitado'        
     },
     get(value) {        
         if (value === null || value === undefined || value === "undefined")
-            return EventPropertyType.OWNER;
+            return StatusEventType.WAIT;
 
-        var array = Object.values(EventPropertyType);
-        var eventPropertyTypeFound = {};
+        var array = Object.values(StatusEventType);
+        var statusEventTypeFound = {};
 
         array.forEach(element => {            
             if(element.enumName === value) {
-                eventPropertyTypeFound = element;      
+                statusEventTypeFound = element;      
                 return ;          
             }            
         });   
         
-        return eventPropertyTypeFound;
+        return statusEventTypeFound;
     },
     getAll() {
-        var array = Object.values(EventPropertyType);
+        var array = Object.values(StatusEventType);
         var result = [{value: 0, description: 'Selecione'}];        
 
         array.forEach(element => {            
@@ -43,4 +47,4 @@ var EventPropertyType = {
     }
 }
 
-export default EventPropertyType;
+export default StatusEventType;

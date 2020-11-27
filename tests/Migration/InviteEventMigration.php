@@ -14,6 +14,7 @@ class InviteEventMigration extends AbstractMigration {
                 `id_user` int(11) NOT NULL,
                 `id_user_friendship` int(11) NOT NULL,
                 `id_event` int(11) NOT NULL,
+                `status` enum('Wait', 'Confirmed', 'Rejected') NOT NULL DEFAULT 'Wait',
                 PRIMARY KEY (`id`),
                 UNIQUE KEY `unico` (`id_user`,`id_user_friendship`,`id_event`)
             ) ENGINE=InnoDB
