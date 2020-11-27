@@ -2,19 +2,17 @@
 
 namespace tests\Model;
 
-use Classes\Enums\InviteTypeEnum;
-
-use Entity\InviteEntity;
+use Entity\InviteFriendshipEntity;
 use Entity\UserEntity;
 
-use Model\InviteModel;
+use Model\InviteFriendshipModel;
 use Model\UserModel;
 
 use tests\Model\AbstractTestCase;
-use tests\Migration\InviteMigration;
+use tests\Migration\InviteFriendshipMigration;
 use tests\Migration\UserMigration;
 
-class InviteModelTest extends AbstractTestCase {
+class InviteFriendshipModelTest extends AbstractTestCase {
     private function createUser($user) {                       
         $userModel = new UserModel($this->getEm());
 
@@ -45,20 +43,19 @@ class InviteModelTest extends AbstractTestCase {
         $migrationUser = new UserMigration($this->getEm());
         $migrationUser->up(); 
 
-        $migration = new InviteMigration($this->getEm());
+        $migration = new InviteFriendshipMigration($this->getEm());
         $migration->up();        
             
         try {
             $user1 = $this->createUser('fulano@yahoo.com.br');
             $user2 = $this->createUser('beltrano@yahoo.com.br');            
 
-            $inviteEntity = new InviteEntity();
+            $inviteEntity = new InviteFriendshipEntity();
             
             $inviteEntity->setIdUser($user1->getId());
-            $inviteEntity->setIdUserFriendship($user2->getId());
-            $inviteEntity->setType(InviteTypeEnum::FRIENDSHIP);
+            $inviteEntity->setIdUserFriendship($user2->getId());            
 
-            $inviteModel = new InviteModel($this->getEm());
+            $inviteModel = new InviteFriendshipModel($this->getEm());
 
             $inviteModel->save($inviteEntity);
 

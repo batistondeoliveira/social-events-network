@@ -2,8 +2,6 @@
 
 namespace Entity;
 
-use Classes\Enums\InviteTypeEnum;
-
 use Entity\AbstractEntity;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
@@ -18,9 +16,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @Entity()
- * @Table(name= "invite")
+ * @Table(name= "invite_friendship")
  */
-class InviteEntity extends AbstractEntity {         
+class InviteFriendshipEntity extends AbstractEntity {         
     /**
      * @Column(name="id_user", type="integer")     
      * @Assert\NotBlank()   
@@ -33,14 +31,7 @@ class InviteEntity extends AbstractEntity {
      * @Assert\NotBlank()   
      * @Serializer\Type("integer")        
      */    
-    private $idUserFriendship;    
-
-    /**
-     * @Column(name="type", type="string")     
-     * @Assert\NotBlank()   
-     * @Serializer\Type("string")        
-     */    
-    private $type;
+    private $idUserFriendship;           
 
     public function __construct() {
         parent::__construct($this);
@@ -90,25 +81,5 @@ class InviteEntity extends AbstractEntity {
         $this->idUserFriendship = $idUserFriendship;
 
         return $this;
-    }    
-
-    /**
-     * Get the value of type
-     */ 
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * Set the value of type
-     *
-     * @return  self
-     */ 
-    public function setType($type)
-    {
-        $this->type = InviteTypeEnum::isValid($type);
-
-        return $this;
-    }
+    }      
 }
