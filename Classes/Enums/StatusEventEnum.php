@@ -8,15 +8,16 @@ use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\ORM\Mapping as ORM;
 
-class InviteTypeEnum extends Type {
-    const __default = self::FRIENDSHIP;
+class StatusEventEnum extends Type {
+    const __default = self::NO;
 
-    const ENUM_INVITE = "enumInvite";
-    const FRIENDSHIP = 'Friendship';
-    const EVENT = 'Event';
+    const ENUM_STATUS_EVENTO = "enumStatusEvent";
+    const AGUARDANDO_CONFIRMACAO = 'Aguardando Confirmacao';
+    const CONFIRMADO = 'Confirmado';
+    const REJEITADO = 'Rejeitado';
 
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform) {
-        return "ENUM('Friendship', 'Event')";
+        return "ENUM('Aguardando Confirmacao', 'Confirmado', 'Rejeitado')";
     }
 
     public function convertToPHPValue($value, AbstractPlatform $platform) {
@@ -24,15 +25,15 @@ class InviteTypeEnum extends Type {
     }
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform) {
-        if (!in_array($value, array(self::Friendship, self::Event))) {
-            throw new \InvalidArgumentException("Valor do campo [Tipo de Convite] está inválido");
+        if (!in_array($value, array(self::AGUARDANDO_CONFIRMACAO, self::CONFIRMADO, self::REJEITADO))) {
+            throw new \InvalidArgumentException("Valor do campo [Status do Evento] está inválido");
         }
 
         return $value;
     }
 
     public function getName() {
-        return self::ENUM_INVITE;
+        return self::ENUM_STATUS_EVENTO;
     }
 
     public function requiresSQLCommentHint(AbstractPlatform $platform) {
@@ -40,10 +41,12 @@ class InviteTypeEnum extends Type {
     }
 
     public static function isValid($value) {                        
-        $class = new \ReflectionClass('Classes\Enums\InviteTypeEnum');
+        $class = new \ReflectionClass('Classes\Enums\StatusEventEnum');
 
         $constants = $class->getConstants();
         $constantName = '';
+
+        $value = strtoupper(str_replace(' ', '_', $value));
         
         foreach ($constants as $constant) {
             if($constant === $value) {
@@ -53,7 +56,7 @@ class InviteTypeEnum extends Type {
         }
 
         if(empty($constantName))
-            throw new InvalidTypeException('Conteúdo do campo Tipo de Convite é inválido: ' . $value);      
+            throw new InvalidTypeException('Conteúdo do campo Status do Evento é inválido: ' . $value);      
             
         return $value;
     } 

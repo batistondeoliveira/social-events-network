@@ -213,7 +213,7 @@ class EventController extends AbstractController {
         if(empty($email))
             return $response->withJson('Informe o email do usuário', 402, JSON_UNESCAPED_UNICODE); 
 
-        $list = $eventModel->getEventsByEmailUser($email);                
+        $list = $eventModel->getEventsByIdUser($this->auth->getId());                
 
         return $response->withJson($this->serialize($list), 200);
     }

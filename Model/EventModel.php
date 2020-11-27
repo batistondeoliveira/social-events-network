@@ -49,16 +49,42 @@ class EventModel extends AbstractModel {
         return $query->getResult(); 
     }
 
-    public function getEventsByEmailUser($email) {        
-        return $this->getRepository()    
-            ->createQueryBuilder("e")                    
-            ->select("e.id, e.name, e.description, DATE_FORMAT(e.date, '%Y-%m-%d') as date, e.time, e.place")
-            ->Join(UserEntity::class, 'u', 'WITH', 'u.id = e.idUser and u.email = :email')            
-            ->setParameter('email', $email)  
-            ->andWhere("e.active = :active")
-            ->setParameter('active', ActiveEnum::YES)          
-            ->getQuery()
-            ->getResult(); 
+    public function getEventsByIdUser($idUser) {        
+        return $this->openSql("
+            SELECT e.id, 
+                   e.name,
+                   e.date, 
+                   e.time, 
+                   e.place, 
+                   'OWNER' AS type
+            FROM `event` e
+            WHERE e.id_user = :idUser
+            
+            UNION
+            
+            SELECT e.id, 
+                   e.name, 
+                   e.date, 
+                   e.time, 
+                   e.place, 
+                   'GUEST' AS type
+            FROM `event` e,
+                 invite_event ie
+            WHERE e.id = ie.id_event
+               AND ie.id_user_friendship = :idUser
+        ", array(
+            'idUser' => $idUser
+        ));
+
+        // return $this->getRepository()    
+        //     ->createQueryBuilder("e")                    
+        //     ->select("e.id, e.name, e.description, DATE_FORMAT(e.date, '%Y-%m-%d') as date, e.time, e.place")
+        //     ->Join(UserEntity::class, 'u', 'WITH', 'u.id = e.idUser and u.email = :email')            
+        //     ->setParameter('email', $email)  
+        //     ->andWhere("e.active = :active")
+        //     ->setParameter('active', ActiveEnum::YES)          
+        //     ->getQuery()
+        //     ->getResult(); 
     }
 
     public function save($eventEntity) {
