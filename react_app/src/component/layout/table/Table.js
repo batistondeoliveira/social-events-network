@@ -17,7 +17,12 @@ class Table extends AbstractComponent {
     }
 
     validarEditar() {
-        return (this.props.remover !== undefined || this.props.editar !== undefined || this.props.onOpenClick !== undefined);
+        return (
+            this.props.remover !== undefined || 
+            this.props.editar !== undefined || 
+            this.props.link !== undefined || 
+            this.props.onOpenClick !== undefined
+        );
     }
 
     editarTd(item, i ) {
@@ -30,10 +35,12 @@ class Table extends AbstractComponent {
                 { 
                     this.props.onOpenClick !== undefined &&
                     <button className="btn btn-info"
-                        onClick={() => this.props.onOpenClick(item[this.props.referenceId])}>
-                        <i className="far fa-eye"/>
+                        onClick={() => this.props.onOpenClick(item[this.props.referenceId], item)}>
+                        <i className={this.props.iconOpenClick} />
                     </button>
-                }
+                }                                
+
+                &nbsp;
 
                 { 
                     this.props.editar !== undefined &&
@@ -70,11 +77,31 @@ class Table extends AbstractComponent {
         this.setState({modalCadastro: false})
     }
 
-    showField(item, itemHead) {
+    showField(itemHead, item, i) {
         if(itemHead.type === 'date') 
-            return dateFormat(item[itemHead.campo]);        
+            return dateFormat(item[itemHead.campo]);    
+        
+        if(itemHead.type === 'checked') 
+            return (
+                <input 
+                    type="checkbox" 
+                    className="form-check-input" 
+                    checked={parseInt(item[itemHead.campo], 10) === 1} 
+                    onChange={() => this.props.onChange(item, i)}
+                />            
+            );
+
+        if(itemHead.type === 'enum') 
+            return this.props.getEnumName(item[itemHead.campo]);
 
         return item[itemHead.campo];
+    }
+
+    classNameTr(item) {
+        if(item.checked === undefined)
+            return ;
+
+        return (parseInt(item.checked, 10) === 1 ? 'table-checked' : '');
     }
 
     render() {
@@ -115,9 +142,29 @@ class Table extends AbstractComponent {
 
                 {
                     this.props.cadastro &&
-                    <button className="btnPrimary" style={{marginBottom: '15px'}}
+                    <button className="btn btn-primary" style={{marginBottom: '15px'}}
                             onClick={() => this.setState({modalCadastro: true, tituloCadastro: this.props.titleModal, editarItem: undefined, editarIndice: undefined})} >
                         <i className="fa fa-plus"/> {this.props.tituloBtnNovo}
+                    </button>
+                }
+
+                &nbsp;
+
+                {
+                    this.props.marcar !== undefined &&
+                    <button className="btn btn-info" style={{marginBottom: '15px'}}
+                            onClick={() => this.props.marcar()} >
+                        <i class="fas fa-check" /> { (this.props.checkAll === 0 ? 'Marcar' : 'Desmarcar') + ' Todos'}
+                    </button>
+                }
+
+                &nbsp;
+
+                {
+                    this.props.btnAux !== undefined &&
+                    <button className="btn btn-success" style={{marginBottom: '15px'}}
+                            onClick={() => this.props.btnAux()} >
+                        { this.props.btnAuxTxt }
                     </button>
                 }
 
@@ -136,17 +183,17 @@ class Table extends AbstractComponent {
                     <tbody>
                         {Array.isArray(this.props.body) && this.props.body.map((item, i) => {
                             return (
-                            <tr key={i}>
-                                {this.props.head.map((itemHead, i) => {
-                                    return (
-                                        <td key={i}>
-                                            {this.showField(item, itemHead)}
-                                        </td>
-                                    )
-                                })}
+                                <tr key={i} className={this.classNameTr(item)}>
+                                    {this.props.head.map((itemHead, i1) => {
+                                        return (
+                                            <td key={i1}>
+                                                {this.showField(itemHead, item, i)}
+                                            </td>
+                                        )
+                                    })}
 
-                                {this.editarTd(item, i)}
-                            </tr>
+                                    {this.editarTd(item, i)}
+                                </tr>
                             )
                         })}
                     </tbody>
@@ -160,7 +207,8 @@ Table.defaultProps = {
     codigo: 'id',
     titleModal: 'Novo',
     titleMsgRemove: 'Tem certeza que deseja remover este registro?',
-    tituloBtnNovo: 'Novo'
+    tituloBtnNovo: 'Novo',
+    iconOpenClick: "far fa-eye"
 };
 
 export default  Table;
