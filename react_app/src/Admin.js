@@ -22,8 +22,8 @@ class Admin extends AbstractComponent {
         let menus = [];                            
         
         menus.push(this.addMenu('', 'Área Pública', '/'));
-        menus.push(this.addMenu('', 'Meus eventos', '/admin'));
         menus.push(this.addMenu('', 'Lista de amigos', '/admin/friendship'));
+        menus.push(this.addMenu('', 'Meus eventos', '/admin'));        
 
         this.setState({
             menu: menus    

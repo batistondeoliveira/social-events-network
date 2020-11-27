@@ -9,19 +9,15 @@ import ModalSuccess from '../layout/modal/ModalSuccess';
 
 import FriendshipService from '../../service/FriendshipService';
 
-class List extends AbstractComponent {
+class InviteEvents extends AbstractComponent {
     constructor(props) {
         super(props);        
 
-        this.state = {
-            filter: {
-                date: '',
-                place: ''
-            },
-
+        this.state = {            
             head : [
                 {nome: 'Nome', campo: 'name'},                
-                {nome: 'Email', campo: 'email'}                
+                {nome: 'Email', campo: 'email'},
+                {nome: 'Marcar', campo: 'checked', type: 'checked'},
             ],
 
             body: [],
@@ -30,37 +26,11 @@ class List extends AbstractComponent {
 
             error: '',
 
-            success: ''
+            success: '',
+
+            checkAll: 0
         }        
-    }            
-
-    undoFriendship(item, i) {
-        this.setState({preload: true});
-
-        FriendshipService.undoFriendship(
-            item.id,
-            item.type
-        ).then(() => {
-            const event = this.state.body;
-
-            event.splice(i, 1);
-
-            this.setState({
-                body: event, 
-                preload: false
-            });
-        }).catch(() => {
-            this.setState({                
-                preload: false
-            });
-        });
-    }
-
-    add(message) {        
-        this.table.fecharCadastro();
-        
-        this.setState({success: message});
-    }
+    }                
 
     componentDidMount() {        
         FriendshipService.list(
@@ -79,6 +49,39 @@ class List extends AbstractComponent {
             });            
         });
     }    
+
+    check(item, i) {        
+        const body = this.state.body;
+
+        item.checked = (parseInt(item.checked, 10) === 0 ? 1 : 0);               
+        
+        body.splice(i, 1, item);
+
+        this.setState({
+            body: body            
+        });
+    }
+
+    checkAll() {        
+        let body = this.state.body;
+        
+        body.map((item, i) => {
+            item.checked = (this.state.checkAll === 0 ? 1 : 0);
+
+            body.splice(i, 1, item);  
+            
+            return body;
+        })        
+        
+        this.setState({
+            body: body,
+            checkAll: (this.state.checkAll === 0 ? 1 : 0)
+        });
+    }
+
+    btnAux() {
+        alert('1');
+    }
 
     render() {
         return (
@@ -102,23 +105,19 @@ class List extends AbstractComponent {
                 <Table
                     ref={ref => this.table = ref}
                     head={this.state.head}
-                    body={this.state.body}                    
-                    cadastro={true} 
+                    body={this.state.body}                                         
                     tituloBtnNovo="Convidar amigo"
-                    remover={(item, i) => this.undoFriendship(item, i)}
-                    titleMsgRemove="Tem certeza de que deseja desfazer a amizade?"
+                    link={(item, i) => this.check(item, i)}
+                    marcar={() => this.checkAll()}     
+                    checkAll={this.state.checkAll}     
+                    btnAux={() => this.btnAux()}  
+                    btnAuxTxt="Enviar convite"                    
                     titleModal="Convidar amigo"
-                    referenceId="id" 
-                    component={ (props) => { return <Invite 
-                            ok={(message) => this.add(message)} {...props}    
-                        
-                            route={item => this.props.route(item)}
-                        />
-                    }}                  
+                    referenceId="id"                                      
                 />
             </div>
         )
     }
 }
 
-export default List;
+export default InviteEvents;

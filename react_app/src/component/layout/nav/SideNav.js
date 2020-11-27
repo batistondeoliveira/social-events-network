@@ -29,6 +29,7 @@ class SideNav extends React.Component {
             this.props.menu.map((item, i ) => {
                 return(
                     <a 
+                        key={i}
                         className={"nav-link " + (this.state.active === i ? 'active' : '')}
                         onClick={() => this.link(item, i)}
                     >

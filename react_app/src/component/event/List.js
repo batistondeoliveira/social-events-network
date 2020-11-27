@@ -91,42 +91,32 @@ class List extends AbstractComponent {
                     sm={12} 
                     lg={12}
                     title="Filtros"
-                >
-                    <div className="col-md-5
-                                    col-sm-5
-                                    col-lg-5
-                                    col-xs-5">
-                        <InputDate
-                            md={6}
-                            xs={6}
-                            sm={6}
-                            lg={6}
-                            name="date"                                    
-                            classNameInput="background-transparent"  
-                            value={this.state.filter.date}                                                                            
-                            onChange={(e) => this.onChange(e)}
-                        >
-                            Data
-                        </InputDate>
-                    </div>
+                >                    
+                    <InputDate
+                        md={3}
+                        xs={3}
+                        sm={3}
+                        lg={3}
+                        name="date"                                    
+                        classNameInput="background-transparent"  
+                        value={this.state.filter.date}                                                                            
+                        onChange={(e) => this.onChange(e)}
+                    >
+                        Data
+                    </InputDate>                    
+                    
+                    <InputSelectPlace
+                        md={7}
+                        xs={7}
+                        sm={7}
+                        lg={7}                                                        
+                        name="place"                         
+                        value={this.state.filter.place}    
+                        defaultValue={this.state.filter.place}                                            
+                        onChange={ e => this.onChange(e) } 
 
-                    <div className="col-md-5
-                                    col-sm-5
-                                    col-lg-5
-                                    col-xs-5">
-                        <InputSelectPlace
-                            md={4}
-                            xs={4}
-                            sm={4}
-                            lg={4}                                                        
-                            name="place"                         
-                            value={this.state.filter.place}    
-                            defaultValue={this.state.filter.place}                                            
-                            onChange={ e => this.onChange(e) } 
-
-                            route={item => this.props.route(item)}
-                        />
-                    </div>
+                        route={item => this.props.route(item)}
+                    />                    
 
                     <Button
                         md={2}
