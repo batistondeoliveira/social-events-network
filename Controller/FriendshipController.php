@@ -96,4 +96,56 @@ class FriendshipController extends AbstractController {
 
         return $response->withJson('Amizade desfeita com sucesso', 200, JSON_UNESCAPED_UNICODE);
     }
+
+    /**
+     * @api {get} /friendship/event/list List all your friends who have not been invited to an event 
+     * @apiVersion 1.0.0
+     * @apiName inviteEventList
+     * @apiGroup friendship
+     *                          
+     * @apiHeaderExample {json} Header-Example:
+     *    {
+     *       "X-Token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uIjoiJDJ5JDEwJDRVcWQyWWtlYlQ0b0R0VDVmc3JKc2V1SGdKOEhrOTZVZzN5VHZrbUc0MlhGOWRyeVBuOVF1IiwiaWQiOjEsImlhdCI6MTYwNjE4MTcxOCwiZXhwIjoxNjA2MTg1MzE4fQ.MgVgpZF_pCUBlXVyvT8SOU708y2-1nqEdxGJkXImucQ"
+     *       "E-Mail": "fulano@gmail.com"
+     *    }
+     *       
+     * @apiError (401) String Unauthorized action     
+     * @apiError (402) String ID do evento não informado
+     * 
+     * 
+     * @apiSuccess (200) {jsonArray} data List all available friends
+     * 
+     * @apiSuccessExample {json} Exemple Value
+     * 
+     * [
+     *   {
+     *     "name": "fulano",
+     *     "email": "fulano@yahoo.com.br",
+     *     "type": "Owner"
+     *   },
+     *   {
+     *     "name": "Beltrano",
+     *     "email": "beltrano@yahoo.com.br",
+     *     "type": "Friendship"
+     *   }
+     * ]
+     *      
+     */
+    public function inviteEventList(Request $request, Response $response, $args) {
+        $this->auth($request);
+
+        $idEvento = $args['idEvento'];
+
+        if(empty($idEvento))
+            $response->withJson('ID do evento não informado', 402, JSON_UNESCAPED_UNICODE);    
+
+        $friendShipModel = new FriendshipModel($this->container->em);              
+        
+        $list = $friendShipModel->inviteEventList(
+            $this->auth->getId(),
+            $idEvento
+        );
+        
+        return $response->withJson($this->serialize($list), 200);
+    }
 }

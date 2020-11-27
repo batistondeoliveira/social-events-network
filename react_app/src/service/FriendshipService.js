@@ -12,6 +12,10 @@ class FriendshipService {
             type: type
         });
     }    
+
+    static async inviteEventList(idEvento) {                
+        return RequestService.get(Config.urlApi + 'friendship/event/invite/' + idEvento);
+    } 
 }
 
 export default FriendshipService;

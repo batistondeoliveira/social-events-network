@@ -16,7 +16,8 @@ class FriendshipModel extends AbstractModel {
             SELECT u.id,
                    u.name, 
                    u.email,
-                   'Owner' as type
+                   'Owner' as type,
+                   0 as checked
             FROM `user` u, 
                  friendship fr
             WHERE fr.id_user_friendship = u.id 
@@ -24,16 +25,57 @@ class FriendshipModel extends AbstractModel {
 
             UNION 
 
-            SELECT u.id,
+            SELECT fr.id_user_friendship as id,
                    u.name, 
                    u.email,
-                   'Friendship' as type
+                   'Friendship' as type,
+                   0 as checked
             FROM `user` u, 
                  friendship fr
             WHERE u.id = fr.id_user
                AND fr.id_user_friendship = :idUser
         ", array(
             'idUser' => $idUser
+        ));
+    }
+
+    public function inviteEventList($idUser, $idEvento) {
+        return $this->openSql("
+            SELECT u.id,
+                   u.name, 
+                   u.email,
+                   'Owner' as type,
+                   0 as checked
+            FROM `user` u, 
+                 friendship fr
+            WHERE fr.id_user_friendship = u.id 
+               AND fr.id_user = :idUser
+               AND NOT EXISTS (
+                    SELECT id_user 
+                    FROM invite_event 
+                    WHERE id_user = :idUser 
+                       AND id_event = :idEvent
+               ) 
+            UNION 
+
+            SELECT fr.id_user_friendship as id,
+                   u.name, 
+                   u.email,
+                   'Friendship' as type,
+                   0 as checked
+            FROM `user` u, 
+                 friendship fr
+            WHERE u.id = fr.id_user
+               AND fr.id_user_friendship = :idUser
+               AND NOT EXISTS (
+                    SELECT id_user 
+                    FROM invite_event 
+                    WHERE id_user = :idUser 
+                       AND id_event = :idEvent
+               ) 
+        ", array(
+            'idUser' => $idUser,
+            'idEvent' => $idEvent
         ));
     }
 

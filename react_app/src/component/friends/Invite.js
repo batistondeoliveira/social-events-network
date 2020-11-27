@@ -5,7 +5,7 @@ import Button from '../layout/button/Button';
 import Alerta from '../layout/alerta/Alerta';
 import Form from '../layout/form/Form';
 
-import InviteService from '../../service/InviteService';
+import InviteFriendshipService from '../../service/InviteFriendshipService';
 
 class Invite extends AbstractComponent {
     constructor(props) {
@@ -71,7 +71,7 @@ class Invite extends AbstractComponent {
             btnFinalizar: 'AGUARDE...'
         });                
 
-        InviteService.invite(
+        InviteFriendshipService.invite(
             data.email
         ).then(response => {            
             this.props.ok(response.data, this.props.indice);
