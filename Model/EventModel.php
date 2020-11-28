@@ -91,8 +91,10 @@ class EventModel extends AbstractModel {
             FROM `event` e,
                  invite_event ie
             WHERE e.id = ie.id_event
-               AND ie.id_user_friendship = :idUser " . $having
-        , $param);
+               AND ie.id_user_friendship = :idUser " . $having . " 
+            
+            ORDER BY id
+        ", $param);
 
         // return $this->getRepository()    
         //     ->createQueryBuilder("e")                    
