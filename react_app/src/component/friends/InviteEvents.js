@@ -77,11 +77,7 @@ class InviteEvents extends AbstractComponent {
             body: body,
             checkAll: (this.state.checkAll === 0 ? 1 : 0)
         });
-    }
-
-    btnAux() {
-        alert('1');
-    }
+    }   
 
     render() {
         return (
@@ -109,9 +105,7 @@ class InviteEvents extends AbstractComponent {
                     tituloBtnNovo="Convidar amigo"
                     link={(item, i) => this.check(item, i)}
                     marcar={() => this.checkAll()}     
-                    checkAll={this.state.checkAll}     
-                    btnAux={() => this.btnAux()}  
-                    btnAuxTxt="Enviar convite"                    
+                    checkAll={this.state.checkAll}                                                        
                     titleModal="Convidar amigo"
                     referenceId="id"                                      
                 />

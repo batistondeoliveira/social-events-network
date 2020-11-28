@@ -24,7 +24,7 @@ class Invite extends AbstractComponent {
 
             preview: false,            
             
-            btnFinalizar: 'Convidar'            
+            btnFinalizar: 'CONVIDAR'            
         }                       
     }    
 
@@ -75,6 +75,8 @@ class Invite extends AbstractComponent {
             data.email
         ).then(response => {            
             this.props.ok(response.data, this.props.indice);
+
+            this.setState({ btnFinalizar: 'CONVIDAR' });
         }).catch(error => { 
             if(this.is401Error(error)) {
                 this.goLoginArea();
@@ -82,7 +84,7 @@ class Invite extends AbstractComponent {
             }
                                 
             this.setState({                
-                btnFinalizar: 'Convidar',
+                btnFinalizar: 'CONVIDAR',
                 error: this.handlingError(error)
             });            
         });        
@@ -121,6 +123,7 @@ class Invite extends AbstractComponent {
                     lg={12}                                    
                     classNameInput="btn btn-success"                      
                     type="submit"
+                    disabled={this.state.btnFinalizar !== 'CONVIDAR'}
                 >
                     {this.state.btnFinalizar}
                 </Button>

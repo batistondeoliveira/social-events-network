@@ -31,7 +31,8 @@ class Button extends React.Component {
                     <button 
                         type={this.props.button}
                         className={"form-control " + this.props.classNameButton}
-                        onClick={(e) => this.onClick()}
+                        onClick={(e) => this.onClick(e)}
+                        disabled={this.props.disabled}
                     >
                         {this.props.children}    
                     </button>                    

@@ -16,21 +16,20 @@ class SideNav extends React.Component {
 
     showComponent() {        
         if(this.props.menu === undefined)
-            return ;
-
-        this.props.menu.map((item, i) => {
-            const link = (typeof item.link === 'string') ? item.link : -1;
-
-            if(window.location.pathname === link) 
-                this.state.active = i;            
-        })
+            return ;        
 
         return (
             this.props.menu.map((item, i ) => {
+                const link = (typeof item.link === 'string') ? item.link : -1;
+                var active = this.state.active;
+                                
+                if(window.location.pathname === link) 
+                    active = i;            
+
                 return(
                     <a 
                         key={i}
-                        className={"nav-link " + (this.state.active === i ? 'active' : '')}
+                        className={"nav-link " + (active === i ? 'active' : '')}
                         onClick={() => this.link(item, i)}
                     >
                         <div className="sb-nav-link-icon">

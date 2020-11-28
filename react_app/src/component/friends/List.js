@@ -56,10 +56,9 @@ class List extends AbstractComponent {
         });
     }
 
-    add(message) {        
-        this.table.fecharCadastro();
-        
-        this.setState({success: message});
+    add() {        
+        this.table.fecharCadastro();        
+        this.setState({success: 'Email enviado com sucesso'});
     }
 
     componentDidMount() {        
@@ -110,7 +109,7 @@ class List extends AbstractComponent {
                     titleModal="Convidar amigo"
                     referenceId="id" 
                     component={ (props) => { return <Invite 
-                            ok={(message) => this.add(message)} {...props}    
+                            ok={() => this.add()} {...props}    
                         
                             route={item => this.props.route(item)}
                         />
