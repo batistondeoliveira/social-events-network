@@ -1,7 +1,7 @@
 import React from 'react';
+import {Modal} from 'react-bootstrap';
 import AbstractComponent from '../AbstractComponent';
 import Title from "../layout/title/Title";
-import Table from "../layout/table/Table";
 import Preload from "../layout/preload/Preload";
 import ModalAlerta from '../layout/modal/ModalAlerta';
 import ModalSuccess from '../layout/modal/ModalSuccess';
@@ -9,7 +9,10 @@ import Panel from '../layout/panel/Panel';
 import InputSelect from '../layout/input/InputSelect';
 import ClearButton from '../layout/button/ClearButton';
 import SearchButton from '../layout/button/SearchButton';
+import MyModal from '../layout/modal/MyModal';
 import ModalInvite from './ModalInvite';
+import MyEventTable from "./MyEventTable";
+import Detail from './Detail';
 import Register from './Register';
 
 import EventPropertyType from '../../enumerador/EventPropertyType';
@@ -42,6 +45,8 @@ class MyEvents extends AbstractComponent {
             preload: true,
 
             invite: false,
+
+            detail: undefined,
 
             event: {},
 
@@ -168,7 +173,18 @@ class MyEvents extends AbstractComponent {
                     close={() => this.setState({error: ''})}
                 />
 
-                <Preload show={this.state.preload} />                
+                <Preload show={this.state.preload} />   
+
+                <MyModal
+                    show={this.state.detail !== undefined}
+                    header="Lista de Eventos"
+                    close={() => this.setState({detail: undefined})}
+                >
+                    <Detail 
+                        detail={this.state.detail} 
+                        close={() => this.setState({detail: undefined})}
+                    />
+                </MyModal>
 
                 {
                     this.state.invite &&                
@@ -241,7 +257,7 @@ class MyEvents extends AbstractComponent {
                     />                                        
                 </Panel>
 
-                <Table
+                <MyEventTable
                     ref={ref => this.table = ref}
                     head={this.state.head}
                     body={this.state.body}                    
@@ -249,8 +265,8 @@ class MyEvents extends AbstractComponent {
                     titleMsgRemove={'Tem certeza de que deseja cancelar o evento?'}
                     cadastro={true}
                     editar={ true }   
-                    onOpenClick={(id, item) => this.setState({event: item, invite: true})} 
-                    iconOpenClick={"fas fa-user-plus"} 
+                    onInvite={(item) => this.setState({event: item, invite: true})} 
+                    onOpenClick={(item) => this.setState({detail: item})}                    
                     getEnumName={(enumName) => EventPropertyType.get(enumName).description}
                     component={ (props) => { return <Register 
                             ok={(item, i) => this.add(item, i)} {...props}    

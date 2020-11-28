@@ -34,11 +34,7 @@ class List extends AbstractComponent {
 
             preload: true
         }        
-    }
-
-    onOpenClick(referenceId) {
-        this.props.route(route('', '', '/detail/' + referenceId));
-    }
+    }    
 
     clearFilter() {
         const filter = this.state.filter;
@@ -152,7 +148,7 @@ class List extends AbstractComponent {
                     body={this.state.body}                    
                     cadastro={false} 
                     referenceId="id"
-                    onOpenClick={(referenceId) => this.onOpenClick(referenceId)}
+                    onOpenClick={(item) => this.props.route(route('', '', '/detail/' + item.id))}
                 />
             </div>
         )
