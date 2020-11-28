@@ -19,7 +19,7 @@ var StatusEventType = {
         var statusEventTypeFound = {};
 
         array.forEach(element => {            
-            if(element.enumName === value) {
+            if(element.enumName === value.toUpperCase()) {
                 statusEventTypeFound = element;      
                 return ;          
             }            
@@ -27,20 +27,33 @@ var StatusEventType = {
         
         return statusEventTypeFound;
     },
-    getAll() {
+    getAll(from = -1) {
         var array = Object.values(StatusEventType);
-        var result = [{value: 0, description: 'Selecione'}];        
+        var result = [];        
+
+        if(from === -1)
+            result.push({
+                value: 0, 
+                description: 'Selecione', 
+                selected: false
+            });
+
+        var index = -1;
 
         array.forEach(element => {            
+            index++;
+
             if(element.enumName === undefined) 
                 return;            
+
+            if(index < from)
+                return ;
 
             result.push({
                 value: element.enumName, 
                 description: element.description, 
                 selected: false
-            })
-
+            })            
         }); 
 
         return result;
