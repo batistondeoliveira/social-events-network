@@ -19,7 +19,7 @@ class Cadastro extends AbstractComponent {
         this.state = {
             error: '', 
             
-            success: '',            
+            success: '',               
             
             errorForm: {                  
                 name: '',
@@ -31,19 +31,20 @@ class Cadastro extends AbstractComponent {
             form: {
                 id: 0, 
                 name: '',
-                email: '',
+                email: props.match.params.email,
                 password: '',
                 bio: '',
                 profile_picture: '',
                 city: '',
                 state: '',
-                confirm_password: ''                
+                confirm_password: '',
+                idInvitedBy: props.match.params.idInvitedBy                
             },                                               
 
             preview: false,            
             
             btnFinalizar: 'FINALIZAR'
-        }               
+        }    
     }    
 
     onChange(e) {  
@@ -136,14 +137,16 @@ class Cadastro extends AbstractComponent {
         form.profile_picture = el.value;                        
 
         this.setState({ form: form });
-    }
+    }    
 
     render () {
         return (              
             <div> 
                 <Title title="Cadastro de usuário"/>
 
-                <Form id="form" onSubmit={(e) => this.onSubmit(e)}>                 
+                <Form id="form" onSubmit={(e) => this.onSubmit(e)}>  
+                    <input type="hidden" id="idInvitedBy" name="idInvitedBy" value={this.state.form.idInvitedBy} />               
+                    
                     <ModalAlerta 
                         show={this.state.error !== ''}
                         text={this.state.error}

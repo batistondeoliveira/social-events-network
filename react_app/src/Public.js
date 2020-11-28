@@ -107,6 +107,18 @@ class Public extends AbstractComponent {
                                                     route={(item) => this.browserRoute.history.push(item.link)}
                                                 />
                                             }
+                                        /> 
+
+                                        <Route 
+                                            exact 
+                                            path='/register/:idInvitedBy/:email'
+                                            render={props => 
+                                                <Register
+                                                    {...props}
+                                                        
+                                                    route={(item) => this.browserRoute.history.push(item.link)}
+                                                />
+                                            }
                                         />  
 
                                         <Route 

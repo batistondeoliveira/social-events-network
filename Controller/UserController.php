@@ -3,8 +3,10 @@
 namespace Controller;
 
 use Entity\UserEntity;
+use Entity\FriendshipEntity;
 
 use Model\UserModel;
+use Model\FriendshipModel;
 use Model\UserLoginModel;
 
 use Slim\Http\Request;
@@ -31,7 +33,8 @@ class UserController extends AbstractController {
      *      "bio": "",
      *      "profile_picture": "",
      *      "city": "Fulano City",
-     *      "state": "MG"
+     *      "state": "MG",
+     *      "idUserInvitedBy": 0
      *    }
      * 
      * @apiError (405) MessageError Validation error message     
@@ -59,7 +62,7 @@ class UserController extends AbstractController {
             $userEntity->setCity($request->getParsedBodyParam('city'));
             $userEntity->setState($request->getParsedBodyParam('state'));
             $userEntity->setEmail($request->getParsedBodyParam('email'));
-            $userEntity->setPassword($request->getParsedBodyParam('password'));            
+            $userEntity->setPassword($request->getParsedBodyParam('password'));                        
             
             $userModel = new UserModel($this->container->em);
             
@@ -77,9 +80,21 @@ class UserController extends AbstractController {
                 $upload['profile_picture']->moveTo($this->dirUpload . 'user/' . $fileName);
 
                 $userEntity->setProfilePicture($fileName);
-            }
+            }            
 
             $userModel->save($userEntity); 
+
+            if(empty($request->getParsedBodyParam('idInvitedBy')))
+                return $response->withJson($userEntity->serialize(), 200);
+
+            $friendshipModel = new FriendshipModel($this->container->em);
+
+            $friendshipEntity = new FriendshipEntity();
+
+            $friendshipEntity->setIdUser($userEntity->getId());
+            $friendshipEntity->setIdUserFriendship($request->getParsedBodyParam('idInvitedBy'));
+
+            $friendshipModel->save($friendshipEntity);
 
             return $response->withJson($userEntity->serialize(), 200);
         } catch(\Exception $ex) {            
