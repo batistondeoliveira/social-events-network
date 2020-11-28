@@ -13,7 +13,7 @@ class ClearButton extends React.Component {
                 classNameButton="btn btn-danger"
                 onClick={ e => this.props.onClick(e) }
             >
-                <i class="fa fa-eraser" />
+                <i className="fa fa-eraser" />
             </Button>
         )
     }

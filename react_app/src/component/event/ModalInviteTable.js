@@ -153,7 +153,7 @@ class ModalInviteTable extends AbstractComponent {
                     this.props.marcar !== undefined &&
                     <button className="btn btn-info" style={{marginBottom: '15px'}}
                             onClick={() => this.props.marcar()} >
-                        <i class="fas fa-check" /> { (this.props.checkAll === 0 ? 'Marcar' : 'Desmarcar') + ' Todos'}
+                        <i className="fas fa-check" /> { (this.props.checkAll === 0 ? 'Marcar' : 'Desmarcar') + ' Todos'}
                     </button>
                 }
 

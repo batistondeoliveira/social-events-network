@@ -58,7 +58,7 @@ class MyEventTable extends AbstractComponent {
                     aria-expanded="false"
                     style={{width: '36px'}}
                 >
-                    <i class="fas fa-reply" style={{marginLeft: '-8px'}} />
+                    <i className="fas fa-reply" style={{marginLeft: '-8px'}} />
                 </button>
 
                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">  
