@@ -3,6 +3,8 @@
 
 Social event network project for the coderock selection process
 
+See the application running at https://www.elielbatiston.life/
+
 Introduction
 ------------
 
@@ -11,7 +13,7 @@ This will install all necessary libraries. However, you must have installed the 
 
 NOTE: Please, if necessary ask me to send my vendor folder with all the necessary libraries.
 
-**2nd Part:** After the 1st part, run the instruction `npm build` inside the react_app folder.
+**2nd Part:** After the 1st part, run the instruction `npm start` inside the react_app folder.
 
 List of third-party libraries
 -----------------------------
@@ -25,6 +27,8 @@ List of third-party libraries
 - **symfony/validator:** When you use your anotations, they are responsible for validating the information provided by user, preventing any business rule from being broken. For example, the field cannot be null
 
 - **phpunit/phpunit:** Library responsible for unit tests
+
+- **phpmailer/phpmailer:** Library responsible for sending email
 
 ### Frontend
 
