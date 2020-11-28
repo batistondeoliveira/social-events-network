@@ -44,7 +44,7 @@ class MyEventTable extends AbstractComponent {
         if(item.status.toUpperCase() === StatusEventType.CONFIRMED.enumName)
             return ;                                    
                   
-        if(convertStrToDate(dateFormat(item.date)) < new Date())        
+        if(convertStrToDate(dateFormat(item.date), item.time) < new Date())        
             return ;        
 
         return (
@@ -77,12 +77,17 @@ class MyEventTable extends AbstractComponent {
                 </div>
             </Fragment>
         );
-    }
+    }    
 
     editarTd(item, i ) {
-        if(!this.validarEditar()) {
-            return;
-        }
+        if(!this.validarEditar()) 
+            return;        
+
+        if(item === undefined)
+            return ;
+
+        if(convertStrToDate(dateFormat(item.date), item.time) < new Date())        
+            return ;  
 
         return (
             <th className="text-right">
@@ -90,22 +95,22 @@ class MyEventTable extends AbstractComponent {
 
                 &nbsp;
 
-                {                        
-                    <button className="btn btn-info"
-                        onClick={() => this.props.onInvite(item)}>
-                        <i className="fas fa-user-plus" /> 
-                    </button>                    
-                }    
+                <button 
+                    className="btn btn-info"
+                    onClick={() => this.props.onInvite(item)}>
+                    <i className="fas fa-user-plus" /> 
+                </button>                    
 
                 &nbsp;
-
-                {                     
+                                   
+                {
                     ((this.props.onOpenClick !== undefined)&&((item !== undefined)&&(item.type === EventPropertyType.GUEST.enumName))) &&
-                    <button className="btn btn-info"
+                    <button 
+                        className="btn btn-info"
                         onClick={() => this.props.onOpenClick(item)}>
                         <i className="far fa-eye" />
-                    </button>
-                }                                                                    
+                    </button>                
+                }   
 
                 &nbsp;
 
@@ -125,7 +130,7 @@ class MyEventTable extends AbstractComponent {
                         onClick={() => this.setState({modal: true, removerItem: item, removerIndice: i})}>
                         <i className="fa fa-times" />
                     </button>
-                }
+                }              
             </th>
         )
     }

@@ -19,6 +19,9 @@ import StatusEventType from '../../enumerador/StatusEventType';
 import EventService from '../../service/EventService';
 import InviteEventService from '../../service/InviteEventService';
 
+import { convertStrToDate } from '../../functions/Convert';
+import { dateFormat } from '../../functions/Format';
+
 class MyEvents extends AbstractComponent {
     constructor(props) {
         super(props);        
@@ -195,6 +198,17 @@ class MyEvents extends AbstractComponent {
     }
 
     row(item) {
+        if(convertStrToDate(dateFormat(item.date), item.time) < new Date())
+            return (
+                <Fragment>
+                    <br/>
+
+                    <label style={{backgroundColor: 'red', color: '#ffffff'}}>
+                        Expirado
+                    </label>
+                </Fragment>
+            )
+
         if(item.status === undefined)
             return ;
 

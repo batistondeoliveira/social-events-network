@@ -9,6 +9,7 @@ import InputTime from '../layout/input/InputTime';
 
 import EventService from '../../service/EventService';
 
+import { convertStrToDate } from '../../functions/Convert';
 import { dateFormat } from '../../functions/Format';
 
 class Register extends AbstractComponent {
@@ -36,7 +37,7 @@ class Register extends AbstractComponent {
 
             preview: false,            
             
-            btnFinalizar: 'FINALIZAR'
+            btnFinalizar: 'SALVAR'
         }                       
     }    
 
@@ -82,6 +83,12 @@ class Register extends AbstractComponent {
         
         if(!form.time) {
             error.password = "Informe o campo hora";
+            showError = true;
+        }
+
+        if(convertStrToDate(dateFormat(form.date), form.time) < new Date()) {
+            error.date = 'Data e hora do evento não pode ser menor que a data atual';
+            error.time = 'Data e hora do evento não pode ser menor que a data atual';
             showError = true;
         }
 
@@ -224,9 +231,10 @@ class Register extends AbstractComponent {
                 <div className="form-group mt-4 mb-0">
                     <button 
                         type="submit"
-                        className="btn btn-success btn-lg btn-block"                         
+                        className="btn btn-success btn-lg btn-block"  
+                        disabled={this.state.btnFinalizar !== 'SALVAR'}                       
                     >
-                        Salvar                        
+                        {this.state.btnFinalizar}
                     </button>
                 </div>                                                                              
             </Form>            
