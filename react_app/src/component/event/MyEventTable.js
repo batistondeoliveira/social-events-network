@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import AbstractComponent from '../AbstractComponent';
 import {Modal} from 'react-bootstrap';
 
 import EventPropertyType from '../../enumerador/EventPropertyType';
+import StatusEventType from '../../enumerador/StatusEventType';
 
 import { dateFormat } from '../../functions/Format';
+import { convertStrToDate } from '../../functions/Convert';
 
 class MyEventTable extends AbstractComponent {
 
@@ -24,6 +26,57 @@ class MyEventTable extends AbstractComponent {
             this.props.editar !== undefined ||             
             this.props.onOpenClick !== undefined
         );
+    }    
+
+    showBtnReply(item, i) {        
+        if(this.props.replyEvent === undefined)
+            return ;
+
+        if(item === undefined)
+            return ;
+
+        if(item.type === EventPropertyType.OWNER.enumName)
+            return ;            
+            
+        if(item.status === undefined)
+            return ;
+            
+        if(item.status.toUpperCase() === StatusEventType.CONFIRMED.enumName)
+            return ;                                    
+                  
+        if(convertStrToDate(dateFormat(item.date)) < new Date())        
+            return ;        
+
+        return (
+            <Fragment>
+                <button 
+                    id="dropdownMenuButton"
+                    type="button"    
+                    className="btn btn-warning dropdown-toggle"
+                    data-toggle="dropdown" 
+                    aria-haspopup="true" 
+                    aria-expanded="false"
+                >
+                    <i class="fas fa-reply" />
+                </button>
+
+                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">  
+                    {
+                        StatusEventType.getAll(1).map((value, index) => {
+                            return (
+                                <a 
+                                    key={index} 
+                                    className="dropdown-item" 
+                                    onClick={() => this.props.replyEvent(item.id, value.value, i)}
+                                >
+                                    {value.description }
+                                </a>        
+                            )
+                        })
+                    }                                                      
+                </div>
+            </Fragment>
+        );
     }
 
     editarTd(item, i ) {
@@ -33,11 +86,15 @@ class MyEventTable extends AbstractComponent {
 
         return (
             <th className="text-right">
-                {                     
+                { this.showBtnReply(item, i) }
+
+                &nbsp;
+
+                {                        
                     <button className="btn btn-info"
                         onClick={() => this.props.onInvite(item)}>
-                        <i className="fas fa-user-plus" />
-                    </button>
+                        <i className="fas fa-user-plus" /> 
+                    </button>                    
                 }    
 
                 &nbsp;
@@ -48,7 +105,7 @@ class MyEventTable extends AbstractComponent {
                         onClick={() => this.props.onOpenClick(item)}>
                         <i className="far fa-eye" />
                     </button>
-                }                            
+                }                                                                    
 
                 &nbsp;
 
@@ -85,6 +142,13 @@ class MyEventTable extends AbstractComponent {
 
     fecharCadastro() {
         this.setState({modalCadastro: false})
+    }
+
+    row(itemHead, item) {
+        if(itemHead.function === undefined)
+            return ;            
+
+        return itemHead.function(item);
     }
 
     showField(itemHead, item, i) {
@@ -183,6 +247,7 @@ class MyEventTable extends AbstractComponent {
                                         return (
                                             <td key={i1}>
                                                 {this.showField(itemHead, item, i)}
+                                                { this.row(itemHead, item) }
                                             </td>
                                         )
                                     })}
