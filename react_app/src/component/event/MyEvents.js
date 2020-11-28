@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import AbstractComponent from '../AbstractComponent';
 import Title from "../layout/title/Title";
 import Preload from "../layout/preload/Preload";
@@ -17,6 +17,7 @@ import EventPropertyType from '../../enumerador/EventPropertyType';
 import StatusEventType from '../../enumerador/StatusEventType';
 
 import EventService from '../../service/EventService';
+import InviteEventService from '../../service/InviteEventService';
 
 class MyEvents extends AbstractComponent {
     constructor(props) {
@@ -35,7 +36,7 @@ class MyEvents extends AbstractComponent {
                 {nome: 'Data', campo: 'date', type: 'date'},
                 {nome: 'Hora', campo: 'time'},
                 {nome: 'Lugar', campo: 'place'},                
-                {nome: 'Tipo', campo: 'type', type: 'enum'},
+                {nome: 'Tipo', campo: 'type', type: 'enum', function: (item) => this.row(item)},
             ],
 
             body: [],
@@ -45,6 +46,8 @@ class MyEvents extends AbstractComponent {
             invite: false,
 
             detail: undefined,
+
+            ask: undefined,
 
             event: {},
 
@@ -150,7 +153,61 @@ class MyEvents extends AbstractComponent {
 
         body[i] = item;
         this.setState({body: body});
-    }    
+    }        
+
+    replyEvent(idEvent, status, index) {
+        this.setState({preload: true});
+
+        InviteEventService.replyEvents(            
+            idEvent,
+            status
+        ).then(response => {
+            let body = this.state.body;            
+
+            body[index].status = status;
+
+            this.setState({
+                body: body,
+                success: response.data, 
+                preload: false
+            })
+        }).catch(error => {
+            if(this.is401Error(error)) {
+                this.goLoginArea();
+                return;
+            }
+                
+            this.setState({
+                preload: false,
+                error: this.handlingError(error)                
+            });
+        });
+    }
+
+    color(item) {
+        if(item.status.toUpperCase() === StatusEventType.CONFIRMED.enumName)
+            return 'green';
+
+        if(item.status.toUpperCase() === StatusEventType.REJECTED.enumName)
+            return 'red';
+
+        return 'blue';
+    }
+
+    row(item) {
+        if(item.status === undefined)
+            return ;
+
+        return (
+            <Fragment>
+                <br/>
+
+                <label style={{color: this.color(item)}}>
+                    { StatusEventType.get(item.status).description }
+                </label>
+            </Fragment>
+        )
+    }
 
     render() {
         return (
@@ -262,6 +319,7 @@ class MyEvents extends AbstractComponent {
                     onInvite={(item) => this.setState({event: item, invite: true})} 
                     onOpenClick={(item) => this.setState({detail: item})}                    
                     getEnumName={(enumName) => EventPropertyType.get(enumName).description}
+                    replyEvent={(idEvent, type, index) => this.replyEvent(idEvent, type, index)}
                     component={ (props) => { return <Register 
                             ok={(item, i) => this.add(item, i)} {...props}    
                             
