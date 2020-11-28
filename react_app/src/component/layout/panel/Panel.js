@@ -15,7 +15,7 @@ class Panel extends React.Component {
                 }}
             >
                 <div className="card mt-3 mb-3">
-                    <div className="card-header">                        
+                    <div className="card-header" style={{fontWeight: 'bold'}}>                        
                         {this.props.title}
                     </div>
 
