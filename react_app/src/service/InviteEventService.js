@@ -8,6 +8,13 @@ class InviteEventService {
             userList: userList
         });
     }
+
+    static async replyEvents(idEvent, status) {
+        return RequestService.patch(Config.urlApi + 'invite/event', {                      
+            idEvent: idEvent,
+            status: status
+        });        
+    }
 }
 
 export default InviteEventService;

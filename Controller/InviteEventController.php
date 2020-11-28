@@ -2,10 +2,15 @@
 
 namespace Controller;
 
+use Classes\Exceptions\InvalidDateException;
+use Classes\Exceptions\InvalidTypeException;
+
 use Controller\AbstractController;
 
+use Entity\EventEntity;
 use Entity\InviteEventEntity;
 
+use Model\EventModel;
 use Model\InviteEventModel;
 
 use Slim\Http\Request;
@@ -72,8 +77,7 @@ class InviteEventController extends AbstractController {
 
                 $inviteEntity->setIdUser($this->auth->getId());
                 $inviteEntity->setIdUserFriendship($idUserfriendship);
-                $inviteEntity->setIdEvent($idEvent);                
-                $inviteEntity->setStatus('assadas');   
+                $inviteEntity->setIdEvent($idEvent);                                   
                 
                 $inviteModel->save($inviteEntity);
             }  
@@ -88,5 +92,59 @@ class InviteEventController extends AbstractController {
                     $ex2
                 ), 406, JSON_UNESCAPED_UNICODE);        
         }
+    }
+
+    /**
+     * @api {patch} /invite/event respond to event participation request 
+     * @apiVersion 1.0.0
+     * @apiName replayEvents
+     * @apiGroup event
+     *      
+     * @apiError (401) String Unauthorized action
+     * @apiError (402) String ID do evento não informado
+     * @apiError (403) String Evento não encontrado
+     * @apiError (405) String Convite não encontrado
+     * @apiError (406) InvalidDateException Você já não pode mais confirmar esse evento     
+     * @apiError (407) InvalidTypeException Conteúdo do campo Status do Evento é inválido
+     *      
+     * @apiSuccess (200) {String} Text Evento respondido com sucesso     
+     *      
+     */
+    public function replayEvent(Request $request, Response $response) {
+        $this->auth($request);
+
+        $idEvent = $request->getParsedBodyParam('idEvent');
+
+        if(empty($idEvent))
+            return $response->withJson('ID do evento não informado', 402, JSON_UNESCAPED_UNICODE);        
+
+        $eventModel = new EventModel($this->container->em);
+
+        $eventEntity = $eventModel->getById($idEvent);
+
+        if(empty($eventEntity))
+            return $response->withJson('Evento não encontrado', 403, JSON_UNESCAPED_UNICODE);              
+
+        $invitEventModel = new InviteEventModel($this->container->em);        
+        
+        $inviteEventEntity = $invitEventModel->getEventByIdFriendship(
+            $idEvent,
+            $this->auth->getId()
+        );
+
+        if(empty($inviteEventEntity))
+            return $response->withJson('Convite não encontrado', 405, JSON_UNESCAPED_UNICODE);
+
+        try {
+            $inviteEventEntity->setStatus($request->getParsedBodyParam('status'));
+
+            $invitEventModel->replayEvent($eventEntity, $inviteEventEntity);
+
+            return $response->withJson('Evento respondido com sucesso', 200);        
+        } catch(InvalidDateException $ex1) {
+            return $response->withJson($ex1->getMessage(), 406, JSON_UNESCAPED_UNICODE);
+        } catch(InvalidTypeException $ex2) {
+            return $response->withJson($ex2->getMessage(), 407, JSON_UNESCAPED_UNICODE);
+        } 
     }
 }

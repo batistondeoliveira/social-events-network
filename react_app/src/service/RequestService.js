@@ -24,6 +24,10 @@ class RequestService {
         return axios.get(url, RequestService.headers(config));
     }
 
+    static async patch(url, data, config) {
+        return axios.patch(url, data, RequestService.headers(config));
+    }
+
     static async post(url, data, config) {
         return axios.post(url, data, RequestService.headers(config));
     }

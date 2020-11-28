@@ -9,7 +9,7 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\ORM\Mapping as ORM;
 
 class StatusEventEnum extends Type {
-    const __default = self::NO;
+    const __default = self::WAIT;
 
     const ENUM_STATUS_EVENT = "enumStatusEvent";
     const WAIT = 'Wait';
@@ -47,7 +47,7 @@ class StatusEventEnum extends Type {
         $constantName = '';        
         
         foreach ($constants as $constant) {
-            if($constant === $value) {
+            if(strtoupper($constant) === strtoupper($value)) {
                 $constantName = $value;
                 break;
             }

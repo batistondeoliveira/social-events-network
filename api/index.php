@@ -55,7 +55,7 @@ $app->add(new Slim\Middleware\JwtAuthentication([
         '/event/list',
         '/event/mylist',
         '/event/detail',
-        '/event/place/list',
+        '/event/place/list',        
 
         //friendship
         '/friendship',
