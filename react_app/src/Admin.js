@@ -1,13 +1,11 @@
 import React, { Fragment } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import AbstractComponent from './component/AbstractComponent';
 import MyEvents from './component/event/MyEvents';
 import NotFound from './component/layout/notfound/NotFound';
 import Friendship from './component/friends/List';
 import TopNav from './component/layout/nav/TopNav';
 import SideNav from './component/layout/nav/SideNav';
-
-import './css/Style.css'
-import AbstractComponent from './component/AbstractComponent';
 
 class Admin extends AbstractComponent {  
     constructor(props) {

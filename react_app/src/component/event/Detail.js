@@ -13,7 +13,9 @@ class Detail extends AbstractComponent {
         super(props);        
 
         this.state = {            
-            preload: true,
+            preload: false,
+
+            withParam: false,
 
             form: {},
 
@@ -23,12 +25,32 @@ class Detail extends AbstractComponent {
     }    
 
     onClick() {
+        if(!this.state.withParam) {
+            this.props.close();
+
+            return ;        
+        }
+
         this.setState({error: ''});
         window.location.href = '/';
-    }
+    }    
 
     componentDidMount() {
+        if(this.props.detail !== undefined) {
+            this.setState({form: this.props.detail});
+
+            return;
+        }
+
         const id = this.getUrl('detail', 0);        
+        
+        if(id === '')
+            return;
+
+        this.setState({
+            preload: true,
+            withParam: true
+        });
 
         EventService.getById(
             id
@@ -42,7 +64,10 @@ class Detail extends AbstractComponent {
     render() {
         return (
             <div>
-                <Title title="Detalhes do Evento"/>
+                {
+                    this.state.withParam &&
+                    <Title title="Detalhes do Evento"/>
+                }   
 
                 <Preload show={this.state.preload} />
 

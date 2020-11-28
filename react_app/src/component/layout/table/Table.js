@@ -19,9 +19,8 @@ class Table extends AbstractComponent {
     validarEditar() {
         return (
             this.props.remover !== undefined || 
-            this.props.editar !== undefined || 
-            this.props.link !== undefined || 
-            this.props.onOpenClick !== undefined
+            this.props.editar !== undefined ||             
+            this.props.onOpenClick !== undefined            
         );
     }
 
@@ -35,7 +34,7 @@ class Table extends AbstractComponent {
                 { 
                     this.props.onOpenClick !== undefined &&
                     <button className="btn btn-info"
-                        onClick={() => this.props.onOpenClick(item[this.props.referenceId], item)}>
+                        onClick={() => this.props.onOpenClick(item)}>
                         <i className={this.props.iconOpenClick} />
                     </button>
                 }                                
@@ -146,26 +145,11 @@ class Table extends AbstractComponent {
                             onClick={() => this.setState({modalCadastro: true, tituloCadastro: this.props.titleModal, editarItem: undefined, editarIndice: undefined})} >
                         <i className="fa fa-plus"/> {this.props.tituloBtnNovo}
                     </button>
-                }
-
-                &nbsp;
+                }                
 
                 {
-                    this.props.marcar !== undefined &&
-                    <button className="btn btn-info" style={{marginBottom: '15px'}}
-                            onClick={() => this.props.marcar()} >
-                        <i class="fas fa-check" /> { (this.props.checkAll === 0 ? 'Marcar' : 'Desmarcar') + ' Todos'}
-                    </button>
-                }
-
-                &nbsp;
-
-                {
-                    this.props.btnAux !== undefined &&
-                    <button className="btn btn-success" style={{marginBottom: '15px'}}
-                            onClick={() => this.props.btnAux()} >
-                        { this.props.btnAuxTxt }
-                    </button>
+                    this.props.button !== undefined &&
+                    this.props.button()
                 }
 
                 <table className="table table-striped">
