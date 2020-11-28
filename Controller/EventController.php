@@ -185,7 +185,7 @@ class EventController extends AbstractController {
     /**
      * @api {post} /event/mylist Show event by id
      * @apiVersion 1.0.0
-     * @apiName getEventsByEmailUser
+     * @apiName eventList
      * @apiGroup event
      * 
      * @apiHeader {String} x-token header User's token
@@ -233,14 +233,14 @@ class EventController extends AbstractController {
      *   ]
      * 
      */
-    public function getEventsByEmailUser(Request $request, Response $response) {
+    public function eventList(Request $request, Response $response) {
         $this->auth($request);
 
         $eventModel = new EventModel($this->container->em);                        
         
         $filters = $request->getParsedBodyParam('filters');
         
-        $list = $eventModel->getEventsByIdUser(
+        $list = $eventModel->getEventsByFilter(
             $this->auth->getId(),
             $filters
         );

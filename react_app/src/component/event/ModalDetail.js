@@ -1,22 +1,20 @@
 import React from 'react';
-import AbstractComponent from '../AbstractComponent';
+import MyModal from '../layout/modal/MyModal';
+import Detail from './Detail';
 
-import {dateFormat} from '../../functions/Format';
-
-class ModalDetail extends AbstractComponent {
-    onClick() {    
-        window.location.href = '/';
-    }     
-
+class ModalDetail extends React.Component {    
     render() {
         return (            
             <MyModal
-                show={this.props.show}
-
-                close={() => this.props.close()}
-            >
-                <Detail />
-            </MyModal>                                                          
+                    show={this.props.show}
+                    header="Lista de Eventos"
+                    close={() => this.props.close()}
+                >
+                    <Detail 
+                        detail={this.props.detail} 
+                        close={() => this.props.close()}
+                    />
+                </MyModal>                                                          
         )
     }
 }

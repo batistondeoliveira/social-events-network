@@ -1,5 +1,4 @@
 import React from 'react';
-import {Modal} from 'react-bootstrap';
 import AbstractComponent from '../AbstractComponent';
 import Title from "../layout/title/Title";
 import Preload from "../layout/preload/Preload";
@@ -9,10 +8,9 @@ import Panel from '../layout/panel/Panel';
 import InputSelect from '../layout/input/InputSelect';
 import ClearButton from '../layout/button/ClearButton';
 import SearchButton from '../layout/button/SearchButton';
-import MyModal from '../layout/modal/MyModal';
 import ModalInvite from './ModalInvite';
 import MyEventTable from "./MyEventTable";
-import Detail from './Detail';
+import ModalDetail from './ModalDetail';
 import Register from './Register';
 
 import EventPropertyType from '../../enumerador/EventPropertyType';
@@ -175,16 +173,12 @@ class MyEvents extends AbstractComponent {
 
                 <Preload show={this.state.preload} />   
 
-                <MyModal
+                <ModalDetail
                     show={this.state.detail !== undefined}
-                    header="Lista de Eventos"
+                    detail={this.state.detail}
+                    
                     close={() => this.setState({detail: undefined})}
-                >
-                    <Detail 
-                        detail={this.state.detail} 
-                        close={() => this.setState({detail: undefined})}
-                    />
-                </MyModal>
+                />
 
                 {
                     this.state.invite &&                

@@ -12,12 +12,22 @@ class Admin extends AbstractComponent {
         super(props);
 
         this.state = {
+            topnavMenu: [],
+            
             menu: []
         }
     }   
 
     componentDidMount() {
         let menus = [];                            
+        
+        menus.push(this.addMenu('fas fa-user-lock', 'Área Administrativa', '/admin'));                
+
+        this.setState({
+            topnavMenu: menus    
+        });
+
+        menus = [];                            
         
         menus.push(this.addMenu('', 'Área Pública', '/'));
         menus.push(this.addMenu('', 'Lista de amigos', '/admin/friendship'));

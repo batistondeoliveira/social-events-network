@@ -49,7 +49,7 @@ class EventModel extends AbstractModel {
         return $query->getResult(); 
     }
 
-    public function getEventsByIdUser($idUser, $filters) {              
+    public function getEventsByFilter($idUser, $filters) {              
         $having = '';
         $param = array('idUser' => $idUser);
 
@@ -69,6 +69,7 @@ class EventModel extends AbstractModel {
         return $this->openSql("
             SELECT e.id, 
                    e.name,
+                   e.description,
                    e.date, 
                    e.time, 
                    e.place, 
@@ -81,6 +82,7 @@ class EventModel extends AbstractModel {
             
             SELECT e.id, 
                    e.name, 
+                   e.description,
                    e.date, 
                    e.time, 
                    e.place, 
