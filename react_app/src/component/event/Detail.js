@@ -13,19 +13,21 @@ class Detail extends AbstractComponent {
         super(props);        
 
         this.state = {            
-            preload: false,
-
-            withParam: false,
+            preload: false,            
 
             form: {},
 
             error: ''
         }
 
+        this.id = '';
+        
+        if(props.match !== undefined)
+            this.id = props.match.params.id;
     }    
 
     onClick() {
-        if(!this.state.withParam) {
+        if(!this.id) {
             this.props.close();
 
             return ;        
@@ -40,20 +42,15 @@ class Detail extends AbstractComponent {
             this.setState({form: this.props.detail});
 
             return;
-        }
-
-        const id = this.getUrl('detail', 0);        
+        }            
         
-        if(id === '')
+        if(this.id === '')
             return;
 
-        this.setState({
-            preload: true,
-            withParam: true
-        });
+        this.setState({ preload: true });
 
         EventService.getById(
-            id
+            this.id
         ).then(response => {
             this.setState({form: response.data, preload: false})
         }).catch(error => {
@@ -65,7 +62,7 @@ class Detail extends AbstractComponent {
         return (
             <div>
                 {
-                    this.state.withParam &&
+                    this.id &&
                     <Title title="Detalhes do Evento"/>
                 }   
 
@@ -134,7 +131,22 @@ class Detail extends AbstractComponent {
 
                         {this.state.form.time}
                     </div>
-                </div>                                          
+                </div>   
+
+                <div className="row">                            
+                    <div className="col-md-12
+                                    col-sm-12
+                                    col-lg-12
+                                    col-xs-12">
+                        <label>
+                            Local:
+                        </label>
+
+                        &nbsp;
+
+                        {this.state.form.place}
+                    </div>                    
+                </div>                                        
 
                 <div className="form-group mt-5 mb-0">
                     <button 

@@ -94,17 +94,7 @@ class EventModel extends AbstractModel {
                AND ie.id_user_friendship = :idUser " . $having . " 
             
             ORDER BY id
-        ", $param);
-
-        // return $this->getRepository()    
-        //     ->createQueryBuilder("e")                    
-        //     ->select("e.id, e.name, e.description, DATE_FORMAT(e.date, '%Y-%m-%d') as date, e.time, e.place")
-        //     ->Join(UserEntity::class, 'u', 'WITH', 'u.id = e.idUser and u.email = :email')            
-        //     ->setParameter('email', $email)  
-        //     ->andWhere("e.active = :active")
-        //     ->setParameter('active', ActiveEnum::YES)          
-        //     ->getQuery()
-        //     ->getResult(); 
+        ", $param);        
     }
 
     public function save($eventEntity) {
