@@ -56,8 +56,9 @@ class MyEventTable extends AbstractComponent {
                     data-toggle="dropdown" 
                     aria-haspopup="true" 
                     aria-expanded="false"
+                    style={{width: '36px'}}
                 >
-                    <i class="fas fa-reply" />
+                    <i class="fas fa-reply" style={{marginLeft: '-8px'}} />
                 </button>
 
                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">  
@@ -75,6 +76,8 @@ class MyEventTable extends AbstractComponent {
                         })
                     }                                                      
                 </div>
+
+                &nbsp;
             </Fragment>
         );
     }    
@@ -91,45 +94,56 @@ class MyEventTable extends AbstractComponent {
 
         return (
             <th className="text-right">
-                { this.showBtnReply(item, i) }
-
-                &nbsp;
+                { this.showBtnReply(item, i) }                
 
                 <button 
                     className="btn btn-info"
-                    onClick={() => this.props.onInvite(item)}>
-                    <i className="fas fa-user-plus" /> 
-                </button>                    
-
-                &nbsp;
+                    onClick={() => this.props.onInvite(item)}
+                    style={{width: '36px'}}
+                >
+                    <i className="fas fa-user-plus" style={{marginLeft: '-2px'}} /> 
+                </button>                                    
                                    
                 {
                     ((this.props.onOpenClick !== undefined)&&((item !== undefined)&&(item.type === EventPropertyType.GUEST.enumName))) &&
-                    <button 
-                        className="btn btn-info"
-                        onClick={() => this.props.onOpenClick(item)}>
-                        <i className="far fa-eye" />
-                    </button>                
-                }   
+                    <Fragment>
+                        &nbsp;
 
-                &nbsp;
+                        <button 
+                            className="btn btn-info"
+                            onClick={() => this.props.onOpenClick(item)}
+                            style={{width: '36px'}}
+                        >
+                            <i className="far fa-eye" style={{marginLeft: '-3px'}} />
+                        </button>                
+                    </Fragment>                    
+                }                   
 
                 {                     
                     ((this.props.editar !== undefined)&&((item !== undefined)&&(item.type === EventPropertyType.OWNER.enumName))) &&
-                    <button className="btn btn-primary"
-                        onClick={() => this.setState({modalCadastro: true, tituloCadastro: 'Editar', editarItem: item, editarIndice: i})}>
-                        <i className="fa fa-wrench" />
-                    </button>
-                }
+                    <Fragment>
+                        &nbsp;
 
-                &nbsp;
+                        <button 
+                            className="btn btn-primary"
+                            onClick={() => this.setState({modalCadastro: true, tituloCadastro: 'Editar', editarItem: item, editarIndice: i})}
+                            style={{width: '36px'}}
+                        >
+                            <i className="fa fa-wrench" style={{marginLeft: '-2px'}} />
+                        </button>
+                    </Fragment>
+                }                
 
                 { 
                     ((this.props.remover !== undefined)&&((item !== undefined)&&(item.type === EventPropertyType.OWNER.enumName))) && 
-                    <button className="btn btn-danger" 
-                        onClick={() => this.setState({modal: true, removerItem: item, removerIndice: i})}>
-                        <i className="fa fa-times" />
-                    </button>
+                    <Fragment>
+                        &nbsp;
+
+                        <button className="btn btn-danger" 
+                            onClick={() => this.setState({modal: true, removerItem: item, removerIndice: i})}>
+                            <i className="fa fa-times" />
+                        </button>
+                    </Fragment>
                 }              
             </th>
         )
