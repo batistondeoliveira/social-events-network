@@ -61,7 +61,10 @@ class InviteFriendshipController extends AbstractController {
 
         try {            
             if(empty($userEntity)) {
-                Email::sendEmail($email);
+                Email::sendEmail(
+                    $email, 
+                    'Você recebeu uma solicitação de amizade de [' . $this->auth->getName() . '] clique no link para se registrar: https://elielbatiston.life/convite/' . $this->auth->getId() . '/' . $email
+                );
 
                 return $response->withJson('Email de solicitação de convite enviada', 200, JSON_UNESCAPED_UNICODE);           
             }        

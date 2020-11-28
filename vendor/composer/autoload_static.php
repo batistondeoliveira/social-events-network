@@ -45,6 +45,7 @@ class ComposerStaticInit3f142c4d002f51f3e3e48ac2b86eab51
             'Prophecy\\' => 9,
             'PhpOption\\' => 10,
             'PackageVersions\\' => 16,
+            'PHPMailer\\PHPMailer\\' => 20,
         ),
         'M' => 
         array (
@@ -78,18 +79,14 @@ class ComposerStaticInit3f142c4d002f51f3e3e48ac2b86eab51
             'Controller\\' => 11,
             'Classes\\' => 8,
         ),
-        't' =>
-        array (
-            'tests\\' => 6
-        ),
     );
 
     public static $prefixDirsPsr4 = array (
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
         ),
         'Webmozart\\Assert\\' => 
         array (
@@ -158,6 +155,10 @@ class ComposerStaticInit3f142c4d002f51f3e3e48ac2b86eab51
         'PackageVersions\\' => 
         array (
             0 => __DIR__ . '/..' . '/composer/package-versions-deprecated/src/PackageVersions',
+        ),
+        'PHPMailer\\PHPMailer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
         ),
         'Model\\' => 
         array (
@@ -228,10 +229,6 @@ class ComposerStaticInit3f142c4d002f51f3e3e48ac2b86eab51
         'Classes\\' => 
         array (
             0 => __DIR__ . '/../..' . '/Classes',
-        ),
-        'tests\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/tests',
         ),
     );
 

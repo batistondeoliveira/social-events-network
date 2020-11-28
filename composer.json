@@ -4,7 +4,8 @@
         "doctrine/orm": "^2",
         "tuupola/slim-jwt-auth": "^2.4",
         "jms/serializer": "^1.12",
-        "symfony/validator": "^4.1"
+        "symfony/validator": "^4.1",
+        "phpmailer/phpmailer": "^6.2"
     },
     "autoload": {
         "psr-4": {
