@@ -1,5 +1,5 @@
 import React from 'react';
-import MyModal from './MyModal';
+import ModalMessage from './ModalMessage';
 
 class ModalSuccess extends React.Component {                
     close(e) {
@@ -10,10 +10,9 @@ class ModalSuccess extends React.Component {
 
     render() {
         return (
-            <MyModal 
+            <ModalMessage 
                 styleHeader="bg-success"
-                styleIcon="fa fa-info-circle"                     
-                className="modal_alert "                     
+                styleIcon="fa fa-info-circle"                                                         
                 classNameButton="btnSuccess"
                 styleButton="btn btn-success"  
                 styleCloseButton="text-white"

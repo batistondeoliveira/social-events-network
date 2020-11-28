@@ -1,5 +1,5 @@
 import React from 'react';
-import MyModal from './MyModal';
+import ModalMessage from './ModalMessage';
 
 class ModalAlerta extends React.Component {    
     close() {
@@ -10,7 +10,7 @@ class ModalAlerta extends React.Component {
 
     render() {
         return (
-            <MyModal 
+            <ModalMessage 
                 styleHeader="bg-danger"
                 styleIcon="fa fa-exclamation-triangle"
                 styleText={this.props.styleText}
