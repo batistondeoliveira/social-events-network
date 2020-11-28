@@ -1,9 +1,11 @@
 import React from 'react';
-import {Modal} from 'react-bootstrap';
+import {Modal, Button} from 'react-bootstrap';
 import AbstractComponent from '../AbstractComponent';
-import Table from "../layout/table/Table";
 import Alerta from '../layout/alerta/Alerta';
+import Preload2 from '../layout/preload/Preload2';
+import MyModal from '../layout/modal/MyModal';
 import Register from './Register';
+import ModalInviteTable from "./ModalInviteTable";
 
 import FriendshipService from '../../service/FriendshipService';
 import InviteEventService from '../../service/InviteEventService';
@@ -25,7 +27,12 @@ class ModalInvite extends AbstractComponent {
 
             checkItem: 0,
 
-            error: ''
+            error: '',
+
+            preload: true,
+
+            btnConvidarTxt: 'Enviar Convite'
+
         }
     }   
 
@@ -75,19 +82,22 @@ class ModalInvite extends AbstractComponent {
             return ;
         }
 
+        this.setState({btnConvidarTxt: 'Aguarde...'});
+
         InviteEventService.invite(
             this.props.event.id,
             this.state.body
         ).then(() => {            
             this.props.success();
+            this.setState({btnConvidarTxt: 'Enviar Convite'});
         }).catch(error => { 
             if(this.is401Error(error)) {
                 this.goLoginArea();
                 return ;
             }
                                 
-            this.setState({                
-                btnFinalizar: 'Convidar',
+            this.setState({                                
+                btnConvidarTxt: 'Enviar Convite',
                 error: this.handlingError(error)
             });            
         });
@@ -97,21 +107,16 @@ class ModalInvite extends AbstractComponent {
         FriendshipService.inviteEventList(
             this.props.event.id
         ).then(response => {
-            this.setState({body: response.data});
+            this.setState({body: response.data, preload: false});
         })        
     }
 
     render() {
         return (
-            <Modal    
-                backdrop={'static'}            
+            <MyModal                              
                 show={this.props.show}
-                onHide={() => this.props.close()}>
-
-                <Modal.Header closeButton>
-                    <Modal.Title>Convide seus amigos</Modal.Title>
-                </Modal.Header>
-
+                header="Convide seus amigos"
+                close={() => this.props.close()}>                
                 <Modal.Body>
                     <h4>
                         <label>
@@ -134,26 +139,57 @@ class ModalInvite extends AbstractComponent {
                         onTimeOut={() => this.setState({error: ''})}
                     />
 
-                    <Table
-                        ref={ref => this.table = ref}
-                        head={this.state.head}
-                        body={this.state.body}                                                                                         
-                        
-                        marcar={() => this.checkAll()}
-                        onChange={(item, i) => this.check(item, i)}
-                        checkAll={this.state.checkAll}
-                        btnAux={() => this.sendInvite()}
-                        btnAuxTxt="Enviar convite"
-                        
-                        component={ (props) => { return <Register 
-                                ok={(item, i) => this.add(item, i)} {...props}    
-                                
-                                route={item => this.props.route(item)}
-                            />
-                        }}
-                    />
+                    <Preload2 show={this.state.preload} />
+
+                    {
+                        !this.state.preload && this.state.body.length > 0 &&                   
+                        <ModalInviteTable
+                            ref={ref => this.table = ref}
+                            head={this.state.head}
+                            body={this.state.body}                                                                                         
+                            
+                            marcar={() => this.checkAll()}
+                            onChange={(item, i) => this.check(item, i)}
+                            checkAll={this.state.checkAll}
+                            convidar={() => this.sendInvite()}
+                            btnConvidarTxt={this.state.btnConvidarTxt}
+                            
+                            component={ (props) => { return <Register 
+                                    ok={(item, i) => this.add(item, i)} {...props}    
+                                    
+                                    route={item => this.props.route(item)}
+                                />
+                            }}
+                        />
+                    }
+
+                    {
+                        !this.state.preload && this.state.body.length === 0 &&                   
+                        <div 
+                            className="col-md-12 
+                                       col-xs-12 
+                                       col-sm-12 
+                                       col-lg-12
+                                       text-center"
+                            style={{marginBottom: '10px'}}
+                        >
+                            <label>
+                                Você não tem mais nenhum amigo para convidar
+                            </label>
+                        </div>
+                    }
                 </Modal.Body>
-            </Modal>
+
+                <Modal.Footer>
+                    <Button 
+                        className="btn btn-danger"  
+                        type="button" 
+                        onClick={(e) => {this.props.close(e)}}
+                    >
+                        Fechar
+                    </Button>
+                </Modal.Footer>
+            </MyModal>
         )
     }
 }
