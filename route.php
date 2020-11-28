@@ -22,3 +22,6 @@ $app->get('/friendship/event/invite/{idEvento}', 'Controller\FriendshipControlle
 $app->get('/invite/friendship/{email}', 'Controller\InviteFriendshipController:invite');
 $app->post('/invite/event', 'Controller\InviteEventController:invite');
 $app->patch('/invite/event', 'Controller\InviteEventController:replayEvent');
+
+//Badge
+$app->get('/badge', 'Controller\BadgeController:badge');

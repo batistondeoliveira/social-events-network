@@ -68,22 +68,7 @@ class AbstractComponent extends React.Component {
             return '0' + number;
 
         return number;
-    }    
-
-    getUrl(controller, index) {
-        var url = window.location.href;
-
-        var indexAux = (url.indexOf(controller) + controller.length + 1);
-
-        var strResult = url.substring(indexAux, url.length);        
-
-        var array = strResult.split('/');
-        
-        if(!Array.isArray(array))
-            return array;
-
-        return array[index];            
-    }
+    }        
 
     isAdmin() {
         if(AuthenticateService.getToken() === undefined)

@@ -1,7 +1,10 @@
 import React, { Fragment } from 'react';
 import AbstractComponent from '../../AbstractComponent';
+import ModalWarning from '../modal/ModalWarning';
+import ModalAlerta from '../modal/ModalAlerta';
 
 import AuthenticateService from '../../../service/AuthenticateService';
+import BadgeService from '../../../service/BadgeService';
 
 class TopNav extends AbstractComponent {  
     constructor(props) {
@@ -10,7 +13,13 @@ class TopNav extends AbstractComponent {
         this.state = {            
             preload: false,
 
-            toggle: false
+            toggle: false,
+
+            message: '',
+
+            error: '',
+
+            notification: 0,
         }
     }    
 
@@ -27,7 +36,18 @@ class TopNav extends AbstractComponent {
         el.classList.add("sb-sidenav-toggled");
         this.setState({toggle: true});
     }    
-    
+
+    onBadgeBtnClick() {        
+        if(this.state.notification === 0) {
+            this.setState({message: 'Não há notificações'});
+        
+            return ;
+        }
+        
+
+        
+    }
+
     menu() {        
         if(this.props.menu === undefined)
             return ;
@@ -71,7 +91,7 @@ class TopNav extends AbstractComponent {
             );
 
         return (
-            <Fragment>
+            <Fragment>                
                 <a className="nav-link dropdown-toggle" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i className="fas fa-user fa-fw">
                     </i>
@@ -100,9 +120,70 @@ class TopNav extends AbstractComponent {
         )
     }
 
+    showNotification() {
+        if(!this.isAdmin())
+            return;
+
+        return (
+            <button 
+                type="button" 
+                className={"notification-badge " + (this.state.notification > 0 ? '-animation' : '') }
+                style={{marginRight: (this.state.notification > 0 ? '' : '20px')}}
+                onClick={() => this.onBadgeBtnClick()}
+            >
+                <i class="fas fa-envelope" onClick={() => this.onBadgeBtnClick()} />
+
+                {
+                    this.state.notification > 0 &&
+                    <span class="badge badge-light" onClick={() => this.onBadgeBtnClick()}>
+                        { this.state.notification }
+                    </span>
+                }                    
+            </button>
+        )
+    }
+
+    componentDidMount() {
+        if(!this.isAdmin())
+            return;
+
+        this.setState({preload: true});
+
+        BadgeService.badge().then(response => {
+            this.setState({
+                notification: response.data,
+                preload: false
+            });
+        }).catch(error => {
+            if(this.is401Error(error)) {
+                this.goLoginArea();
+                return;
+            }
+            
+            this.setState({
+                error: this.handlingError(error),
+                preload: false
+            })
+        });
+    }
+
     render() {
         return (
             <nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+                <ModalAlerta
+                    show={this.state.error !== ''}
+                    text={this.state.error}
+
+                    close={() => this.setState({error: ''})}
+                />
+
+                <ModalWarning 
+                    show={this.state.message !== ''}
+                    text={this.state.message}
+
+                    close={() => this.setState({message: ''})}
+                />
+
                 <a className="navbar-brand" onClick={() => this.props.onClick()}>
                     {this.props.title}
                 </a>                            
@@ -118,6 +199,8 @@ class TopNav extends AbstractComponent {
                 <div className="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">                    
                 </div>
                 
+                {this.showNotification()}
+
                 <ul className="navbar-nav ml-auto ml-md-0">
                     <li className="nav-item dropdown">
                         { this.showMenu() }                     
@@ -129,7 +212,7 @@ class TopNav extends AbstractComponent {
 }
 
 TopNav.defaultProps = {
-    showIconMenu: true
+    showIconMenu: true    
 }
 
 export default TopNav;

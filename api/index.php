@@ -65,6 +65,9 @@ $app->add(new Slim\Middleware\JwtAuthentication([
         //Invite
         '/invite/friendship',
         '/invite/event',
+
+        //badge
+        '/badge'
     ],
     "realm" => "Protected",
     "secure" => false,
