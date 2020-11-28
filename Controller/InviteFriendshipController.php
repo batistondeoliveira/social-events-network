@@ -2,6 +2,7 @@
 
 namespace Controller;
 
+use Classes\Exceptions\EmailException;
 use Classes\Email;
 
 use Controller\AbstractController;
@@ -41,7 +42,8 @@ class InviteFriendshipController extends AbstractController {
      * @apiError (402) String Informe um e-mail válido
      * @apiError (403) String Você não pode enviar uma solicitação de amizade para você mesmo
      * @apiError (405) String Vocês já são amigos     
-     * @apiError (406) MessageError Validation error message     
+     * @apiError (406) EmailException Erro ao enviar o e-mail
+     * @apiError (407) MessageError Validation error message     
      * 
      * @apiSuccess (200) {string} message Email de solicitação de convite de amizade enviada
      * @apiSuccess (201) {string} message Solicitação de convite enviada
@@ -65,7 +67,7 @@ class InviteFriendshipController extends AbstractController {
         try {            
             if(empty($userEntity)) {
                 Email::sendEmail(
-                    $email, 
+                    $email,                     
                     'Você recebeu uma solicitação de amizade de [' . $this->auth->getName() . '] clique no link para se registrar: https://elielbatiston.life/convite/' . $this->auth->getId() . '/' . $email
                 );
 
@@ -92,12 +94,14 @@ class InviteFriendshipController extends AbstractController {
             $inviteModel->save($inviteEntity);
 
             return $response->withJson('Solicitação de convite de amizade enviada', 201, JSON_UNESCAPED_UNICODE);        
-        } catch(\Exception $ex) {
+        } catch(EmailException $ex1) {
+            return $response->withJson('Erro ao enviar o e-mail', 406, JSON_UNESCAPED_UNICODE);           
+        } catch(\Exception $ex2) {
             return $response->withJson(
                 $this->handlingError(
                     [$inviteEntity],
-                    $ex
-                ), 406, JSON_UNESCAPED_UNICODE);        
+                    $ex2
+                ), 407, JSON_UNESCAPED_UNICODE);        
         }
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Classes;
 
+use Classes\Exceptions\EmailException;
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
@@ -23,6 +25,7 @@ class Email {
         $mail->Timeout = 60;
         
         $mail->Host = 'mail.elielbatiston.life';
+        $mail->Hostname = 'mail.elielbatiston.life';
 
         $mail->SMTPAuth = 1;
 
