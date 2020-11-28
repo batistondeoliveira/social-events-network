@@ -26,7 +26,10 @@ class InviteEventController extends AbstractController {
      * @apiVersion 1.0.0
     * @apiName invite
      * @apiGroup invite event
-     *                          
+     *                 
+     * @apiHeader {String} x-token header User's token
+     * @apiHeader {String} E-Mail header User's email
+     *          
      * @apiHeaderExample {json} Header-Example:
      *    {
      *       "X-Token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uIjoiJDJ5JDEwJDRVcWQyWWtlYlQ0b0R0VDVmc3JKc2V1SGdKOEhrOTZVZzN5VHZrbUc0MlhGOWRyeVBuOVF1IiwiaWQiOjEsImlhdCI6MTYwNjE4MTcxOCwiZXhwIjoxNjA2MTg1MzE4fQ.MgVgpZF_pCUBlXVyvT8SOU708y2-1nqEdxGJkXImucQ"
@@ -100,6 +103,15 @@ class InviteEventController extends AbstractController {
      * @apiName replayEvents
      * @apiGroup event
      *      
+     * @apiHeader {String} x-token header User's token
+     * @apiHeader {String} E-Mail header User's email
+     * 
+     * @apiHeaderExample {json} Header-Example:
+     *    {
+     *       "X-Token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uIjoiJDJ5JDEwJDRVcWQyWWtlYlQ0b0R0VDVmc3JKc2V1SGdKOEhrOTZVZzN5VHZrbUc0MlhGOWRyeVBuOVF1IiwiaWQiOjEsImlhdCI6MTYwNjE4MTcxOCwiZXhwIjoxNjA2MTg1MzE4fQ.MgVgpZF_pCUBlXVyvT8SOU708y2-1nqEdxGJkXImucQ"
+     *       "E-Mail": "fulano@gmail.com"
+     *    }
+     * 
      * @apiError (401) String Unauthorized action
      * @apiError (402) String ID do evento não informado
      * @apiError (403) String Evento não encontrado
@@ -107,7 +119,7 @@ class InviteEventController extends AbstractController {
      * @apiError (406) InvalidDateException Você já não pode mais confirmar esse evento     
      * @apiError (407) InvalidTypeException Conteúdo do campo Status do Evento é inválido
      *      
-     * @apiSuccess (200) {String} Text Evento respondido com sucesso     
+     * @apiSuccess (200) {String} message Evento respondido com sucesso     
      *      
      */
     public function replayEvent(Request $request, Response $response) {

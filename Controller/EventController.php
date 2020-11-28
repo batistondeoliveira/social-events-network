@@ -52,11 +52,10 @@ class EventController extends AbstractController {
      * @apiError (401) String Unauthorized action
      * @apiError (402) String Usuário não encontrado 
      * @apiError (403) InvalidDateException A data do evento não pode ser menor que a data atual     
-     * @apiError (404) InvalidTypeException Tipo do campo %s inválido
-     * @apiError (405) MessageError Validation error message     
+     * @apiError (405) InvalidTypeException Tipo do campo %s inválido
+     * @apiError (406) MessageError Validation error message     
      *
      * @apiSuccess (200) {String} json Persisted user json object
-     * 
      * 
      * @apiSuccessExample {json} Exemple Value
      *    {
@@ -96,13 +95,13 @@ class EventController extends AbstractController {
         } catch(InvalidDateException $ex1) {
             return $response->withJson($ex1->getMessage(), 403);
         } catch(InvalidTypeException $ex2) { 
-            return $response->withJson($ex2->getMessage(), 404);
+            return $response->withJson($ex2->getMessage(), 405);
         } catch(\Exception $ex3) {            
             return $response->withJson(
                 $this->handlingError(
                     [$eventEntity],
                     $ex3
-                ), 405, JSON_UNESCAPED_UNICODE);
+                ), 406, JSON_UNESCAPED_UNICODE);
         }
     }
 
@@ -112,7 +111,7 @@ class EventController extends AbstractController {
      * @apiName getAllActiveEvent
      * @apiGroup event
      *                
-     * @apiParam (parameters) {array} filters Array with event filters by date and / or place
+     * @apiParam (parameters) {array} filters Array with event filters by date and/or place
      * 
      * @apiParamExample {json} Exemple Value
      *    [     
@@ -129,7 +128,7 @@ class EventController extends AbstractController {
      *          "name":"Congresso Campinas",
      *          "date":"2021-08-01",
      *          "time":"09:00:00",
-     *          "place":"Shopping Campinas"}
+     *          "place":"Shopping"}
      *       }
      *    ]
      *      
@@ -155,7 +154,6 @@ class EventController extends AbstractController {
      * @apiError (403) String Evento não encontrado
      * 
      * @apiSuccess (200) {String} json event object json
-     * 
      * 
      * @apiSuccessExample {json} Exemple Value
      *    {
@@ -206,9 +204,7 @@ class EventController extends AbstractController {
      *    ]
      * 
      * 
-     * @apiError (401) String Unauthorized action
-     * @apiError (402) String Informe o id do evento
-     * @apiError (403) String Evento não encontrado
+     * @apiError (401) String Unauthorized action     
      * 
      * @apiSuccess (200) {String} json event object json
      * 
@@ -219,7 +215,7 @@ class EventController extends AbstractController {
      *          "name":"Congresso Campinas",
      *          "date":"2021-08-01",
      *          "time":"09:00:00",
-     *          "place":"Shopping Campinas",
+     *          "place":"Shopping",
      *          "type":"OWNER"
      *      },
      *      {
@@ -227,7 +223,7 @@ class EventController extends AbstractController {
      *          "name":"Congresso Sao Paulo",
      *          "date":"2021-08-01",
      *          "time":"09:00:00",
-     *          "place":"Shopping Sao Paulo",
+     *          "place":"Shopping",
      *          "type":"GUEST"
      *      }
      *   ]

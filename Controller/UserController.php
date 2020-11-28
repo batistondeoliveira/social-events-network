@@ -106,7 +106,7 @@ class UserController extends AbstractController {
      *      "password": "123456",     
      *    }
      * 
-     * @apiError (401) MessageError Usuário e/ou senha inválido    
+     * @apiError (402) MessageError Usuário e/ou senha inválido    
      *
      * @apiSuccess (200) {String} String Generated validation token
      * 
@@ -124,10 +124,10 @@ class UserController extends AbstractController {
         $userEntity = $userModel->login($key, $email, $password, $token);
 
         if(empty($token))
-            return $response->withJson('Usuário e/ou senha inválido', 401, JSON_UNESCAPED_UNICODE);
+            return $response->withJson('Usuário e/ou senha inválido', 402, JSON_UNESCAPED_UNICODE);
             
         if(empty($userEntity))
-            return $response->withJson('Usuário e/ou senha inválido', 401, JSON_UNESCAPED_UNICODE);
+            return $response->withJson('Usuário e/ou senha inválido', 402, JSON_UNESCAPED_UNICODE);
 
         return $response->withJson([            
             'token' => $token,

@@ -22,7 +22,10 @@ class FriendshipController extends AbstractController {
      * @apiVersion 1.0.0
      * @apiName list
      * @apiGroup friendship
-     *                          
+     *                 
+     * @apiHeader {String} x-token header User's token
+     * @apiHeader {String} E-Mail header User's email
+     *          
      * @apiHeaderExample {json} Header-Example:
      *    {
      *       "X-Token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uIjoiJDJ5JDEwJDRVcWQyWWtlYlQ0b0R0VDVmc3JKc2V1SGdKOEhrOTZVZzN5VHZrbUc0MlhGOWRyeVBuOVF1IiwiaWQiOjEsImlhdCI6MTYwNjE4MTcxOCwiZXhwIjoxNjA2MTg1MzE4fQ.MgVgpZF_pCUBlXVyvT8SOU708y2-1nqEdxGJkXImucQ"
@@ -61,11 +64,14 @@ class FriendshipController extends AbstractController {
     }
 
     /**
-     * @api {get} /friendship/undo undo friendship
+     * @api {post} /friendship/undo undo friendship
      * @apiVersion 1.0.0
      * @apiName undoFriendship
      * @apiGroup friendship
-     *                          
+     *                      
+     * @apiHeader {String} x-token header User's token
+     * @apiHeader {String} E-Mail header User's email
+     *     
      * @apiHeaderExample {json} Header-Example:
      *    {
      *       "X-Token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uIjoiJDJ5JDEwJDRVcWQyWWtlYlQ0b0R0VDVmc3JKc2V1SGdKOEhrOTZVZzN5VHZrbUc0MlhGOWRyeVBuOVF1IiwiaWQiOjEsImlhdCI6MTYwNjE4MTcxOCwiZXhwIjoxNjA2MTg1MzE4fQ.MgVgpZF_pCUBlXVyvT8SOU708y2-1nqEdxGJkXImucQ"
@@ -102,7 +108,10 @@ class FriendshipController extends AbstractController {
      * @apiVersion 1.0.0
      * @apiName inviteEventList
      * @apiGroup friendship
-     *                          
+     *         
+     * @apiHeader {String} x-token header User's token
+     * @apiHeader {String} E-Mail header User's email
+     *                  
      * @apiHeaderExample {json} Header-Example:
      *    {
      *       "X-Token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uIjoiJDJ5JDEwJDRVcWQyWWtlYlQ0b0R0VDVmc3JKc2V1SGdKOEhrOTZVZzN5VHZrbUc0MlhGOWRyeVBuOVF1IiwiaWQiOjEsImlhdCI6MTYwNjE4MTcxOCwiZXhwIjoxNjA2MTg1MzE4fQ.MgVgpZF_pCUBlXVyvT8SOU708y2-1nqEdxGJkXImucQ"

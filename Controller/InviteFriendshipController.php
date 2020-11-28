@@ -26,6 +26,9 @@ class InviteFriendshipController extends AbstractController {
      * @apiName invite
      * @apiGroup invite friendship
      *                          
+     * @apiHeader {String} x-token header User's token
+     * @apiHeader {String} E-Mail header User's email
+     * 
      * @apiHeaderExample {json} Header-Example:
      *    {
      *       "X-Token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uIjoiJDJ5JDEwJDRVcWQyWWtlYlQ0b0R0VDVmc3JKc2V1SGdKOEhrOTZVZzN5VHZrbUc0MlhGOWRyeVBuOVF1IiwiaWQiOjEsImlhdCI6MTYwNjE4MTcxOCwiZXhwIjoxNjA2MTg1MzE4fQ.MgVgpZF_pCUBlXVyvT8SOU708y2-1nqEdxGJkXImucQ"
