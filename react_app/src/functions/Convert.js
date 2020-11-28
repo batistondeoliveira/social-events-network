@@ -1,5 +1,10 @@
-export function convertStrToDate(date) {        
-    var partesData = date.split("/");               
+export function convertStrToDate(date, time = undefined) {        
+    var partesData = date.split("/");          
 
-    return new Date(partesData[2], partesData[1] - 1, partesData[0], 23, 59, 59);
+    if(time === undefined) 
+        return new Date(partesData[2], partesData[1] - 1, partesData[0]);
+
+    var partesHour = time.split(":");          
+
+    return new Date(partesData[2], partesData[1] - 1, partesData[0], partesHour[0], partesHour[1], partesHour[2]);        
 }
