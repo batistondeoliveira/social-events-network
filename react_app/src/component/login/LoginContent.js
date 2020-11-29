@@ -84,6 +84,7 @@ class LoginContent extends AbstractComponent {
                 resposta.data.token,                
                 this.state.form.email,
                 resposta.data.name,
+                resposta.data.profile_picture
             );            
         }).catch(error => {
             this.setState({

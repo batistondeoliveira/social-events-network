@@ -6,6 +6,8 @@ import ModalAlerta from '../modal/ModalAlerta';
 import AuthenticateService from '../../../service/AuthenticateService';
 import BadgeService from '../../../service/BadgeService';
 
+import { route } from '../../../functions/Route';
+import config from '../../../Config';
 class TopNav extends AbstractComponent {  
     constructor(props) {
         super(props);
@@ -44,8 +46,7 @@ class TopNav extends AbstractComponent {
             return ;
         }
         
-
-        
+        this.props.route(route('', '', '/admin/notification'));        
     }
 
     menu() {        
@@ -74,6 +75,21 @@ class TopNav extends AbstractComponent {
         )      
     }
 
+    showPicture() {        
+        if((!AuthenticateService.getProfilePicture())||(AuthenticateService.getProfilePicture() === 'null'))             
+            return (
+                <i className="fas fa-user fa-fw" />
+            );            
+
+        return (
+            <img 
+                src={config.urlImg + 'user/' + AuthenticateService.getProfilePicture()} 
+                alt="Foto Perfil" 
+                style={{ width: '2m', height: '2em', borderRadius: '50px'}}
+            />
+        )
+    }
+
     showMenu() {
         if(!this.isAdmin())
             return (
@@ -93,8 +109,7 @@ class TopNav extends AbstractComponent {
         return (
             <Fragment>                
                 <a className="nav-link dropdown-toggle" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i className="fas fa-user fa-fw">
-                    </i>
+                    {this.showPicture()}
                 </a>
 
                 <div className="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown" style={{padding: '10px'}}>

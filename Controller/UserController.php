@@ -146,7 +146,8 @@ class UserController extends AbstractController {
 
         return $response->withJson([            
             'token' => $token,
-            'name' => $userEntity->getName()
+            'name' => $userEntity->getName(),
+            'profile_picture' => $userEntity->getProfilePicture()
         ], 200);        
     }
 

@@ -1,8 +1,9 @@
 class AuthenticateService {    
-    static login(token, email, userName) {
+    static login(token, email, userName, profilePicture) {
         localStorage.setItem('x-token', token);
         localStorage.setItem('email', email);  
         localStorage.setItem('userName', userName);
+        localStorage.setItem('profilePicture', profilePicture);
 
         window.location.href = '/admin';
     }
@@ -19,10 +20,15 @@ class AuthenticateService {
         return localStorage.getItem('userName');
     } 
 
+    static getProfilePicture() {            
+        return localStorage.getItem('profilePicture');
+    }
+
     static logout() {                    
         localStorage.removeItem('x-token');
-        localStorage.removeItem('x-email');        
+        localStorage.removeItem('email');        
         localStorage.removeItem('userName'); 
+        localStorage.removeItem('profilePicture'); 
         
         window.location.href = '/';
     }    
