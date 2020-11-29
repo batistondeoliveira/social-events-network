@@ -25,3 +25,6 @@ $app->patch('/invite/event', 'Controller\InviteEventController:replayEvent');
 
 //Badge
 $app->get('/badge', 'Controller\BadgeController:badge');
+
+//Notification
+$app->get('/notification', 'Controller\NotificationController:notification');

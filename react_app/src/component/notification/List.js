@@ -3,11 +3,13 @@ import AbstractComponent from '../AbstractComponent';
 import Title from "../layout/title/Title";
 import Table from "../layout/table/Table";
 import Preload from "../layout/preload/Preload";
-import Invite from './Invite';
 import ModalAlerta from '../layout/modal/ModalAlerta';
 import ModalSuccess from '../layout/modal/ModalSuccess';
+import ModalDetail from '../event/ModalDetail';
 
 import NotificationService from '../../service/NotificationService';
+
+import NotificationType from '../../enumerador/NotificationType';
 
 class List extends AbstractComponent {
     constructor(props) {
@@ -22,7 +24,7 @@ class List extends AbstractComponent {
             head : [
                 {nome: 'Nome', campo: 'name'},                
                 {nome: 'Email', campo: 'email'},
-                {nome: 'Tipo', campo: 'type'}                
+                {nome: 'Tipo', campo: 'type', type: "enum"}                
             ],
 
             body: [],
@@ -31,34 +33,14 @@ class List extends AbstractComponent {
 
             error: '',
 
-            success: ''
+            success: '',
+
+            detail: undefined
         }        
-    }            
-
-    undoFriendship(item, i) {
-        this.setState({preload: true});
-
-        FriendshipService.undoFriendship(
-            item.id,
-            item.type
-        ).then(() => {
-            const event = this.state.body;
-
-            event.splice(i, 1);
-
-            this.setState({
-                body: event, 
-                preload: false
-            });
-        }).catch(() => {
-            this.setState({                
-                preload: false
-            });
-        });
-    }    
+    }                 
 
     componentDidMount() {        
-        NotificationService.list(
+        NotificationService.notification(
             
         ).then(response => {
             this.setState({body: response.data, preload: false})
@@ -90,26 +72,24 @@ class List extends AbstractComponent {
                     close={() => this.setState({success: ''})} 
                 />
 
-                <Title title="Lista de Amigos"/>
+                <ModalDetail
+                    show={this.state.detail !== undefined}
+                    detail={this.state.detail}
+                    
+                    close={() => this.setState({detail: undefined})}
+                />
+
+                <Title title="Notificações"/>
 
                 <Preload show={this.state.preload} />                                              
 
                 <Table
                     ref={ref => this.table = ref}
                     head={this.state.head}
-                    body={this.state.body}                    
-                    cadastro={true} 
-                    tituloBtnNovo="Convidar amigo"
-                    remover={(item, i) => this.undoFriendship(item, i)}
-                    titleMsgRemove="Tem certeza de que deseja desfazer a amizade?"
-                    titleModal="Convidar amigo"
-                    referenceId="id" 
-                    component={ (props) => { return <Invite 
-                            ok={() => this.add()} {...props}    
-                        
-                            route={item => this.props.route(item)}
-                        />
-                    }}                  
+                    body={this.state.body}  
+                                                            
+                    getEnumName={(enumName) => NotificationType.get(enumName).description}
+                    onOpenClick={(item) => this.setState({detail: item})}                    
                 />
             </div>
         )

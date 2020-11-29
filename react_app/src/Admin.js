@@ -6,6 +6,7 @@ import NotFound from './component/layout/notfound/NotFound';
 import Friendship from './component/friends/List';
 import TopNav from './component/layout/nav/TopNav';
 import SideNav from './component/layout/nav/SideNav';
+import Notification from './component/notification/List';
 
 class Admin extends AbstractComponent {  
     constructor(props) {
@@ -94,7 +95,19 @@ class Admin extends AbstractComponent {
                                                     route={(item) => this.browserRoute.history.push(item.link)}
                                                 />
                                             }
-                                        />                                                           
+                                        /> 
+
+                                        <Route 
+                                            exact 
+                                            path='/admin/notification'
+                                            render={props => 
+                                                <Notification
+                                                    {...props}
+                                                        
+                                                    route={(item) => this.browserRoute.history.push(item.link)}
+                                                />
+                                            }
+                                        />                                                        
 
                                         <Route path="*" component={NotFound}/>                                                     
                                     </Switch>

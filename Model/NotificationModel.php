@@ -17,9 +17,14 @@ class NotificationModel extends AbstractModel {
             SELECT invfr.id,       
                    invfr.id_user,
                    u.name,
+                   u.email,
                    'Friendship' AS `type`,
                    NULL AS id_event,
-                   NULL AS `event`
+                   NULL AS `event`,
+                   NULL AS `description`,
+                   NULL AS date,
+                   NULL AS time,
+                   NULL AS place
             FROM invite_friendship invfr,
                  `user` u
             WHERE u.id = invfr.id_user 
@@ -30,9 +35,14 @@ class NotificationModel extends AbstractModel {
             SELECT ie.id,       
                    ie.id_user,
                    u.name,
+                   u.email,
                    'Event' AS `type`,
                    e.id AS id_event,
-                   e.name AS `event`
+                   e.name AS `event`,
+                   e.description AS `description`,
+                   e.date,
+                   e.time,
+                   e.place
             FROM invite_event ie,
                  `user` u,
                  `event` e
