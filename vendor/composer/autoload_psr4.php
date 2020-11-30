@@ -42,4 +42,5 @@ return array(
     'DeepCopy\\' => array($vendorDir . '/myclabs/deep-copy/src/DeepCopy'),
     'Controller\\' => array($baseDir . '/Controller'),
     'Classes\\' => array($baseDir . '/Classes'),
+    'tests\\' => array($baseDir . '/tests'),
 );
