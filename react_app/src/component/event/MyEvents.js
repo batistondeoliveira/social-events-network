@@ -158,10 +158,10 @@ class MyEvents extends AbstractComponent {
         this.setState({body: body});
     }        
 
-    replyEvent(idEvent, status, index) {
+    replyInvitation(idEvent, status, index) {
         this.setState({preload: true});
 
-        InviteEventService.replyEvents(            
+        InviteEventService.replyInvitation(            
             idEvent,
             status
         ).then(response => {
@@ -333,7 +333,7 @@ class MyEvents extends AbstractComponent {
                     onInvite={(item) => this.setState({event: item, invite: true})} 
                     onOpenClick={(item) => this.setState({detail: item})}                    
                     getEnumName={(enumName) => EventPropertyType.get(enumName).description}
-                    replyEvent={(idEvent, type, index) => this.replyEvent(idEvent, type, index)}
+                    replyInvitation={(idEvent, type, index) => this.replyInvitation(idEvent, type, index)}
                     component={ (props) => { return <Register 
                             ok={(item, i) => this.add(item, i)} {...props}    
                             

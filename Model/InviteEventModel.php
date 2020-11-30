@@ -31,7 +31,7 @@ class InviteEventModel extends AbstractModel {
             ]);
     }
 
-    public function replayEvent($eventEntity, $inviteEventEntity) {
+    public function replyInvitation($eventEntity, $inviteEventEntity) {
         $date1 = MyDateTime::dateToTimeStamp($eventEntity->getDate());           
         $date2 = MyDateTime::dateToTimeStamp(new \DateTime());
             

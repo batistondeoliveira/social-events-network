@@ -8,6 +8,7 @@ use Classes\Email;
 use Controller\AbstractController;
 
 use Entity\InviteFriendshipEntity;
+use Entity\FriendshipEntity;
 
 use Model\FriendshipModel;
 use Model\InviteFriendshipModel;
@@ -102,6 +103,99 @@ class InviteFriendshipController extends AbstractController {
                     [$inviteEntity],
                     $ex2
                 ), 407, JSON_UNESCAPED_UNICODE);        
+        }
+    }
+
+    /**
+     * @api {patch} /invite/friendship responds to a friendship invitation
+     * @apiVersion 1.0.0
+     * @apiName replyInvitation
+     * @apiGroup invite friendship
+     *      
+     * @apiHeader {String} x-token header User's token
+     * @apiHeader {String} E-Mail header User's email
+     * 
+     * @apiHeaderExample {json} Header-Example:
+     *    {
+     *       "X-Token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uIjoiJDJ5JDEwJDRVcWQyWWtlYlQ0b0R0VDVmc3JKc2V1SGdKOEhrOTZVZzN5VHZrbUc0MlhGOWRyeVBuOVF1IiwiaWQiOjEsImlhdCI6MTYwNjE4MTcxOCwiZXhwIjoxNjA2MTg1MzE4fQ.MgVgpZF_pCUBlXVyvT8SOU708y2-1nqEdxGJkXImucQ"
+     *       "E-Mail": "fulano@gmail.com"
+     *    }
+     * 
+     * @apiError (401) String Unauthorized action
+     * @apiError (402) String ID do amigo não informado
+     * @apiError (403) String Amigo não encontrado
+     * @apiError (405) String Convite não encontrado
+     * @apiError (406) String Ocorreu um erro inesperado
+     *      
+     * @apiSuccess (200) {String} message Convite negado com sucesso
+     * @apiSuccess (201) {String} message Vocês já são amigos
+     * @apiSuccess (202) {String} message Convite aceito com sucesso
+     *      
+     */
+    public function replyInvitation(Request $request, Response $response) {
+        $this->auth($request);
+
+        $idUserFriendship = $request->getParsedBodyParam('idUserFriendship');
+
+        if(empty($idUserFriendship))
+            return $response->withJson('ID do amigo não informado', 402, JSON_UNESCAPED_UNICODE);
+
+        $userModel = new UserModel($this->container->em);
+
+        $userEntity = $userModel->getById($idUserFriendship);
+
+        if(empty($userEntity))
+            return $response->withJson('Amigo não encontrado', 403, JSON_UNESCAPED_UNICODE);
+
+        $invitFriendshipModel = new InviteFriendshipModel($this->container->em);        
+        
+        $inviteFriendshipEntity = $invitFriendshipModel->getByIdFriendship(            
+            $idUserFriendship,
+            $this->auth->getId()           
+        );        
+
+        if(empty($inviteFriendshipEntity))
+            return $response->withJson('Convite não encontrado', 405, JSON_UNESCAPED_UNICODE);               
+
+        try {
+            $type = $request->getParsedBodyParam('type');
+
+            if($type === 'REJECTED') {
+                $invitFriendshipModel->remove($inviteFriendshipEntity);
+
+                return $response->withJson('Convite negado com sucesso', 200, JSON_UNESCAPED_UNICODE);
+            }
+
+            $friendshipModel = new FriendshipModel($this->container->em);
+
+            $friendshipEntity = $friendshipModel->getByIdFriendship(
+                $this->auth->getId(),
+                $userEntity->getId()                
+            );
+
+            if(!empty($friendshipEntity)) {
+                $invitFriendshipModel->remove($inviteFriendshipEntity);
+
+                return $response->withJson('Vocês já são amigos', 201, JSON_UNESCAPED_UNICODE);                   
+            }            
+
+            $friendshipModel->beginTransaction();
+            
+            $friendshipEntity = new FriendshipEntity();
+
+            $friendshipEntity->setIdUser($this->auth->getId());
+            $friendshipEntity->setIdUserFriendship($userEntity->getId());
+
+            $friendshipModel->save($friendshipEntity);
+            $invitFriendshipModel->remove($inviteFriendshipEntity);
+
+            $friendshipModel->commit();
+
+            return $response->withJson('Convite aceito com sucesso', 202);             
+        } catch(Exception $ex) {
+            $friendshipModel->rollback();
+
+            return $response->withJson('Ocorreu um erro inesperado', 406);             
         }
     }
 }

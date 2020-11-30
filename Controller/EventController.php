@@ -136,11 +136,16 @@ class EventController extends AbstractController {
     public function getAllActiveEvent(Request $request, Response $response) {
         $eventModel = new EventModel($this->container->em);  
         
+        $page = $request->getParsedBodyParam('page');
         $filters = $request->getParsedBodyParam('filters');
         
-        $list = $eventModel->getAllActiveEvent($filters);
-        
-        return $response->withJson($this->serialize($list), 200);
+        $list = $eventModel->getAllActiveEvent($filters, $page);
+        $totalRecords = $eventModel->getTotalRecords($filters);
+
+        return $response->withJson([
+            'body' => $this->serialize($list),
+            'totalRecords' => $totalRecords
+        ], 200);
     }
 
     /**

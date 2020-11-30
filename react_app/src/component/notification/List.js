@@ -1,7 +1,7 @@
 import React from 'react';
 import AbstractComponent from '../AbstractComponent';
 import Title from "../layout/title/Title";
-import Table from "../layout/table/Table";
+import NotificationTable from "./NotificationTable";
 import Preload from "../layout/preload/Preload";
 import ModalAlerta from '../layout/modal/ModalAlerta';
 import ModalSuccess from '../layout/modal/ModalSuccess';
@@ -55,7 +55,38 @@ class List extends AbstractComponent {
                 error: this.handlingError(error)                
             });            
         });
-    }    
+    }        
+
+    replyInvitation(item, value, index) {
+        this.setState({preload: true});
+
+        NotificationType.get(item.type).reply(
+            item,
+            value
+        ).then(response => {
+            let body = this.state.body;            
+
+            body.splice(index, 1);
+
+            this.setState({
+                body: body,
+                success: response.data, 
+                preload: false
+            })
+
+            this.props.updateBadge();
+        }).catch(error => {
+            if(this.is401Error(error)) {
+                this.goLoginArea();
+                return;
+            }
+                
+            this.setState({
+                preload: false,
+                error: this.handlingError(error)                
+            });
+        });
+    }
 
     render() {
         return (
@@ -83,11 +114,12 @@ class List extends AbstractComponent {
 
                 <Preload show={this.state.preload} />                                              
 
-                <Table
+                <NotificationTable
                     ref={ref => this.table = ref}
                     head={this.state.head}
                     body={this.state.body}  
-                                                            
+                                          
+                    replyInvitation={(item, value, index) => this.replyInvitation(item, value, index)}
                     getEnumName={(enumName) => NotificationType.get(enumName).description}
                     onOpenClick={(item) => this.setState({detail: item})}                    
                 />

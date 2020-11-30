@@ -100,7 +100,7 @@ class InviteEventController extends AbstractController {
     /**
      * @api {patch} /invite/event respond to event participation request 
      * @apiVersion 1.0.0
-     * @apiName replayEvents
+     * @apiName replyInvitation
      * @apiGroup event
      *      
      * @apiHeader {String} x-token header User's token
@@ -122,7 +122,7 @@ class InviteEventController extends AbstractController {
      * @apiSuccess (200) {String} message Evento respondido com sucesso     
      *      
      */
-    public function replayEvent(Request $request, Response $response) {
+    public function replyInvitation(Request $request, Response $response) {
         $this->auth($request);
 
         $idEvent = $request->getParsedBodyParam('idEvent');
@@ -150,7 +150,7 @@ class InviteEventController extends AbstractController {
         try {
             $inviteEventEntity->setStatus($request->getParsedBodyParam('status'));
 
-            $invitEventModel->replayEvent($eventEntity, $inviteEventEntity);
+            $invitEventModel->replyInvitation($eventEntity, $inviteEventEntity);
 
             return $response->withJson('Evento respondido com sucesso', 200);        
         } catch(InvalidDateException $ex1) {

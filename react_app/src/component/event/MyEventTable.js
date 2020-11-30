@@ -29,7 +29,7 @@ class MyEventTable extends AbstractComponent {
     }    
 
     showBtnReply(item, i) {        
-        if(this.props.replyEvent === undefined)
+        if(this.props.replyInvitation === undefined)
             return ;
 
         if(item === undefined)
@@ -68,7 +68,7 @@ class MyEventTable extends AbstractComponent {
                                 <a 
                                     key={index} 
                                     className="dropdown-item" 
-                                    onClick={() => this.props.replyEvent(item.id, value.value, i)}
+                                    onClick={() => this.props.replyInvitation(item.id, value.value, i)}
                                 >
                                     {value.description }
                                 </a>        

@@ -20,8 +20,9 @@ $app->get('/friendship/event/invite/{idEvento}', 'Controller\FriendshipControlle
 
 //Invite
 $app->get('/invite/friendship/{email}', 'Controller\InviteFriendshipController:invite');
+$app->patch('/invite/friendship', 'Controller\InviteFriendshipController:replyInvitation');
 $app->post('/invite/event', 'Controller\InviteEventController:invite');
-$app->patch('/invite/event', 'Controller\InviteEventController:replayEvent');
+$app->patch('/invite/event', 'Controller\InviteEventController:replyInvitation');
 
 //Badge
 $app->get('/badge', 'Controller\BadgeController:badge');

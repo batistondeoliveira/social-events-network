@@ -71,4 +71,16 @@ abstract class AbstractModel {
 
         return $stmt->fetchAll();
     }
+
+    public function beginTransaction($saveWithFlush = true) {            
+        $this->getEm()->beginTransaction();        
+    }
+
+    public function commit() {             
+        $this->getEm()->commit();        
+    }    
+
+    public function rollback() {            
+        $this->getEm()->rollback();     
+    }
 }

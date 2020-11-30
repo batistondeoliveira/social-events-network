@@ -1,15 +1,18 @@
 var StatusEventType = {
     WAIT: {
         enumName: 'WAIT',        
-        description: 'Aguardando Confirmação'        
+        description: 'Aguardando Confirmação',
+        toReply: '',        
     },
     CONFIRMED: {
         enumName: 'CONFIRMED',        
-        description: 'Confirmado'        
+        description: 'Confirmado',
+        toReply: 'Confirmar',
     },
     REJECTED: {
         enumName: 'REJECTED',        
-        description: 'Rejeitado'        
+        description: 'Rejeitado',
+        toReply: 'Rejeitar'
     },
     get(value) {        
         if (value === null || value === undefined || value === "undefined")
@@ -51,7 +54,7 @@ var StatusEventType = {
 
             result.push({
                 value: element.enumName, 
-                description: element.description, 
+                description: (from === -1 ? element.description : element.toReply),
                 selected: false
             })            
         }); 

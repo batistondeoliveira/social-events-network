@@ -9,7 +9,7 @@ class InviteEventService {
         });
     }
 
-    static async replyEvents(idEvent, status) {
+    static async replyInvitation(idEvent, status) {
         return RequestService.patch(Config.urlApi + 'invite/event', {                      
             idEvent: idEvent,
             status: status
