@@ -8,6 +8,7 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Table;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 
 use JMS\Serializer\Annotation as Serializer;
 
@@ -15,7 +16,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @Entity()
- * @Table(name= "user")
+ * @Table(name= "user",
+ *    uniqueConstraints={
+ *       @UniqueConstraint(name="unico", 
+ *            columns={"email"})
+ *       }
+ * )
  */
 class UserEntity extends AbstractEntity {
     /**
@@ -27,7 +33,7 @@ class UserEntity extends AbstractEntity {
     private $name;
     
     /**
-     * @Column(name="email", type="string", length=100, unique=true)     
+     * @Column(name="email", type="string", length=100)     
      * @Assert\Length(max = 100)
      * @Assert\NotBlank()     
      * @Assert\Email()

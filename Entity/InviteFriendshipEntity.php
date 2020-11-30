@@ -16,7 +16,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @Entity()
- * @Table(name= "invite_friendship")
+ * @Table(name= "invite_friendship",
+ *    uniqueConstraints={
+ *       @UniqueConstraint(name="unico", 
+ *            columns={"id_user", "id_user_friendship"})
+ *       }
+ * )
  */
 class InviteFriendshipEntity extends AbstractEntity {         
     /**
