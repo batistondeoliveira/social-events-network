@@ -31,20 +31,20 @@ You can use them to test the system or you can create new ones.
 Introduction
 ------------
 
-**1st Part:** After downloading the project from the git you shold run the instruction `npm install` inside the react_app folder.
-This will install all necessary libraries. However, you must have installed the node package manager `(npm)`
+**1st Part:** After downloading the project from the git you shold run the instruction `composer install` inside the root folder. This will install all the necessary libraries on the backend side. 
 
-NOTE: Please, if necessary ask me to send my vendor folder with all the necessary libraries.
+**2nd Part:** After the 1st part, run the instruction `npm install` inside the react_app folder.
+This will install all necessary libraries on the frontend side. 
 
-**2nd Part:** After the 1st part, run the instruction `npm start` inside the react_app folder.
+**3rd Part:** After the 2nd part, run the instruction `npm start` inside the react_app folder.
 
-**3rd Part:** To run the system you need a database called `social_event_network`. There are 2 ways to create the database.
+**4th Part:** To run the system you need a database called `social_event_network`. There are 2 ways to create the database.
 
 - The first way is to create the database in mysql with the name `social_event_network` and then execute the command `vendor/bin/doctrine orm:schema-tool:update --force` inside the project's root folder that it will create all the necessary tables.
 
 - The second way is to run the `script.sql` inside the Scripts folder and the script will create the database and the necessary tables.
 
-**4th part:** To run the test cases it is necessary to configure the `autoload_static` and `autoload_psr4` files as described below:
+**5th part:** To run the test cases it is necessary to configure the `autoload_static` and `autoload_psr4` files as described below:
 
 - **autoload_static:** 
 1. in `public static $ prefixLengthsPsr4 = array (` add the following information 
