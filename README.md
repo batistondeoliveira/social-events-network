@@ -26,12 +26,13 @@ NOTE: Please, if necessary ask me to send my vendor folder with all the necessar
 **4th part:** To run the test cases it is necessary to configure the `autoload_static` and `autoload_psr4` files as described below:
 
 - **autoload_static:** 
-1. __in__ `public static $ prefixLengthsPsr4 = array (` add the following information 
+1. in `public static $ prefixLengthsPsr4 = array (` add the following information 
         `'t' => 
         array (
             'tests \\' => 6,
         )` as the last element
-2. __in__ `public static $prefixDirsPsr4 = array (` add the following information 
+        
+2. in `public static $prefixDirsPsr4 = array (` add the following information 
         `'tests\\' => 
         array (
             0 => __DIR__ . '/../..' . '/tests',
