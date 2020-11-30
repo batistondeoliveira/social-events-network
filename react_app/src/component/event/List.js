@@ -7,6 +7,7 @@ import InputDate from '../layout/input/InputDate';
 import Panel from '../layout/panel/Panel';
 import SearchButton from '../layout/button/SearchButton';
 import ClearButton from '../layout/button/ClearButton';
+import Pagination from '../layout/pagination/Pagination';
 import InputSelectPlace from './InputSelectPlace';
 
 import EventService from '../../service/EventService';
@@ -32,7 +33,9 @@ class List extends AbstractComponent {
 
             body: [],
 
-            preload: true
+            preload: true,
+            
+            totalRecords: -1
         }        
     }    
 
@@ -44,7 +47,7 @@ class List extends AbstractComponent {
 
         this.setState({filter: filter});
 
-        this.search();
+        this.search(1);
     }
 
     onChange(e) {
@@ -55,31 +58,37 @@ class List extends AbstractComponent {
 
     sendFilter() {
         const filter = this.state.filter;
-        const list = [];
+        const list = [];        
 
-        if(filter.date) 
-            list.push({field: 'date', value: filter.date});
+        if(filter.date)             
+            list.push({field: 'date', value: filter.date});                
 
-        if(filter.place)
-            list.push({field: 'place', value: filter.place});
+        if(filter.place)             
+            list.push({field: 'place', value: filter.place});                
 
         return list;
     }
 
-    search() {
-        this.setState({preload: true});
-                
+    search(page) {
+        this.setState({preload: true});                                            
+
         EventService.list(
-            this.sendFilter()
-        ).then(response => {
-            this.setState({body: response.data, preload: false})
+            this.sendFilter(),
+            page
+        ).then(response => {            
+            this.setState({
+                body: response.data.body, 
+                preload: false,
+                page: page,
+                totalRecords: response.data.totalRecords
+            });
         }).catch(() => {
             this.setState({preload: false})
         });
     }    
 
     componentDidMount() {
-        this.search();
+        this.search(1);
     }    
 
     render() {
@@ -129,7 +138,7 @@ class List extends AbstractComponent {
                         lg={1}                                                        
                         name="filter"
                         classNameButton="btn btn-primary"
-                        onClick={ e => this.search() }
+                        onClick={ e => this.search(1) }
                     />
 
                     <ClearButton
@@ -150,6 +159,16 @@ class List extends AbstractComponent {
                     referenceId="id"
                     onOpenClick={(item) => this.props.route(route('', '', '/detail/' + item.id))}
                 />
+
+                {
+                    this.state.totalRecords > -1 &&
+                    <Pagination 
+                        pagination={10}
+                        totalRecords={this.state.totalRecords}
+
+                        onClick={(page) => this.search(page)}
+                    />
+                }                
             </div>
         )
     }

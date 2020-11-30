@@ -11,12 +11,13 @@ use Entity\UserEntity;
 
 use Model\AbstractModel;
 
-class EventModel extends AbstractModel {
+class EventModel extends AbstractModel {     
     public function __construct($em) {
         parent::__construct($em, EventEntity::class);
     }
 
-    public function getAllActiveEvent($filters) {
+    public function getAllActiveEvent($filters, $page) {
+        $offset = ($page - 1) * 10;
         $date = (new \DateTime())->format('Y-m-d');
 
         $query = $this->getRepository()                        
@@ -44,9 +45,44 @@ class EventModel extends AbstractModel {
         }
 
         $query = $query
+            ->setFirstResult($offset)
+            ->setMaxResults(10)
             ->getQuery();            
 
         return $query->getResult(); 
+    }
+
+    public function getTotalRecords($filters) {        
+        $date = (new \DateTime())->format('Y-m-d');
+
+        $query = $this->getRepository()                        
+            ->createQueryBuilder("e")
+            ->select("e.id, e.name, DATE_FORMAT(e.date, '%Y-%m-%d') as date, e.time, e.place")
+            ->andWhere('e.date >= :date')
+            ->setParameter('date', $date)   
+            ->andWhere("e.active = :active")
+            ->setParameter('active', ActiveEnum::YES);
+
+        if(count($filters) > 0) {
+            foreach($filters as $value) {
+                if($value['field'] === 'date') {
+                    $query = $query
+                        ->andWhere("e." . $value['field'] . ' = :' . $value['field'])
+                        ->setParameter($value['field'], MyDateTime::data_db($value['value']));
+
+                    continue;
+                }
+
+                $query = $query
+                    ->andWhere("e." . $value['field'] . ' = :' . $value['field'])
+                    ->setParameter($value['field'], $value['value']);
+            }
+        }
+
+        $query = $query            
+            ->getQuery();            
+
+        return count($query->getResult()); 
     }
 
     public function getEventsByFilter($idUser, $filters) {              
