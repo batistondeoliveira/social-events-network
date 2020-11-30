@@ -34,6 +34,8 @@ class FriendshipModel extends AbstractModel {
                  friendship fr
             WHERE u.id = fr.id_user
                AND fr.id_user_friendship = :idUser
+
+            ORDER BY name
         ", array(
             'idUser' => $idUser
         ));
@@ -50,17 +52,18 @@ class FriendshipModel extends AbstractModel {
                  friendship fr
             WHERE fr.id_user_friendship = u.id 
                AND fr.id_user = :idUser
-               AND NOT EXISTS (
-                    SELECT id_user 
+               AND fr.id_user_friendship NOT IN (
+                    SELECT id_user_friendship 
                     FROM invite_event 
                     WHERE id_user = :idUser 
                        AND id_event = :idEvent
-               ) 
-               AND NOT EXISTS (
+               )                
+               AND fr.id_user_friendship NOT IN (
                     SELECT ev.id_user
                     FROM `event` ev
                     WHERE ev.id = :idEvent
-               )
+               ) 
+
             UNION 
 
             SELECT fr.id_user as id,
@@ -72,12 +75,14 @@ class FriendshipModel extends AbstractModel {
                  friendship fr
             WHERE u.id = fr.id_user
                AND fr.id_user_friendship = :idUser
-               AND NOT EXISTS (
+               AND fr.id_user NOT IN (
                     SELECT ie.id_user_friendship 
                     FROM invite_event ie
                     WHERE ie.id_user_friendship = fr.id_user
                        AND ie.id_event = :idEvent
                ) 
+
+            ORDER BY name
         ", array(
             'idUser' => $idUser,
             'idEvent' => $idEvent
