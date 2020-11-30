@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import AbstractComponent from '../AbstractComponent';
 import Title from "../layout/title/Title";
 import NotificationTable from "./NotificationTable";
@@ -24,7 +24,7 @@ class List extends AbstractComponent {
             head : [
                 {nome: 'Nome', campo: 'name'},                
                 {nome: 'Email', campo: 'email'},
-                {nome: 'Tipo', campo: 'type', type: "enum"}                
+                {nome: 'Tipo', campo: 'type', type: "enum", function: (item) => this.row(item)},
             ],
 
             body: [],
@@ -38,6 +38,33 @@ class List extends AbstractComponent {
             detail: undefined
         }        
     }                 
+
+    row(item) {        
+        if(item.type.toUpperCase() === NotificationType.FRIENDSHIP.enumName)
+            return ;
+
+        return (
+            <Fragment>
+                <br/>
+
+                <label>
+                    Evento: 
+                </label>
+
+                &nbsp;
+
+                { item.event + ' / ' }
+                
+                <label>
+                    Local:
+                </label>
+
+                &nbsp;
+                
+                { item.place}
+            </Fragment>
+        )
+    }
 
     componentDidMount() {        
         NotificationService.notification(

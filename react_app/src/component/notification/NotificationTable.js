@@ -45,6 +45,13 @@ class NotificationTable extends AbstractComponent {
         );
     }    
 
+    row(itemHead, item) {
+        if(itemHead.function === undefined)
+            return ;            
+
+        return itemHead.function(item);
+    }
+
     editarTd(item, i ) {               
         if(item === undefined)
             return ;       
@@ -117,7 +124,8 @@ class NotificationTable extends AbstractComponent {
                                     {this.props.head.map((itemHead, i1) => {
                                         return (
                                             <td key={i1}>
-                                                {this.showField(itemHead, item, i)}                                                
+                                                {this.showField(itemHead, item, i)}  
+                                                { this.row(itemHead, item) }                                              
                                             </td>
                                         )
                                     })}
