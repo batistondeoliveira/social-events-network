@@ -7,6 +7,9 @@ import Friendship from './component/friends/List';
 import TopNav from './component/layout/nav/TopNav';
 import SideNav from './component/layout/nav/SideNav';
 import Notification from './component/notification/List';
+import Preload from './component/layout/preload/Preload';
+
+import BadgeService from './service/BadgeService';
 
 class Admin extends AbstractComponent {  
     constructor(props) {
@@ -15,9 +18,27 @@ class Admin extends AbstractComponent {
         this.state = {
             topnavMenu: [],
             
-            menu: []
+            menu: [],
+
+            badge: 0,
+
+            preload: false
         }
     }   
+
+    badge() {
+        if(!this.isAdmin())
+            return;
+
+        this.setState({preload: true});
+
+        BadgeService.badge().then(response => {
+            this.setState({
+                badge: response.data,
+                preload: false
+            });
+        });
+    }
 
     componentDidMount() {
         let menus = [];                            
@@ -37,6 +58,8 @@ class Admin extends AbstractComponent {
         this.setState({
             menu: menus    
         });
+
+        this.badge();
     }  
 
     href(item) {
@@ -52,10 +75,13 @@ class Admin extends AbstractComponent {
     render() {
         return (
             <Fragment>
+                <Preload show={this.state.preload} />
+
                 <TopNav 
                     menu={this.state.topnavMenu}
 
-                    title="Área Administrativa"                     
+                    title="Área Administrativa" 
+                    badge={this.state.badge}                    
 
                     route={item => this.browserRoute.history.push(item.link) }    
                     
@@ -104,6 +130,7 @@ class Admin extends AbstractComponent {
                                                 <Notification
                                                     {...props}
                                                         
+                                                    updateBadge={() => this.badge()}
                                                     route={(item) => this.browserRoute.history.push(item.link)}
                                                 />
                                             }

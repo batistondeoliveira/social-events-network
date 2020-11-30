@@ -1,27 +1,20 @@
 import React, { Fragment } from 'react';
 import AbstractComponent from '../../AbstractComponent';
 import ModalWarning from '../modal/ModalWarning';
-import ModalAlerta from '../modal/ModalAlerta';
 
 import AuthenticateService from '../../../service/AuthenticateService';
-import BadgeService from '../../../service/BadgeService';
 
 import { route } from '../../../functions/Route';
 import config from '../../../Config';
+
 class TopNav extends AbstractComponent {  
     constructor(props) {
         super(props);
 
-        this.state = {            
-            preload: false,
-
+        this.state = {                        
             toggle: false,
 
-            message: '',
-
-            error: '',
-
-            notification: 0,
+            message: ''            
         }
     }    
 
@@ -40,7 +33,7 @@ class TopNav extends AbstractComponent {
     }    
 
     onBadgeBtnClick() {        
-        if(this.state.notification === 0) {
+        if(this.props.badge === 0) {
             this.setState({message: 'Não há notificações'});
         
             return ;
@@ -142,56 +135,25 @@ class TopNav extends AbstractComponent {
         return (
             <button 
                 type="button" 
-                className={"notification-badge " + (this.state.notification > 0 ? '-animation' : '') }
-                style={{marginRight: (this.state.notification > 0 ? '' : '20px')}}
+                className={"notification-badge " + (this.props.badge > 0 ? '-animation' : '') }
+                style={{marginRight: (this.props.badge > 0 ? '' : '20px')}}
                 onClick={() => this.onBadgeBtnClick()}
             >
                 <i class="fas fa-envelope" onClick={() => this.onBadgeBtnClick()} />
 
                 {
-                    this.state.notification > 0 &&
+                    this.props.badge > 0 &&
                     <span class="badge badge-light" onClick={() => this.onBadgeBtnClick()}>
-                        { this.state.notification }
+                        { this.props.badge }
                     </span>
                 }                    
             </button>
         )
-    }
-
-    componentDidMount() {
-        if(!this.isAdmin())
-            return;
-
-        this.setState({preload: true});
-
-        BadgeService.badge().then(response => {
-            this.setState({
-                notification: response.data,
-                preload: false
-            });
-        }).catch(error => {
-            if(this.is401Error(error)) {
-                this.goLoginArea();
-                return;
-            }
-            
-            this.setState({
-                error: this.handlingError(error),
-                preload: false
-            })
-        });
-    }
+    }    
 
     render() {
         return (
-            <nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-                <ModalAlerta
-                    show={this.state.error !== ''}
-                    text={this.state.error}
-
-                    close={() => this.setState({error: ''})}
-                />
-
+            <nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark">                
                 <ModalWarning 
                     show={this.state.message !== ''}
                     text={this.state.message}

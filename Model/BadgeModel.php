@@ -2,6 +2,8 @@
 
 namespace Model;
 
+use Classes\Enums\StatusEventEnum;
+
 use Entity\InviteEventEntity;
 use Entity\InviteFriendshipEntity;
 
@@ -16,7 +18,8 @@ class BadgeModel extends AbstractModel {
         $query = $this->getEm()
             ->getRepository(InviteEventEntity::class)
             ->findBy([
-                'idUserFriendship' => $idUser
+                'idUserFriendship' => $idUser,
+                'status' => StatusEventEnum::WAIT
             ]);
 
         $total = count($query);

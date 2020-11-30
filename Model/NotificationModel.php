@@ -2,6 +2,8 @@
 
 namespace Model;
 
+use Classes\Enums\StatusEventEnum;
+
 use Entity\InviteEventEntity;
 use Entity\InviteFriendshipEntity;
 
@@ -15,7 +17,7 @@ class NotificationModel extends AbstractModel {
     public function notification($idUser) {        
         return $this->openSql("
             SELECT invfr.id,       
-                   invfr.id_user,
+                   invfr.id_user as id_friendship,
                    u.name,
                    u.email,
                    'Friendship' AS `type`,
@@ -49,8 +51,10 @@ class NotificationModel extends AbstractModel {
             WHERE u.id = ie.id_user 
                 AND e.id = ie.id_event
                 AND ie.id_user_friendship = :idUser
+                AND ie.status = :status
         ", array(
-            'idUser' => $idUser
+            'idUser' => $idUser,
+            'status' => StatusEventEnum::WAIT
         ));
     }
 }
