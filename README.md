@@ -15,6 +15,11 @@ NOTE: Please, if necessary ask me to send my vendor folder with all the necessar
 
 **2nd Part:** After the 1st part, run the instruction `npm start` inside the react_app folder.
 
+**3rd Part:** To run the system you need a database called `social_event_network`. There are 2 ways to create the database.
+    - The first way is to create the database in mysql with the name `social_event_network` and then execute the command `vendor/bin/doctrine orm:schema-tool:update --force` inside the project's root folder that it will create all the necessary tables.
+
+    - The second way is to run the `script.sql` inside the Scripts folder and the script will create the database and the necessary tables.
+
 List of third-party libraries
 -----------------------------
 
