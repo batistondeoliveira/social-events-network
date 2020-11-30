@@ -29,6 +29,7 @@ NOTE: Please, if necessary ask me to send my vendor folder with all the necessar
         array (
             'tests \\' => 6,
         )` as the last element
+        
 2. in `public static $prefixDirsPsr4 = array (` add the following information 
         `'tests\\' => 
         array (
