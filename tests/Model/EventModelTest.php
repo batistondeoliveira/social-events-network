@@ -83,7 +83,7 @@ class EventModelTest extends AbstractTestCase {
 
         $modelEvent = new EventModel($this->getEm());
 
-        $this->assertEquals(1, count($modelEvent->getAllActiveEvent(null)));
+        $this->assertEquals(1, count($modelEvent->getAllActiveEvent(null, 1)));
     }
 
     public function testGetById() { 
@@ -98,21 +98,6 @@ class EventModelTest extends AbstractTestCase {
         $modelEvent = new EventModel($this->getEm());
 
         $this->assertNotEmpty($modelEvent->getById(1));
-    }
-
-    public function testGetEventsByEmailUser() {
-        $migrationUser = new UserMigration($this->getEm());
-        $migrationUser->up(); 
-         
-        $migration = new EventMigration($this->getEm());
-        $migration->up();        
-        
-        $this->createEvent((new \DateTime())->format('d/m/Y'));
-        $this->createEvent((new \DateTime())->format('d/m/Y'), 'beltrano@yahoo.com.br');
-
-        $modelEvent = new EventModel($this->getEm());                
-
-        $this->assertEquals(1, count($modelEvent->getEventsByEmailUser('fulano@yahoo.com.br')));
     }
 
     public function testPlaceList() {
