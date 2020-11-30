@@ -161,7 +161,7 @@ class List extends AbstractComponent {
                 />
 
                 {
-                    this.state.totalRecords > -1 &&
+                    !this.state.preload &&
                     <Pagination 
                         pagination={10}
                         totalRecords={this.state.totalRecords}
