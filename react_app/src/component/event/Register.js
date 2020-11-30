@@ -116,6 +116,7 @@ class Register extends AbstractComponent {
                 date: dateFormat(response.data.date),
                 time: response.data.time,
                 place: response.data.place,
+                type: response.data.type
             }, this.props.indice);
         }).catch(error => { 
             if(this.is401Error(error)) {

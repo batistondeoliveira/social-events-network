@@ -67,7 +67,9 @@ class EventEntity extends AbstractEntity {
      * @Column(name="place", type="string", length=255, nullable=true)   
      * @Serializer\Type("string")     
      */    
-    private $place;            
+    private $place;      
+    
+    private $type; //transient property
 
     public function __construct() {
         parent::__construct($this);
@@ -251,4 +253,24 @@ class EventEntity extends AbstractEntity {
 
         return $obj;
     }    
+
+    /**
+     * Get the value of type
+     */ 
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set the value of type
+     *
+     * @return  self
+     */ 
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
 }

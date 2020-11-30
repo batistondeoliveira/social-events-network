@@ -101,11 +101,11 @@ class MyEventTable extends AbstractComponent {
                     onClick={() => this.props.onInvite(item)}
                     style={{width: '36px'}}
                 >
-                    <i className="fas fa-user-plus" style={{marginLeft: '-2px'}} /> 
+                    <i className="fas fa-user-plus" style={{marginLeft: '-2px'}} />                     
                 </button>                                    
                                    
                 {
-                    ((this.props.onOpenClick !== undefined)&&((item !== undefined)&&(item.type === EventPropertyType.GUEST.enumName))) &&
+                    ((this.props.onOpenClick !== undefined)&&((item !== undefined)&&(item.type.toUpperCase() === EventPropertyType.GUEST.enumName))) &&
                     <Fragment>
                         &nbsp;
 

@@ -86,6 +86,7 @@ class EventController extends AbstractController {
                 return $response->withJson('Usuário não encontrado', 402, JSON_UNESCAPED_UNICODE);
 
             $eventEntity->setIdUser($userEntity->getId());
+            $eventEntity->setType('OWNER');
 
             $eventModel = new EventModel($this->container->em);                    
             
