@@ -43,7 +43,7 @@ class Cadastro extends AbstractComponent {
 
             preview: false,            
             
-            btnFinalizar: 'FINALIZAR'
+            btnFinalizar: 'SALVAR'
         }    
     }    
 
@@ -118,7 +118,7 @@ class Cadastro extends AbstractComponent {
             });
         }).catch(error => {                 
             this.setState({                
-                btnFinalizar: 'FINALIZAR',
+                btnFinalizar: 'SALVAR',
                 error: this.handlingError(error)
             });            
         });        
@@ -294,8 +294,9 @@ class Cadastro extends AbstractComponent {
                         <button 
                             type="submit"
                             className="btn btn-success btn-lg btn-block"                         
+                            disabled={this.state.btnFinalizar !== 'SALVAR'}
                         >
-                            Salvar                        
+                            {this.state.btnFinalizar}                        
                         </button>
                     </div>                                                                                                        
                 </Form>  
