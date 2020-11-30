@@ -5,6 +5,8 @@ Social event network project for the coderock selection process
 
 See the application running at https://www.elielbatiston.life/
 
+Note: The api's documentation is in the Documentation folder
+
 Introduction
 ------------
 
