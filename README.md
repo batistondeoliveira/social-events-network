@@ -3,9 +3,27 @@
 
 Social event network project for the coderock selection process
 
+Note: The api's documentation is in the Documentation folder
+
 See the application running at https://www.elielbatiston.life/
 
-Note: The api's documentation is in the Documentation folder
+I created 6 users for testing, they are:
+
+- contato@coderockr.com
+
+- batistondeoliveira@yahoo.com.br
+
+- fulano@gmail.com
+
+- beltrano@gmail.com
+
+- coderockr@elielbatiston.life
+
+- eliel@teste.com.br
+
+The password for all of them is 123456
+
+You can use them to test the system or you can create new ones.
 
 Introduction
 ------------
