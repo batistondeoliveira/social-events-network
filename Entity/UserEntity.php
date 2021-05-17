@@ -46,6 +46,7 @@ class UserEntity extends AbstractEntity {
      * @Assert\Length(max = 100)
      * @Assert\NotBlank()          
      * @Serializer\Type("string")   
+     * @Serializer\Exclude()
      */
     private $password;
     
