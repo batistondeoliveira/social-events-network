@@ -1,0 +1,89 @@
+.help-block {
+    color: red;
+    text-align: left;
+}
+
+.modal-header {
+    color: #ffffff;
+    text-align: left;
+}
+
+.modal-body {
+    text-align: left;
+    min-height: 51px;
+}
+
+a:not([href]):hover {
+    cursor: pointer;
+}
+
+label {
+    font-weight: bold;
+}
+
+.modal-title {
+    color: #000000;
+    position: absolute;
+}
+
+.modal-content, .modal-body {
+    height: auto;
+}
+
+.display-none {
+    display: none;
+}
+
+.table-checked {
+    background-color: green !important;
+    color: #ffffff;
+}
+
+.notification-badge {    
+    background-color: #343A40;
+    color: #ffffff;
+    border: 0;
+}
+
+.notification-badge.-animation {    
+    animation: pulse 0.7s infinite;
+    background-color: #343A40;
+    color: #ffffff;
+    border: 0;
+    animation-direction: alternate;
+    -webkit-animation-name: pulse;
+    animation-name: pulse;
+}
+  
+@-webkit-keyframes pulse {
+    0% {
+      -webkit-transform: scale(1);      
+    }
+    100% {
+      -webkit-transform: scale(1.5);      
+    }
+}
+  
+@keyframes pulse {
+    0% {
+      transform: scale(1);      
+    }
+    100% {
+      transform: scale(1.5);      
+    }
+}
+
+@keyframes go-back {
+    0% {
+        transform: translateX(100px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@media (min-width: 992px) {
+    .sb-sidenav-toggled #layoutSidenav #layoutSidenav_content {
+        margin-left: -118px;
+    }
+}

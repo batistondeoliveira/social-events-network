@@ -1,0 +1,4 @@
+*
+!.gitignore
+!autoload_psr4.php
+!autoload_static.php
