@@ -22,7 +22,7 @@ class EventController extends AbstractController {
     }      
 
     /**
-     * @api {post} /event Save a new event
+     * @api {post} /api/event Save a new event
      * @apiVersion 1.0.0
      * @apiName save
      * @apiGroup event
@@ -107,7 +107,7 @@ class EventController extends AbstractController {
     }
 
     /**
-     * @api {post} /event/list List all available events
+     * @api {post} /api/event/list List all available events
      * @apiVersion 1.0.0
      * @apiName getAllActiveEvent
      * @apiGroup event
@@ -150,7 +150,7 @@ class EventController extends AbstractController {
     }
 
     /**
-     * @api {get} /event/detail/{id} Show event by id
+     * @api {get} /api/event/detail/{id} Show event by id
      * @apiVersion 1.0.0
      * @apiName getById
      * @apiGroup event
@@ -187,7 +187,7 @@ class EventController extends AbstractController {
     }
 
     /**
-     * @api {post} /event/mylist Show event by id
+     * @api {post} /api/event/mylist Show event by id
      * @apiVersion 1.0.0
      * @apiName eventList
      * @apiGroup event
@@ -251,7 +251,7 @@ class EventController extends AbstractController {
     }
 
     /**
-     * @api {get} /event/{id} Cancel an event by id
+     * @api {get} /api/event/{id} Cancel an event by id
      * @apiVersion 1.0.0
      * @apiName cancelar
      * @apiGroup event          
@@ -295,7 +295,7 @@ class EventController extends AbstractController {
     }
 
     /**
-     * @api {get} /event/place/list List all available place
+     * @api {get} /api/event/place/list List all available place
      * @apiVersion 1.0.0
      * @apiName placeList
      * @apiGroup event

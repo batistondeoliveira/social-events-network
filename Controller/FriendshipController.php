@@ -18,7 +18,7 @@ class FriendshipController extends AbstractController {
     }      
 
     /**
-     * @api {get} /friendship List all your friends
+     * @api {get} /api/friendship List all your friends
      * @apiVersion 1.0.0
      * @apiName list
      * @apiGroup friendship
@@ -64,7 +64,7 @@ class FriendshipController extends AbstractController {
     }
 
     /**
-     * @api {post} /friendship/undo undo friendship
+     * @api {post} /api/friendship/undo undo friendship
      * @apiVersion 1.0.0
      * @apiName undoFriendship
      * @apiGroup friendship
@@ -104,7 +104,7 @@ class FriendshipController extends AbstractController {
     }
 
     /**
-     * @api {get} /friendship/event/invite/{idEvento} List all your friends who have not been invited to an event 
+     * @api {get} /api/friendship/event/invite/{idEvento} List all your friends who have not been invited to an event 
      * @apiVersion 1.0.0
      * @apiName inviteEventList
      * @apiGroup friendship

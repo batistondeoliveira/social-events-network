@@ -15,7 +15,7 @@ class NotificationController extends AbstractController {
     }          
 
     /**
-     * @api {get} /notification returns user notifications
+     * @api {get} /api/notification returns user notifications
      * @apiVersion 1.0.0
      * @apiName notification
      * @apiGroup notification

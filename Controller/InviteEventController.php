@@ -22,7 +22,7 @@ class InviteEventController extends AbstractController {
     }          
 
     /**
-     * @api {get} /invite/event invites someone to be your friend
+     * @api {get} /api/invite/event invites someone to be your friend
      * @apiVersion 1.0.0
     * @apiName invite
      * @apiGroup invite event
@@ -98,7 +98,7 @@ class InviteEventController extends AbstractController {
     }
 
     /**
-     * @api {patch} /invite/event respond to event participation request 
+     * @api {patch} /api/invite/event respond to event participation request 
      * @apiVersion 1.0.0
      * @apiName replyInvitation
      * @apiGroup event

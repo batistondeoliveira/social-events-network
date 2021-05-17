@@ -23,7 +23,7 @@ class InviteFriendshipController extends AbstractController {
     }      
 
     /**
-     * @api {get} /invite/friendship/{email} invites someone to be your friend
+     * @api {get} /api/invite/friendship/{email} invites someone to be your friend
      * @apiVersion 1.0.0
      * @apiName invite
      * @apiGroup invite friendship
@@ -107,7 +107,7 @@ class InviteFriendshipController extends AbstractController {
     }
 
     /**
-     * @api {patch} /invite/friendship responds to a friendship invitation
+     * @api {patch} /api/invite/friendship responds to a friendship invitation
      * @apiVersion 1.0.0
      * @apiName replyInvitation
      * @apiGroup invite friendship

@@ -15,7 +15,7 @@ class BadgeController extends AbstractController {
     }          
 
     /**
-     * @api {get} /badge returns the number of notifications from a user
+     * @api {get} /api/badge returns the number of notifications from a user
      * @apiVersion 1.0.0
      * @apiName badge
      * @apiGroup badge

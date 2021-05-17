@@ -18,7 +18,7 @@ class UserController extends AbstractController {
     }      
 
     /**
-     * @api {post} /user Save a new user
+     * @api {post} /api/user Save a new user
      * @apiVersion 1.0.0
      * @apiName save
      * @apiGroup user
@@ -45,8 +45,7 @@ class UserController extends AbstractController {
      *    {
      *      "id": 1,
      *      "name": "Fulano",
-     *      "email": "fulano@gmail.com",
-     *      "password": "123456",
+     *      "email": "fulano@gmail.com",     
      *      "bio": "",
      *      "profile_picture": "",
      *      "city": "Fulano City",
@@ -107,7 +106,7 @@ class UserController extends AbstractController {
     }
 
     /**
-     * @api {post} /user/login User login
+     * @api {post} /api/user/login User login
      * @apiVersion 1.0.0
      * @apiName login
      * @apiGroup user
@@ -152,7 +151,7 @@ class UserController extends AbstractController {
     }
 
     /**
-     * @api {post} /logout User logout
+     * @api {post} /api/logout User logout
      * @apiVersion 1.0.0
      * @apiName logout
      * @apiGroup user

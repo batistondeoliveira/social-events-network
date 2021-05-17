@@ -29,7 +29,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/badge",
+    "url": "/api/badge",
     "title": "returns the number of notifications from a user",
     "version": "1.0.0",
     "name": "badge",
@@ -91,7 +91,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/event/{id}",
+    "url": "/api/event/{id}",
     "title": "Cancel an event by id",
     "version": "1.0.0",
     "name": "cancelar",
@@ -169,7 +169,7 @@ define({ "api": [
   },
   {
     "type": "post",
-    "url": "/event/mylist",
+    "url": "/api/event/mylist",
     "title": "Show event by id",
     "version": "1.0.0",
     "name": "eventList",
@@ -258,7 +258,7 @@ define({ "api": [
   },
   {
     "type": "post",
-    "url": "/event/list",
+    "url": "/api/event/list",
     "title": "List all available events",
     "version": "1.0.0",
     "name": "getAllActiveEvent",
@@ -308,7 +308,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/event/detail/{id}",
+    "url": "/api/event/detail/{id}",
     "title": "Show event by id",
     "version": "1.0.0",
     "name": "getById",
@@ -358,7 +358,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/event/place/list",
+    "url": "/api/event/place/list",
     "title": "List all available place",
     "version": "1.0.0",
     "name": "placeList",
@@ -388,7 +388,7 @@ define({ "api": [
   },
   {
     "type": "patch",
-    "url": "/invite/event",
+    "url": "/api/invite/event",
     "title": "respond to event participation request",
     "version": "1.0.0",
     "name": "replyInvitation",
@@ -490,7 +490,7 @@ define({ "api": [
   },
   {
     "type": "post",
-    "url": "/event",
+    "url": "/api/event",
     "title": "Save a new event",
     "version": "1.0.0",
     "name": "save",
@@ -611,7 +611,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/friendship/event/invite/{idEvento}",
+    "url": "/api/friendship/event/invite/{idEvento}",
     "title": "List all your friends who have not been invited to an event",
     "version": "1.0.0",
     "name": "inviteEventList",
@@ -688,7 +688,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/friendship",
+    "url": "/api/friendship",
     "title": "List all your friends",
     "version": "1.0.0",
     "name": "list",
@@ -757,7 +757,7 @@ define({ "api": [
   },
   {
     "type": "post",
-    "url": "/friendship/undo",
+    "url": "/api/friendship/undo",
     "title": "undo friendship",
     "version": "1.0.0",
     "name": "undoFriendship",
@@ -827,7 +827,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/invite/event",
+    "url": "/api/invite/event",
     "title": "invites someone to be your friend",
     "version": "1.0.0",
     "name": "invite",
@@ -921,7 +921,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/invite/friendship/{email}",
+    "url": "/api/invite/friendship/{email}",
     "title": "invites someone to be your friend",
     "version": "1.0.0",
     "name": "invite",
@@ -1045,7 +1045,7 @@ define({ "api": [
   },
   {
     "type": "patch",
-    "url": "/invite/friendship",
+    "url": "/api/invite/friendship",
     "title": "responds to a friendship invitation",
     "version": "1.0.0",
     "name": "replyInvitation",
@@ -1157,7 +1157,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/notification",
+    "url": "/api/notification",
     "title": "returns user notifications",
     "version": "1.0.0",
     "name": "notification",
@@ -1219,7 +1219,7 @@ define({ "api": [
   },
   {
     "type": "post",
-    "url": "/user/login",
+    "url": "/api/user/login",
     "title": "User login",
     "version": "1.0.0",
     "name": "login",
@@ -1288,7 +1288,7 @@ define({ "api": [
   },
   {
     "type": "post",
-    "url": "/logout",
+    "url": "/api/logout",
     "title": "User logout",
     "version": "1.0.0",
     "name": "logout",
@@ -1331,7 +1331,7 @@ define({ "api": [
   },
   {
     "type": "post",
-    "url": "/user",
+    "url": "/api/user",
     "title": "Save a new user",
     "version": "1.0.0",
     "name": "save",
@@ -1383,7 +1383,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Exemple Value",
-          "content": "{\n  \"id\": 1,\n  \"name\": \"Fulano\",\n  \"email\": \"fulano@gmail.com\",\n  \"password\": \"123456\",\n  \"bio\": \"\",\n  \"profile_picture\": \"\",\n  \"city\": \"Fulano City\",\n  \"state\": \"MG\"\n}",
+          "content": "{\n  \"id\": 1,\n  \"name\": \"Fulano\",\n  \"email\": \"fulano@gmail.com\",\n  \"bio\": \"\",\n  \"profile_picture\": \"\",\n  \"city\": \"Fulano City\",\n  \"state\": \"MG\"\n}",
           "type": "json"
         }
       ]
